@@ -1,0 +1,116 @@
+{
+    "android_gradle_plugin_version": "2.2.2",
+    "apk_path": "D:\\android\\GitDemo\\BiHuDaily\\app\\build\\outputs\\apk\\app-debug.apk",
+    "apt": {
+        "app": {
+            "aptArgs": [
+                
+            ],
+            "aptOutput": "D:\\android\\GitDemo\\BiHuDaily\\app\\build\\generated\\source\\apt\\debug",
+            "disableDiscovery": false,
+            "enabled": true,
+            "processor": null,
+            "processorPath": "C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\org.androidannotations\\androidannotations\\4.1.0\\ae6a0c2e064abd7ceec6f95113aaa345c1bc51a3\\androidannotations-4.1.0.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.mcxiaoke.gradle\\packer-helper\\1.0.8\\55387c387fea2a9f9e2113e04d5d213faed39210\\packer-helper-1.0.8.jar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\appcompat-v7\\25.0.1\\appcompat-v7-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\design\\25.0.1\\design-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\cardview-v7\\25.0.1\\cardview-v7-25.0.1.aar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\org.androidannotations\\androidannotations-api\\4.1.0\\5f9b485312ee0ee95355d517f36890915de1bff0\\androidannotations-api-4.1.0.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.facebook.fresco\\fresco\\0.12.0\\dfc793f09269cb4795e95c2fda07861023ee8077\\fresco-0.12.0.aar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.squareup.retrofit2\\retrofit\\2.1.0\\2de7cd8b95b7021b1d597f049bcb422055119f2c\\retrofit-2.1.0.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.squareup.okhttp3\\logging-interceptor\\3.4.2\\d99260c62d97beae99ed1f779a35a9bf48c094a6\\logging-interceptor-3.4.2.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.squareup.retrofit2\\converter-gson\\2.1.0\\aa557d71ead91cbf26e0c316a0f593d168303309\\converter-gson-2.1.0.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\org.greenrobot\\greendao\\3.2.0\\e70040568b2929b8e5869ad1ffca8e4386dc53bc\\greendao-3.2.0.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.orhanobut\\logger\\1.15\\f963e96524c032b88c7385f41d48699dc1b9f08f\\logger-1.15.aar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.helger\\jcodemodel\\2.8.5\\446617f2ff6e4212bd8278d95e105f3eab630927\\jcodemodel-2.8.5.jar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\support-v4\\25.0.1\\support-v4-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\support-vector-drawable\\25.0.1\\support-vector-drawable-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\animated-vector-drawable\\25.0.1\\animated-vector-drawable-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\recyclerview-v7\\25.0.1\\recyclerview-v7-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\transition\\25.0.1\\transition-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\support-annotations\\25.0.1\\support-annotations-25.0.1.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.facebook.fresco\\drawee\\0.12.0\\c967ce842dac002769a6f5d9782da4c990c1991c\\drawee-0.12.0.aar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.facebook.fresco\\fbcore\\0.12.0\\d3bdaa2652726d5beb1a7441a152f04dbfd27376\\fbcore-0.12.0.aar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.facebook.fresco\\imagepipeline\\0.12.0\\8274e115d8ef73aaacb39552caddefa704d31224\\imagepipeline-0.12.0.aar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.google.code.gson\\gson\\2.7\\751f548c85fa49f330cecbb1875893f971b33c4e\\gson-2.7.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\org.greenrobot\\greendao-api\\3.2.0\\c6d610abe1d75d758431c9234917a349abc0a0ac\\greendao-api-3.2.0.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.google.code.findbugs\\annotations\\2.0.3\\191383fa0deb88f393558eec231b206edc23aba0\\annotations-2.0.3.jar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\support-compat\\25.0.1\\support-compat-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\support-media-compat\\25.0.1\\support-media-compat-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\support-core-utils\\25.0.1\\support-core-utils-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\support-core-ui\\25.0.1\\support-core-ui-25.0.1.aar;D:\\android\\Sdk\\extras\\android\\m2repository\\com\\android\\support\\support-fragment\\25.0.1\\support-fragment-25.0.1.aar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.facebook.fresco\\imagepipeline-base\\0.12.0\\854331fd694e328464adfcb957916a2e127fa3fa\\imagepipeline-base-0.12.0.aar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.parse.bolts\\bolts-tasks\\1.4.0\\d85884acf6810a3bbbecb587f239005cbc846dc4\\bolts-tasks-1.4.0.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.nineoldandroids\\library\\2.4.0\\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\\library-2.4.0.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.squareup.okhttp3\\okhttp\\3.4.2\\ccde00f7ccc77af5a6d5752e2cb21f6d8998289f\\okhttp-3.4.2.jar;C:\\Users\\sadhu\\.gradle\\caches\\modules-2\\files-2.1\\com.squareup.okio\\okio\\1.9.0\\f824591a0016efbaeddb8300bee54832a1398cfa\\okio-1.9.0.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\animated-vector-drawable\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-vector-drawable\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\recyclerview-v7\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\transition\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\cardview-v7\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.facebook.fresco\\fresco\\0.12.0\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.facebook.fresco\\drawee\\0.12.0\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.facebook.fresco\\imagepipeline\\0.12.0\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.facebook.fresco\\imagepipeline-base\\0.12.0\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-v4\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-fragment\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-fragment\\25.0.1\\jars\\libs\\internal_impl-25.0.1.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-media-compat\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-media-compat\\25.0.1\\jars\\libs\\internal_impl-25.0.1.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-core-ui\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-core-ui\\25.0.1\\jars\\libs\\internal_impl-25.0.1.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-core-utils\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-core-utils\\25.0.1\\jars\\libs\\internal_impl-25.0.1.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-compat\\25.0.1\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.android.support\\support-compat\\25.0.1\\jars\\libs\\internal_impl-25.0.1.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.facebook.fresco\\fbcore\\0.12.0\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.orhanobut\\logger\\1.15\\jars\\classes.jar;D:\\android\\GitDemo\\BiHuDaily\\app\\build\\intermediates\\exploded-aar\\com.antfortune.freeline\\runtime\\0.8.3\\jars\\classes.jar"
+        }
+    },
+    "apt_libraries": {
+        "dagger": false,
+        "butterknife": false
+    },
+    "auto_dependency": true,
+    "build_cache_dir": "D:\\android\\GitDemo\\BiHuDaily\\app\\build\\freeline",
+    "build_directory": "D:\\android\\GitDemo\\BiHuDaily\\app\\build",
+    "build_script": "gradlew.bat :app:assembleDebug",
+    "build_script_work_directory": "",
+    "build_tools_directory": "D:\\android\\sdk\\build-tools\\25.0.1",
+    "build_tools_version": "25.0.1",
+    "compile_sdk_directory": "D:\\android\\sdk\\platforms\\android-25",
+    "compile_sdk_version": "android-25",
+    "databinding": [
+        
+    ],
+    "databinding_compiler_jar": "",
+    "databinding_modules": [
+        
+    ],
+    "debug_package": "cn.ml.saddhu.bihudaily",
+    "exclude_dep_res_paths": [
+        
+    ],
+    "extra_dep_res_paths": [
+        
+    ],
+    "freeline_cache_dir": "D:\\android\\GitDemo\\BiHuDaily",
+    "freeline_gradle_plugin_version": "0.8.3",
+    "java_home": "D:\\android\\Java\\jdk1.8.0_91",
+    "launcher": "cn.ml.saddhu.bihudaily.mvp.view.impl.activity.SplashActivity_",
+    "main_assets_directory": [
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\assets",
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\assets"
+    ],
+    "main_jniLibs_directory": [
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\jniLibs",
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\jniLibs"
+    ],
+    "main_jni_directory": [
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\jni",
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\jni"
+    ],
+    "main_manifest_path": "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\AndroidManifest.xml",
+    "main_project_dir": "app",
+    "main_project_name": "app",
+    "main_r_path": "D:\\android\\GitDemo\\BiHuDaily\\app\\build\\generated\\source\\r\\debug\\R.java",
+    "main_res_directory": [
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\res",
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\res"
+    ],
+    "main_src_directory": [
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\java",
+        "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\java"
+    ],
+    "module_dependencies": {
+        "app": [
+            
+        ]
+    },
+    "modules": [
+        {
+            "name": "app",
+            "path": "D:\\android\\GitDemo\\BiHuDaily\\app"
+        }
+    ],
+    "package": "cn.ml.saddhu.bihudaily",
+    "product_flavor": "",
+    "project_source_sets": {
+        "app": {
+            "main_assets_directory": [
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\assets",
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\assets"
+            ],
+            "main_jniLibs_directory": [
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\jniLibs",
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\jniLibs"
+            ],
+            "main_jni_directory": [
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\jni",
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\jni"
+            ],
+            "main_manifest_path": "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\AndroidManifest.xml",
+            "main_res_directory": [
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\res",
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\res"
+            ],
+            "main_src_directory": [
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\debug\\java",
+                "D:\\android\\GitDemo\\BiHuDaily\\app\\src\\main\\java"
+            ]
+        }
+    },
+    "project_type": "gradle",
+    "retrolambda": {
+        
+    },
+    "root_dir": "D:\\android\\GitDemo\\BiHuDaily",
+    "sdk_directory": "D:\\android\\sdk",
+    "use_jdk8": true
+}

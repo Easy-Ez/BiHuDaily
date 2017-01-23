@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_item_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/drawer_list_item_bg_light">
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:paddingStart="16dp">
+
+        <ImageView
+            android:id="@+id/drawer_item_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/menu_home" />
+
+        <TextView
+            android:id="@+id/drawer_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/drawer_item_logo"
+            android:text="@string/title_home"
+            android:textAppearance="@style/Daily.TextAppearance.Drawer.Primary.Item.Light" />
+
+        <ImageView
+            android:id="@+id/drawer_item_remind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/btn_drawer_theme_subscribe_light" />
+
+        <ImageView
+            android:id="@+id/drawer_item_subscribe_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:src="@drawable/menu_arrow" />
+    </RelativeLayout>
+</RelativeLayout>

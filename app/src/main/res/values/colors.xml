@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00A2ED</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="windowsBackground">#2B2B2B</color>
+    <color name="logo_tint">#C2C5CC</color>
+    <color name="text_light">#CED2D9</color>
+    <color name="text_dark">#85888C</color>
+    <color name="img_author">#CCCCCC</color>
+    <color name="img_author_shadow">#80000000</color>
+
+
+    <color name="drawer_bg_normal_dark">#343434</color>
+    <color name="drawer_bg_normal_light">#FFFFFF</color>
+    <color name="drawer_bg_highlight_light">#FFF0F0F0</color>
+    <color name="drawer_text_primary_light">#FFFFFFFF</color>
+    <color name="drawer_item_text_color_primary_light">#000000</color>
+    <color name="drawer_text_secondary_light">#FFFFFF</color>
+
+    <color name="black">#000000</color>
+</resources>
