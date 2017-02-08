@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DayNightLibrary</string>
+    <string name="sp_name">themeMode</string>
+    <string name="sp_theme_mode">mode</string>
+</resources>

@@ -431,6 +431,11 @@ class GradleIncBuildInvoker(android_tools.AndroidIncBuildInvoker):
 
         aapt_args.append('--ignore-assets')
         aapt_args.append('public_id.xml:public.xml:*.bak:.*')
+
+        if 'ignore_resource_ids' in self._config and len(self._config['ignore_resource_ids']) > 0 and not is_windows_system():
+            aapt_args.append('--ignore-ids')
+            aapt_args.append(':'.join(self._config['ignore_resource_ids']))
+
         return aapt_args, final_changed_list
 
     def recover_original_file_path(self):
@@ -704,8 +709,9 @@ class GradleIncBuildInvoker(android_tools.AndroidIncBuildInvoker):
                         continue
 
                     for info in files:
-                        if 'java_path' in info and info['java_path']:
-                            related_files.append(info['java_path'])
+                        if info['module'] == self._name or info['module'] in self._module_info['local_module_dep']:
+                            if 'java_path' in info and info['java_path']:
+                                related_files.append(info['java_path'])
                 write_json_cache(self._get_apt_related_files_cache_path(), related_files)
                 return related_files
         return []

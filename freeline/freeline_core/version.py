@@ -3,7 +3,7 @@ import subprocess
 import os
 
 VERSION_FORMATTER = '{}({})'
-FREELINE_VERSION = 'v0.8.3'
+FREELINE_VERSION = 'v0.8.5.1701181052'
 
 
 def get_freeline_version():

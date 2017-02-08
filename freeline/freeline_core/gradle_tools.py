@@ -8,7 +8,7 @@ from freeline_build import ScanChangedFilesCommand, DispatchPolicy
 from logger import Logger
 from sync_client import SyncClient
 from exceptions import FreelineException, FileMissedException
-from utils import curl, write_json_cache, load_json_cache, cexec, md5string, remove_namespace
+from utils import curl, write_json_cache, load_json_cache, cexec, md5string, remove_namespace, is_windows_system
 from task import Task
 from builder import Builder
 
@@ -67,8 +67,11 @@ class GradleScanChangedFilesCommand(ScanChangedFilesCommand):
         final_apk_path = self._config['apk_path']
         last_clean_build_time = os.path.getmtime(final_apk_path) if os.path.exists(final_apk_path) else 0
         is_root_config_changed = os.path.getmtime(os.path.join('build.gradle')) > last_clean_build_time
+
         if not is_root_config_changed:
-            is_root_config_changed = os.path.getmtime(os.path.join('settings.gradle')) > last_clean_build_time
+            settings_path = os.path.join('settings.gradle')
+            if os.path.exists(settings_path):
+                is_root_config_changed = os.path.getmtime(settings_path) > last_clean_build_time
 
         return {'last_clean_build_time': last_clean_build_time, 'is_root_config_changed': is_root_config_changed}
 
@@ -724,6 +727,10 @@ class BuildBaseResourceTask(Task):
         aapt_args.append('--ignore-assets')
         aapt_args.append('public_id.xml:public.xml:*.bak:.*')
 
+        if 'ignore_resource_ids' in self._config and len(self._config['ignore_resource_ids']) > 0 and not is_windows_system():
+            aapt_args.append('--ignore-ids')
+            aapt_args.append(':'.join(self._config['ignore_resource_ids']))
+
         self.debug('aapt exec: ' + ' '.join(aapt_args))
         output, err, code = cexec(aapt_args, callback=None)
 
@@ -750,6 +757,8 @@ class DataBindingProcessor(object):
             if module_config['name'] in source_sets:
                 module_name = module_config['name']
                 for rdir in source_sets[module_name]['main_res_directory']:
+                    if not os.path.exists(rdir):
+                        continue
                     output_res_dir = DatabindingDirectoryLookUp.create_target_res_path(
                         self._config['build_cache_dir'],
                         module_name, rdir)
@@ -996,7 +1005,7 @@ def fix_package_name(config, manifest):
 
 def get_all_modules(dir_path):
     settings_path = os.path.join(dir_path, 'settings.gradle')
-    if os.path.isfile(settings_path):
+    if os.path.exists(settings_path):
         data = get_file_content(settings_path)
         modules = []
         for item in re.findall(r'''['"]:(.*?)['"]''', data):
