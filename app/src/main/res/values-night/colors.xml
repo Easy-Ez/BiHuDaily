@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="statusBarColor">@color/black</color>
     <color name="toolBarColor">@color/colorPrimary_night</color>
     <color name="titleTextColor">@color/white</color>
     <color name="card_item_color">#404040</color>
+    <color name="edgeEffectColor">#222222</color>
 </resources>

@@ -2,7 +2,7 @@
     <string name="app_name">逼乎日报</string>
     <string name="ad_sub_title">每天三次，每次七分钟</string>
     <string name="ad_title">逼乎日报</string>
-    <string name="title_home">首页1</string>
+    <string name="title_home">首页</string>
     <string name="daily_logo_path">M14.7447,26.5111 C8.25827,26.5111,3,21.248,3,14.7556 C3,8.26314,8.25827,3,14.7447,3 C21.2311,3,26.4894,8.26314,26.4894,14.7556 C</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

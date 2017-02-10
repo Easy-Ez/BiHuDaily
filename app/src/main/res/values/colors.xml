@@ -29,4 +29,5 @@
     <color name="toolBarColor">@color/colorPrimary</color>
     <color name="titleTextColor">@color/black</color>
     <color name="card_item_color">#FAFAFA</color>
+    <color name="edgeEffectColor">@color/colorPrimary</color>
 </resources>
