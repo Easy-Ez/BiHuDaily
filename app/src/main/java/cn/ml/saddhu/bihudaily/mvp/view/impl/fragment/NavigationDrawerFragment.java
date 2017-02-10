@@ -62,8 +62,12 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mPresenter.RemindTheme(position);
     }
 
+    public Theme getCurrentTheme() {
+        return mAdapter.getCurrentTheme();
+    }
+
     @Override
-    public void onItemClick(Theme theme) {
+    public void onItemClick(Theme theme, int position) {
         // 收起面板,请求list
         ((MainActivity) getActivity()).selectDrawerItem(theme);
     }
@@ -82,4 +86,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public void onOfflineClick() {
 
     }
+
+
 }

@@ -93,6 +93,10 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.mInfo = info;
     }
 
+    public Theme getCurrentTheme() {
+        return mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2);
+    }
+
     private class NavigationItemHomeVH extends RecyclerView.ViewHolder implements View.OnClickListener, Selectable {
 
 
@@ -114,7 +118,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (mCurrentSelect != position) {
                     mCurrentSelect = position;
                     notifyDataSetChanged();
-                    mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2));
+                    mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2), mCurrentSelect);
                 }
             }
         }
@@ -170,7 +174,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         if (mCurrentSelect != position) {
                             mCurrentSelect = position;
                             notifyDataSetChanged();
-                            mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2));
+                            mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2), mCurrentSelect);
                         }
                         break;
                 }
@@ -231,7 +235,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         void onRemindClick(int position);
 
-        void onItemClick(Theme theme);
+        void onItemClick(Theme theme, int position);
 
         void onUserClick();
 

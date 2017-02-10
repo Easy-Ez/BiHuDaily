@@ -14,20 +14,21 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
-
-import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
+import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
+import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.NavigationDrawerFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryListFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryListFragment_;
-import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
 
 @EActivity(R.layout.act_main)
 public class MainActivity extends AppCompatActivity implements StoryListFragment.OnToolBarTitleChangeListener {
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
     DrawerLayout drawer;
     @ViewById
     FrameLayout fl_conent;
+    @FragmentById(R.id.navigation_drawer)
+    NavigationDrawerFragment mDrawerFrag;
     @InstanceState
     int someId;
     StoryListFragment mStoryListFragment;
@@ -61,7 +64,24 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         toolbar.setTitle(R.string.title_home);
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                if (mDrawerFrag != null) {
+                    // 这里只处理actionView
+                    Theme theme = mDrawerFrag.getCurrentTheme();
+                    if (theme != null) {
+                        MenuItem item = toolbar.getMenu().findItem(R.id.action_theme_edit);
+                        if (item != null) {
+                            item.setIcon(theme.isSubscribe ? R.drawable.action_remove : R.drawable.action_add);
+                            item.setTitle(theme.isSubscribe ? "" : "");
+                        }
+                    }
+                }
+
+            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         FragmentManager supportFragmentManager = getSupportFragmentManager();
@@ -121,6 +141,34 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         return isDark;
     }
 
+
+    /**
+     * 主题被选中
+     *
+     * @param theme
+     */
+    public void selectDrawerItem(Theme theme) {
+        closeDrawer();
+        if (theme == null) {
+            toolbar.setTitle(R.string.title_home);
+            toolbar.getMenu().clear();
+            getMenuInflater().inflate(R.menu.main, toolbar.getMenu());
+            if (mStoryListFragment != null) {
+                mStoryListFragment.getHomePageList();
+            }
+        } else {
+            toolbar.setTitle(theme.name);
+            toolbar.getMenu().clear();
+            getMenuInflater().inflate(R.menu.theme, toolbar.getMenu());
+            MenuItem item = toolbar.getMenu().findItem(R.id.action_theme_edit);
+            item.setIcon(theme.isSubscribe ? R.drawable.action_remove : R.drawable.action_add);
+            item.setTitle(theme.isSubscribe ? "" : "");
+            if (mStoryListFragment != null) {
+                mStoryListFragment.getThemePageList(theme);
+            }
+        }
+    }
+
     /**
      * 关闭左侧导航
      *
@@ -133,28 +181,6 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         }
         return false;
     }
-
-    /**
-     * 主题被选中
-     *
-     * @param theme
-     */
-    public void selectDrawerItem(Theme theme) {
-        closeDrawer();
-        if (theme == null) {
-            toolbar.setTitle(R.string.title_home);
-            if (mStoryListFragment != null) {
-                mStoryListFragment.getHomePageList();
-            }
-        } else {
-            toolbar.setTitle(theme.name);
-            if (mStoryListFragment != null) {
-                mStoryListFragment.getThemePageList(theme);
-            }
-            Logger.d(theme);
-        }
-    }
-
 
     @Override
     public void onBackPressed() {
