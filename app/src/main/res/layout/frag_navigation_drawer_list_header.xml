@@ -3,7 +3,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="111dp"
-    android:background="@color/colorPrimary"
+    android:background="@color/drawerHeaderColor"
     android:orientation="vertical">
 
 
@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/drawer_nick_name"
-            style="@style/Daily.TextAppearance.Drawer.Primary.Item.Light"
+            style="@style/Daily.TextAppearance.Drawer.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -59,7 +59,7 @@
                 android:src="@drawable/favorites" />
 
             <TextView
-                style="@style/Daily.TextAppearance.Drawer.Secondary.Light"
+                style="@style/Daily.TextAppearance.Drawer.Tertiary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -83,7 +83,7 @@
 
             <TextView
                 android:id="@+id/drawer_offline_progress"
-                style="@style/Daily.TextAppearance.Drawer.Secondary.Light"
+                style="@style/Daily.TextAppearance.Drawer.Tertiary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"

@@ -48,10 +48,10 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 vh = new NavigationUserVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.frag_navigation_drawer_list_header, parent, false));
                 break;
             case TYPE_MENU_HOME:
-                vh = new NavigationItemVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.frag_navigation_drawer_list_item, parent, false), true);
+                vh = new NavigationItemHomeVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.frag_navigation_drawer_list_item_home, parent, false));
                 break;
             default:
-                vh = new NavigationItemVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.frag_navigation_drawer_list_item, parent, false), false);
+                vh = new NavigationItemVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.frag_navigation_drawer_list_item, parent, false));
                 break;
         }
         return vh;
@@ -61,8 +61,8 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NavigationUserVH) {
             ((NavigationUserVH) holder).bindData();
-        } else if (holder instanceof NavigationItemVH) {
-            ((NavigationItemVH) holder).setSelect(position == mCurrentSelect);
+        } else if (holder instanceof Selectable) {
+            ((Selectable) holder).setSelect(position == mCurrentSelect);
             if (position != 1) {
                 ((NavigationItemVH) holder).bindData(mInfo.themes.get(position - 2));
             }
@@ -93,30 +93,45 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.mInfo = info;
     }
 
-    private class NavigationItemVH extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class NavigationItemHomeVH extends RecyclerView.ViewHolder implements View.OnClickListener, Selectable {
 
-        ImageView drawer_item_logo;
+
+        NavigationItemHomeVH(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void setSelect(boolean select) {
+            itemView.setSelected(select);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            if (mListener != null) {
+                int position = getAdapterPosition();
+                if (mCurrentSelect != position) {
+                    mCurrentSelect = position;
+                    notifyDataSetChanged();
+                    mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2));
+                }
+            }
+        }
+    }
+
+    private class NavigationItemVH extends RecyclerView.ViewHolder implements View.OnClickListener, Selectable {
+
         ImageView drawer_item_remind;
         ImageView drawer_item_subscribe_button;
         TextView drawer_item_title;
-        boolean isHome;
 
-        NavigationItemVH(View itemView, boolean isHome) {
+        NavigationItemVH(View itemView) {
             super(itemView);
-            this.isHome = isHome;
-            drawer_item_logo = (ImageView) itemView.findViewById(R.id.drawer_item_logo);
             drawer_item_remind = (ImageView) itemView.findViewById(R.id.drawer_item_remind);
             drawer_item_subscribe_button = (ImageView) itemView.findViewById(R.id.drawer_item_subscribe_button);
             drawer_item_title = (TextView) itemView.findViewById(R.id.drawer_item_title);
-            if (isHome) {
-                drawer_item_title.setTextColor(itemView.getContext().getResources().getColor(R.color.colorPrimary));
-                drawer_item_logo.setVisibility(View.VISIBLE);
-                drawer_item_remind.setVisibility(View.GONE);
-                drawer_item_subscribe_button.setVisibility(View.GONE);
-            } else {
-                drawer_item_logo.setVisibility(View.GONE);
-                drawer_item_remind.setOnClickListener(this);
-            }
+            drawer_item_remind.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
 
@@ -124,10 +139,6 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             drawer_item_remind.setVisibility(info.isSubscribe ? View.GONE : View.VISIBLE);
             drawer_item_subscribe_button.setVisibility(info.isSubscribe ? View.VISIBLE : View.GONE);
             drawer_item_title.setText(info.name);
-        }
-
-        void setSelect(boolean select) {
-            itemView.setSelected(select);
         }
 
 
@@ -164,6 +175,11 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         break;
                 }
             }
+        }
+
+        @Override
+        public void setSelect(boolean select) {
+            itemView.setSelected(select);
         }
     }
 
@@ -222,5 +238,9 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         void onFavoriteClick();
 
         void onOfflineClick();
+    }
+
+    interface Selectable {
+        void setSelect(boolean select);
     }
 }

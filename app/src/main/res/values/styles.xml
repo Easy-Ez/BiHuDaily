@@ -27,14 +27,19 @@
 
     <style name="Daily.TextAppearance" parent="@android:style/TextAppearance.Holo"/>
 
-    <style name="Daily.TextAppearance.Drawer.Primary.Item.Light" parent="@style/Daily.TextAppearance">
+    <style name="Daily.TextAppearance.Drawer.Primary" parent="@style/Daily.TextAppearance">
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Daily.TextAppearance.Drawer.Secondary" parent="@style/Daily.TextAppearance">
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="Daily.TextAppearance.Drawer.Secondary.Light" parent="@style/Daily.TextAppearance">
+    <style name="Daily.TextAppearance.Drawer.Tertiary" parent="@style/Daily.TextAppearance">
         <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/drawer_text_secondary_light</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 

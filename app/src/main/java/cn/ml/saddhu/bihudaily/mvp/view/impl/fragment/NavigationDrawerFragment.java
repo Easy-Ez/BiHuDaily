@@ -35,6 +35,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     @AfterViews
     void afterViews() {
+        Logger.d("aferrViews");
         navigation_list.setLayoutManager(new LinearLayoutManager(getContext()));
         mPresenter = new NavigationDrawerPresenterImpl(this);
         mPresenter.getUserInfo();

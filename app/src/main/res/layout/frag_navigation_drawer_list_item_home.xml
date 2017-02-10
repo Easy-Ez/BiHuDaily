@@ -13,30 +13,23 @@
         android:paddingEnd="16dp"
         android:paddingStart="16dp">
 
+        <ImageView
+            android:id="@+id/drawer_item_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/menu_home"/>
+
         <TextView
             android:id="@+id/drawer_item_title"
-            style="@style/Daily.TextAppearance.Drawer.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/title_home"/>
-
-        <ImageView
-            android:id="@+id/drawer_item_remind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/btn_drawer_theme_subscribe_light"/>
-
-        <ImageView
-            android:id="@+id/drawer_item_subscribe_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp"
-            android:src="@drawable/menu_arrow"/>
+            android:layout_toEndOf="@id/drawer_item_logo"
+            android:text="@string/title_home"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_16"/>
     </RelativeLayout>
 </RelativeLayout>
