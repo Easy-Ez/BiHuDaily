@@ -181,7 +181,6 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             drawer_favorite = (LinearLayout) itemView.findViewById(R.id.drawer_favorite);
             drawer_offline = (LinearLayout) itemView.findViewById(R.id.drawer_offline);
             drawer_user = (RelativeLayout) itemView.findViewById(R.id.drawer_user);
-            drawer_nick_name.setTextColor(itemView.getContext().getResources().getColor(R.color.white));
             drawer_user.setOnClickListener(this);
             drawer_favorite.setOnClickListener(this);
             drawer_offline.setOnClickListener(this);

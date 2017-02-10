@@ -16,8 +16,7 @@ public class StringConverter implements PropertyConverter<List<String>, String> 
         if (databaseValue == null) {
             return null;
         } else {
-            List lista = Arrays.asList(databaseValue.split(","));
-            return lista;
+            return Arrays.asList(databaseValue.split(","));
         }
     }
 

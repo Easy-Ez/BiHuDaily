@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#00A2ED</color>
+    <color name="colorPrimary_night">#222222</color>
+
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="white">#FFFFFF</color>
+
 
     <color name="windowsBackground">#2B2B2B</color>
     <color name="logo_tint">#C2C5CC</color>
@@ -16,9 +18,15 @@
     <color name="drawer_bg_normal_dark">#343434</color>
     <color name="drawer_bg_normal_light">#FFFFFF</color>
     <color name="drawer_bg_highlight_light">#FFF0F0F0</color>
-    <color name="drawer_text_primary_light">#FFFFFFFF</color>
+
     <color name="drawer_item_text_color_primary_light">#000000</color>
     <color name="drawer_text_secondary_light">#FFFFFF</color>
 
     <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="statusBarColor">@color/colorPrimaryDark</color>
+    <color name="toolBarColor">@color/colorPrimary</color>
+    <color name="titleTextColor">@color/black</color>
+    <color name="card_item_color">#FAFAFA</color>
 </resources>

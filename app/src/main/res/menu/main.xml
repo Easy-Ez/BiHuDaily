@@ -10,7 +10,7 @@
     <item
         android:id="@+id/action_theme"
         android:orderInCategory="90"
-        android:title="@string/light_or_dark"
+        android:title="@string/dark_mode"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_settings"

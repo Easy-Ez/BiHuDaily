@@ -23,7 +23,10 @@ public class StoryListPresenterImpl implements StoryListPresenter {
         this.mView = view;
         mModel = new StoryListModelImpl();
     }
-
+    @Override
+    public void setData(StoryInfo storyInfo) {
+        this.mStoryInfo = storyInfo;
+    }
 
     @Override
     public void getHomePageList() {

@@ -1,0 +1,4 @@
+<resources>
+    <string name="sp_theme_file_name">themeMode</string>
+    <string name="sp_key_name">mode</string>
+</resources>

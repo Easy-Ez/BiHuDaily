@@ -1,5 +1,7 @@
 package cn.ml.saddhu.bihudaily.mvp.presenter;
 
+import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
+
 /**
  * Created by sadhu on 2016/11/15.
  * Email static.sadhu@gmail.com
@@ -28,4 +30,7 @@ public interface StoryListPresenter extends BasePresenter {
     void getThemePageList();
 
     void loadMoreThemePageList();
+
+
+    void setData(StoryInfo storyInfo);
 }

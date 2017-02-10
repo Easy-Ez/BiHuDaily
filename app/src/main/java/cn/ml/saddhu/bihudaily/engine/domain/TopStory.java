@@ -1,5 +1,8 @@
 package cn.ml.saddhu.bihudaily.engine.domain;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -10,7 +13,7 @@ import org.greenrobot.greendao.annotation.Generated;
  * Describe: 文章列表顶部轮播
  */
 @Entity
-public class TopStory {
+public class TopStory implements Parcelable {
     public String image;
     public int type;
     @Id
@@ -60,4 +63,37 @@ public class TopStory {
         this.title = title;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.image);
+        dest.writeInt(this.type);
+        dest.writeString(this.id);
+        dest.writeString(this.ga_prefix);
+        dest.writeString(this.title);
+    }
+
+    protected TopStory(Parcel in) {
+        this.image = in.readString();
+        this.type = in.readInt();
+        this.id = in.readString();
+        this.ga_prefix = in.readString();
+        this.title = in.readString();
+    }
+
+    public static final Parcelable.Creator<TopStory> CREATOR = new Parcelable.Creator<TopStory>() {
+        @Override
+        public TopStory createFromParcel(Parcel source) {
+            return new TopStory(source);
+        }
+
+        @Override
+        public TopStory[] newArray(int size) {
+            return new TopStory[size];
+        }
+    };
 }

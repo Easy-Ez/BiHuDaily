@@ -2,7 +2,6 @@ package cn.ml.saddhu.bihudaily.mvp.adapter;
 
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -51,6 +50,11 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         viewPagerCurrentPosition = 0;
         notifyDataSetChanged();
     }
+
+    public StoryInfo getData() {
+        return this.info;
+    }
+
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;

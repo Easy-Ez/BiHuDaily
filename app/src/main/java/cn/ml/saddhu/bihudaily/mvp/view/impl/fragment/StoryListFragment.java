@@ -10,6 +10,7 @@ import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.StoryListView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StroyDetailActivity_;
+import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
 
 /**
  * Created by sadhu on 2016/11/14.
@@ -37,11 +39,13 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
     RecyclerView rv_story_list;
 
     private OnToolBarTitleChangeListener mListener;
-    private StoryListPresenter mPresenter;
+    private StoryListPresenter mPresenter = new StoryListPresenterImpl(this);
     private LinearLayoutManager mLayoutManger;
-    private HomePageAdapter mAdapter;
+    private HomePageAdapter mAdapter = new HomePageAdapter();
     private boolean isRefresh;
     private boolean isLoadMore;
+    @InstanceState
+    StoryInfo mStoryInfo;
 
     @Override
     public void onAttach(Context context) {
@@ -52,14 +56,15 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
 
     }
 
+
     @AfterViews
     void afterViews() {
         Logger.d("StoryListFragment method");
+        DayNightSpUtil mUtil = new DayNightSpUtil(getContext());
+        boolean isDark = mUtil.isDark();
         refresh.setOnRefreshListener(this);
-        refresh.setColorSchemeResources(R.color.colorPrimary);
-        mPresenter = new StoryListPresenterImpl(this);
+        refresh.setColorSchemeResources(isDark ? R.color.colorPrimary_night : R.color.colorPrimary);
         mLayoutManger = new LinearLayoutManager(getContext());
-        mAdapter = new HomePageAdapter();
         mAdapter.setOnItemClickListener(this);
         rv_story_list.setLayoutManager(mLayoutManger);
         rv_story_list.setAdapter(mAdapter);
@@ -68,7 +73,7 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (!isRefresh && !isLoadMore && mLayoutManger.findLastVisibleItemPosition() == mAdapter.getItemCount() - 1) {
+                    if (mAdapter.getData() != null && !isRefresh && !isLoadMore && mLayoutManger.findLastVisibleItemPosition() == mAdapter.getItemCount() - 1) {
                         // 加载更多
                         loadMoreHomePageList();
                     }
@@ -87,7 +92,13 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
                 }
             }
         });
-        mPresenter.getHomePageList();
+        // 处理切换夜间模式 被回收的情况
+        if (mStoryInfo == null) {
+            mPresenter.getHomePageList();
+        } else {
+            mPresenter.setData(mStoryInfo);
+            mAdapter.setData(mStoryInfo);
+        }
     }
 
 
@@ -107,6 +118,7 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
 
     @Override
     public void setFirstPageData(StoryInfo info) {
+        mStoryInfo = info;
         mAdapter.setData(info);
         isRefresh = false;
         refresh.setRefreshing(false);
