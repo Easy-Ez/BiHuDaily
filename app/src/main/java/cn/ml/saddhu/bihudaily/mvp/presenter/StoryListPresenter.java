@@ -27,10 +27,5 @@ public interface StoryListPresenter extends BasePresenter {
      */
     String getTagName(int position, boolean hasLooper);
 
-    void getThemePageList();
-
-    void loadMoreThemePageList();
-
-
     void setData(StoryInfo storyInfo);
 }

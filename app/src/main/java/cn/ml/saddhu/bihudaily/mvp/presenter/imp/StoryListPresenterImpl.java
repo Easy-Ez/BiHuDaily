@@ -65,17 +65,6 @@ public class StoryListPresenterImpl implements StoryListPresenter {
     }
 
     @Override
-    public void getThemePageList() {
-
-    }
-
-    @Override
-    public void loadMoreThemePageList() {
-
-    }
-
-
-    @Override
     public void onDestroy() {
         mView = null;
         mModel = null;

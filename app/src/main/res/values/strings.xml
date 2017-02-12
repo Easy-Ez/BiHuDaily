@@ -16,4 +16,7 @@
     <string name="dark_mode">夜间模式</string>
     <string name="light_mode">日间模式</string>
     <string name="message">消息</string>
+    <string name="remove_subscribe">取消订阅</string>
+    <string name="subscribe">订阅</string>
+    <string name="editor">主编</string>
 </resources>

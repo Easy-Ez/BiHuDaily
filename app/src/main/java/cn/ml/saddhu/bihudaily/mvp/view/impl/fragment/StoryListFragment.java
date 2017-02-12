@@ -101,7 +101,6 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
         }
     }
 
-
     public void getHomePageList() {
         mPresenter.getHomePageList();
     }
@@ -110,11 +109,6 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
         isLoadMore = true;
         mPresenter.loadMoreHomePageList();
     }
-
-    public void getThemePageList(Theme theme) {
-
-    }
-
 
     @Override
     public void setFirstPageData(StoryInfo info) {

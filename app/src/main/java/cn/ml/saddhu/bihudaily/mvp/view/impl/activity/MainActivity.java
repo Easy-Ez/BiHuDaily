@@ -29,10 +29,13 @@ import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.NavigationDrawerFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryListFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryListFragment_;
+import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.ThemeListFragment;
+import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.ThemeListFragment_;
 
 @EActivity(R.layout.act_main)
 public class MainActivity extends AppCompatActivity implements StoryListFragment.OnToolBarTitleChangeListener {
 
+    private static final String STATE_KEY_FRAGMENT = "keyStoryFragment";
     @ViewById
     Toolbar toolbar;
     @ViewById(R.id.drawer_layout)
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
     @InstanceState
     int someId;
     StoryListFragment mStoryListFragment;
+    ThemeListFragment mThemeListFragment;
     private DayNightSpUtil mUtil = new DayNightSpUtil(this);
 
 
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             FragmentManager manager = getSupportFragmentManager();
-            mStoryListFragment = (StoryListFragment) manager.getFragment(savedInstanceState, "douban");
+            mStoryListFragment = (StoryListFragment) manager.getFragment(savedInstanceState, STATE_KEY_FRAGMENT);
         } else {
             mStoryListFragment = StoryListFragment_.builder().build();
         }
@@ -74,8 +78,12 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
                     if (theme != null) {
                         MenuItem item = toolbar.getMenu().findItem(R.id.action_theme_edit);
                         if (item != null) {
-                            item.setIcon(theme.isSubscribe ? R.drawable.action_remove : R.drawable.action_add);
-                            item.setTitle(theme.isSubscribe ? "" : "");
+                            item.setIcon(theme.isSubscribe
+                                    ? R.drawable.action_remove
+                                    : R.drawable.action_add);
+                            item.setTitle(theme.isSubscribe
+                                    ? getString(R.string.remove_subscribe)
+                                    : getString(R.string.subscribe));
                         }
                     }
                 }
@@ -121,6 +129,18 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onTitleChange(String tagName) {
+        if (!toolbar.getTitle().equals(tagName)) {
+            toolbar.setTitle(tagName);
+        }
+    }
+
+    /**
+     * 切换主题
+     *
+     * @return true:夜间模式 false: 日间模式
+     */
     private boolean toggleThemeSetting() {
         boolean isDark = false;
         switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
@@ -141,31 +161,51 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         return isDark;
     }
 
-
     /**
      * 主题被选中
      *
      * @param theme
      */
-    public void selectDrawerItem(Theme theme) {
+    public void selectDrawerItem(Theme theme, boolean isDifItem) {
         closeDrawer();
-        if (theme == null) {
-            toolbar.setTitle(R.string.title_home);
-            toolbar.getMenu().clear();
-            getMenuInflater().inflate(R.menu.main, toolbar.getMenu());
-            if (mStoryListFragment != null) {
-                mStoryListFragment.getHomePageList();
+        if (isDifItem) {
+            FragmentManager supportFragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+            if (theme == null) {
+                toolbar.setTitle(R.string.title_home);
+                toolbar.getMenu().clear();
+                getMenuInflater().inflate(R.menu.main, toolbar.getMenu());
+                fragmentTransaction.show(mStoryListFragment);
+                if (mThemeListFragment != null) {
+                    fragmentTransaction.hide(mThemeListFragment);
+                }
+                if (mStoryListFragment != null) {
+                    mStoryListFragment.getHomePageList();
+                }
+            } else {
+                toolbar.setTitle(theme.name);
+                toolbar.getMenu().clear();
+                getMenuInflater().inflate(R.menu.theme, toolbar.getMenu());
+                MenuItem item = toolbar.getMenu().findItem(R.id.action_theme_edit);
+                item.setIcon(theme.isSubscribe
+                        ? R.drawable.action_remove
+                        : R.drawable.action_add);
+                item.setTitle(theme.isSubscribe
+                        ? getString(R.string.remove_subscribe)
+                        : getString(R.string.subscribe));
+                if (mThemeListFragment == null) {
+                    mThemeListFragment = ThemeListFragment_.builder().mThemeId(String.valueOf(theme.id)).build();
+                }else{
+                    mThemeListFragment.setThemeId(String.valueOf(theme.id));
+                }
+                fragmentTransaction.hide(mStoryListFragment);
+                if (!mThemeListFragment.isAdded()) {
+                    fragmentTransaction.add(R.id.fl_conent, mThemeListFragment, "ThemeListFragment");
+                } else {
+                    fragmentTransaction.show(mThemeListFragment);
+                }
             }
-        } else {
-            toolbar.setTitle(theme.name);
-            toolbar.getMenu().clear();
-            getMenuInflater().inflate(R.menu.theme, toolbar.getMenu());
-            MenuItem item = toolbar.getMenu().findItem(R.id.action_theme_edit);
-            item.setIcon(theme.isSubscribe ? R.drawable.action_remove : R.drawable.action_add);
-            item.setTitle(theme.isSubscribe ? "" : "");
-            if (mStoryListFragment != null) {
-                mStoryListFragment.getThemePageList(theme);
-            }
+            fragmentTransaction.commit();
         }
     }
 
@@ -198,14 +238,7 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         FragmentManager manager = getSupportFragmentManager();
-        manager.putFragment(outState, "douban", mStoryListFragment);
+        manager.putFragment(outState, STATE_KEY_FRAGMENT, mStoryListFragment);
     }
 
-
-    @Override
-    public void onTitleChange(String tagName) {
-        if (!toolbar.getTitle().equals(tagName)) {
-            toolbar.setTitle(tagName);
-        }
-    }
 }

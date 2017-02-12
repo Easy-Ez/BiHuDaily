@@ -67,9 +67,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     }
 
     @Override
-    public void onItemClick(Theme theme, int position) {
+    public void onItemClick(Theme theme, int position, boolean isDifItem) {
         // 收起面板,请求list
-        ((MainActivity) getActivity()).selectDrawerItem(theme);
+        ((MainActivity) getActivity()).selectDrawerItem(theme, isDifItem);
     }
 
     @Override

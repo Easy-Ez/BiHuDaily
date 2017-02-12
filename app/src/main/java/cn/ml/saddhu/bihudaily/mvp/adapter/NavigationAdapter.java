@@ -118,7 +118,9 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (mCurrentSelect != position) {
                     mCurrentSelect = position;
                     notifyDataSetChanged();
-                    mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2), mCurrentSelect);
+                    mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2), mCurrentSelect, true);
+                } else {
+                    mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2), mCurrentSelect, false);
                 }
             }
         }
@@ -174,7 +176,9 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         if (mCurrentSelect != position) {
                             mCurrentSelect = position;
                             notifyDataSetChanged();
-                            mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2), mCurrentSelect);
+                            mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2), mCurrentSelect, true);
+                        } else {
+                            mListener.onItemClick(mCurrentSelect == 1 ? null : mInfo.themes.get(mCurrentSelect - 2), mCurrentSelect, false);
                         }
                         break;
                 }
@@ -235,7 +239,14 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         void onRemindClick(int position);
 
-        void onItemClick(Theme theme, int position);
+        /**
+         * drawer item clicked
+         *
+         * @param theme     item's data
+         * @param position  item's position
+         * @param isDifItem is clicking different Item
+         */
+        void onItemClick(Theme theme, int position, boolean isDifItem);
 
         void onUserClick();
 

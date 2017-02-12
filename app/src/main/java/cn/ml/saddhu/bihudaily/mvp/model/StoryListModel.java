@@ -12,18 +12,18 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
  */
 public interface StoryListModel {
 
-    void getHomePageList(OnRefreshListener onRefreshListener );
+    void getHomePageList(OnRefreshListener onRefreshListener);
 
     void loadMoreHomePageList(OnLoadMoreListener onLoadMoreListener, String date);
 
 
-    public interface OnRefreshListener {
+    interface OnRefreshListener {
         void onSuccuss(StoryInfo info);
 
         void onError(int code);
     }
 
-    public interface OnLoadMoreListener {
+    interface OnLoadMoreListener {
         void onSuccuss(List<Story> info);
 
         void onError(int code);
