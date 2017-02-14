@@ -18,4 +18,15 @@ public class Editor {
     public long id;
     public String avatar;
     public String name;
+
+    @Override
+    public String toString() {
+        return "Editor{" +
+                "url='" + url + '\'' +
+                ", bio='" + bio + '\'' +
+                ", id=" + id +
+                ", avatar='" + avatar + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

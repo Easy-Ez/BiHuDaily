@@ -3,6 +3,7 @@ package cn.ml.saddhu.bihudaily.mvp.adapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_HEADER = 1;
     private static final int TYPE_NORMAL = 2;
     private ThemeInfo mThemeInfo;
+    private OnItemClickListener mListener;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -76,6 +78,10 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyItemInserted(insertPosition + 1);
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
     public ThemeInfo getData() {
         return mThemeInfo;
     }
@@ -95,6 +101,12 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             mRvThemeList = (RecyclerView) itemView.findViewById(R.id.theme_editor_list);
             mLlEditor = (LinearLayout) itemView.findViewById(R.id.theme_editor_top_layout);
             mLlEditor.setOnClickListener(this);
+            mRvThemeList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+                @Override
+                public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                    return false;
+                }
+            });
             mRvThemeList.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
             mThemeEditorAdapter = new ThemeEditorAdapter();
             mRvThemeList.setAdapter(mThemeEditorAdapter);
@@ -102,7 +114,9 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @Override
         public void onClick(View view) {
-
+            if (mListener != null) {
+                mListener.onEditorItemClick(mThemeInfo.editors);
+            }
         }
 
         void setHeaderData(String background, String description, List<Editor> editors) {
@@ -135,7 +149,19 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @Override
         public void onClick(View view) {
-
+            if (mListener != null) {
+                mListener.onNormalItemClick(mThemeInfo.stories.get(getAdapterPosition() - 1));
+            }
         }
+    }
+
+
+    /**
+     * item点击回调
+     */
+    public interface OnItemClickListener {
+        void onEditorItemClick(List<Editor> editors);
+
+        void onNormalItemClick(BaseStory story);
     }
 }

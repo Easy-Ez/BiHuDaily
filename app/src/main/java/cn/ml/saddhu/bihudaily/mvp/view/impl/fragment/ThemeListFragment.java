@@ -16,12 +16,15 @@ import java.util.List;
 
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.BaseStory;
+import cn.ml.saddhu.bihudaily.engine.domain.Editor;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
 import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
 import cn.ml.saddhu.bihudaily.mvp.adapter.ThemePageAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.ThemeListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.ThemeListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.ThemeListView;
+import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.EditorListActivity;
+import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.EditorListActivity_;
 
 /**
  * Created by sadhu on 2017/2/11.
@@ -29,7 +32,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.ThemeListView;
  * Describe: 订阅页
  */
 @EFragment(R.layout.frag_story_list)
-public class ThemeListFragment extends Fragment implements ThemeListView, SwipeRefreshLayout.OnRefreshListener {
+public class ThemeListFragment extends Fragment implements ThemeListView, SwipeRefreshLayout.OnRefreshListener, ThemePageAdapter.OnItemClickListener {
     @ViewById
     SwipeRefreshLayout refresh;
     @ViewById
@@ -50,7 +53,7 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
         refresh.setOnRefreshListener(this);
         refresh.setColorSchemeResources(isDark ? R.color.black22 : R.color.colorPrimary);
         mLayoutManger = new LinearLayoutManager(getContext());
-        //mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemClickListener(this);
         rv_story_list.setLayoutManager(mLayoutManger);
         rv_story_list.setAdapter(mAdapter);
         rv_story_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -94,6 +97,7 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
         isRefresh = false;
         mAdapter.setData(data);
         refresh.setRefreshing(false);
+        mLayoutManger.scrollToPosition(0);
     }
 
     @Override
@@ -119,4 +123,14 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
     }
 
 
+    @Override
+    public void onEditorItemClick(List<Editor> editors) {
+        // 进入主编页面
+        EditorListActivity_.intent(this).start();
+    }
+
+    @Override
+    public void onNormalItemClick(BaseStory story) {
+        // 进入文章详情
+    }
 }
