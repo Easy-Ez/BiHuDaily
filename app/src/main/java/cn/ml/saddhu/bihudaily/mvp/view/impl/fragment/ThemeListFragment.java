@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
@@ -23,7 +24,6 @@ import cn.ml.saddhu.bihudaily.mvp.adapter.ThemePageAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.ThemeListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.ThemeListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.ThemeListView;
-import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.EditorListActivity;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.EditorListActivity_;
 
 /**
@@ -51,7 +51,7 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
         DayNightSpUtil mUtil = new DayNightSpUtil(getContext());
         boolean isDark = mUtil.isDark();
         refresh.setOnRefreshListener(this);
-        refresh.setColorSchemeResources(isDark ? R.color.black22 : R.color.colorPrimary);
+        refresh.setColorSchemeResources(isDark ? R.color.color22 : R.color.colorPrimary);
         mLayoutManger = new LinearLayoutManager(getContext());
         mAdapter.setOnItemClickListener(this);
         rv_story_list.setLayoutManager(mLayoutManger);
@@ -126,7 +126,10 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
     @Override
     public void onEditorItemClick(List<Editor> editors) {
         // 进入主编页面
-        EditorListActivity_.intent(this).start();
+        Gson gson = new Gson();
+        String editorsString = gson.toJson(editors);
+        Logger.d(editorsString);
+        EditorListActivity_.intent(this).mEditors(editorsString).start();
     }
 
     @Override

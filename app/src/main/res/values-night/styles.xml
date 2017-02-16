@@ -5,17 +5,17 @@
 
     <style name="Daily.TextAppearance.Drawer.Primary" parent="@style/Daily.TextAppearance">
         <item name="android:textSize">@dimen/text_size_16</item>
-        <item name="android:textColor">@color/white99</item>
+        <item name="android:textColor">@color/color99</item>
     </style>
 
     <style name="Daily.TextAppearance.Drawer.Secondary" parent="@style/Daily.TextAppearance">
         <item name="android:textSize">@dimen/text_size_16</item>
-        <item name="android:textColor">@color/white99</item>
+        <item name="android:textColor">@color/color99</item>
     </style>
 
     <style name="Daily.TextAppearance.Drawer.Tertiary" parent="@style/Daily.TextAppearance">
         <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/white66</item>
+        <item name="android:textColor">@color/color66</item>
     </style>
 
 </resources>

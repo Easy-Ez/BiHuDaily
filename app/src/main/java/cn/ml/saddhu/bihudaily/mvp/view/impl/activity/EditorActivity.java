@@ -31,7 +31,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.Editor;
  * Describe: 主编列表
  */
 @EActivity(R.layout.act_editor_list)
-public class EditorListActivity extends AppCompatActivity {
+public class EditorActivity extends AppCompatActivity {
     @Extra
     String mEditors;
     @ViewById(R.id.ll_content)

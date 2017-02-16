@@ -38,9 +38,10 @@ public class ThemeEditorAdapter extends RecyclerView.Adapter<ThemeEditorAdapter.
     }
 
     public void setData(List<Editor> editors) {
-        this.mEditors.clear();
-        mEditors.addAll(editors);
-        notifyDataSetChanged();
+        if (mEditors != editors) {
+            mEditors = editors;
+            notifyDataSetChanged();
+        }
     }
 
     class ThemeEditorVH extends RecyclerView.ViewHolder {

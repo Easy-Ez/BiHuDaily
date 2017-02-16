@@ -18,7 +18,6 @@ import java.util.List;
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.Story;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
-import cn.ml.saddhu.bihudaily.engine.domain.Theme;
 import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
 import cn.ml.saddhu.bihudaily.mvp.adapter.HomePageAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
@@ -63,7 +62,7 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
         DayNightSpUtil mUtil = new DayNightSpUtil(getContext());
         boolean isDark = mUtil.isDark();
         refresh.setOnRefreshListener(this);
-        refresh.setColorSchemeResources(isDark ? R.color.black22 : R.color.colorPrimary);
+        refresh.setColorSchemeResources(isDark ? R.color.color22 : R.color.colorPrimary);
         mLayoutManger = new LinearLayoutManager(getContext());
         mAdapter.setOnItemClickListener(this);
         rv_story_list.setLayoutManager(mLayoutManger);

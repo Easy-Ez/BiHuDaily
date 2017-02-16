@@ -1,5 +1,7 @@
 package cn.ml.saddhu.bihudaily.engine.domain;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by sadhu on 2017/2/11.
  * Email static.sadhu@gmail.com
@@ -14,19 +16,24 @@ public class Editor {
      * name : 刘柯
      */
     public String url;
+    public String title;
     public String bio;
     public long id;
     public String avatar;
     public String name;
+    @SerializedName("zhihu_url_token")
+    public String zhihuUrlToken;
 
     @Override
     public String toString() {
         return "Editor{" +
                 "url='" + url + '\'' +
+                ", title='" + title + '\'' +
                 ", bio='" + bio + '\'' +
                 ", id=" + id +
                 ", avatar='" + avatar + '\'' +
                 ", name='" + name + '\'' +
+                ", zhihuUrlToken='" + zhihuUrlToken + '\'' +
                 '}';
     }
 }

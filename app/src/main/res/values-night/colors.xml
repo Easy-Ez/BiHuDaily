@@ -2,11 +2,13 @@
 <resources>
 
     <color name="statusBarColor">@color/black</color>
-    <color name="toolBarColor">@color/black22</color>
+    <color name="toolBarColor">@color/color22</color>
     <color name="titleTextColor">@color/white</color>
     <color name="card_item_color">#404040</color>
     <color name="edgeEffectColor">#222222</color>
-    <color name="drawerHeaderColor">@color/black25</color>
-    <color name="drawer_item_bg_normal">@color/black34</color>
-    <color name="drawer_item_bg_selected">@color/black2C</color>
+    <color name="drawerHeaderColor">@color/color25</color>
+    <color name="drawer_item_bg_normal">@color/color34</color>
+    <color name="drawer_item_bg_selected">@color/color2C</color>
+    <color name="theme_editor_name">@color/colorb8</color>
+    <color name="theme_editor_bio">@color/color6e</color>
 </resources>

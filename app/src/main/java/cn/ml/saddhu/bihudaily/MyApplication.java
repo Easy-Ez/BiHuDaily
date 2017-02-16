@@ -4,6 +4,7 @@ import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.orhanobut.logger.Logger;
 
 import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
@@ -26,7 +27,10 @@ public class MyApplication extends Application {
         Logger.init("cai")
                 .methodCount(1)
                 .hideThreadInfo();
-        Fresco.initialize(this);
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                .setDownsampleEnabled(true)
+                .build();
+        Fresco.initialize(this, config);
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
         DBHelper.getInstance().init(this);
     }

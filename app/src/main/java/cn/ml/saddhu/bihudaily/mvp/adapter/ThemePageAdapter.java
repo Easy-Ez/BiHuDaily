@@ -1,15 +1,22 @@
 package cn.ml.saddhu.bihudaily.mvp.adapter;
 
+import android.net.Uri;
+import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -91,7 +98,7 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView mTvThemeTitle;
         RecyclerView mRvThemeList;
         LinearLayout mLlEditor;
-        final ThemeEditorAdapter mThemeEditorAdapter;
+        ThemeEditorAdapter mThemeEditorAdapter;
 
 
         ThemeHeaderVH(View itemView) {
@@ -101,15 +108,11 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             mRvThemeList = (RecyclerView) itemView.findViewById(R.id.theme_editor_list);
             mLlEditor = (LinearLayout) itemView.findViewById(R.id.theme_editor_top_layout);
             mLlEditor.setOnClickListener(this);
-            mRvThemeList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
-                @Override
-                public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                    return false;
-                }
-            });
             mRvThemeList.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
             mThemeEditorAdapter = new ThemeEditorAdapter();
             mRvThemeList.setAdapter(mThemeEditorAdapter);
+            mRvThemeList.setHasFixedSize(true);
+            mRvThemeList.setLayoutFrozen(true);
         }
 
         @Override
@@ -120,7 +123,15 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         void setHeaderData(String background, String description, List<Editor> editors) {
-            mSdvCover.setImageURI(background);
+            int width = 768 / 2, height = 648 / 2;
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(background))
+                    .setResizeOptions(new ResizeOptions(width, height))
+                    .build();
+            DraweeController controller = Fresco.newDraweeControllerBuilder()
+                    .setOldController(mSdvCover.getController())
+                    .setImageRequest(request)
+                    .build();
+            mSdvCover.setController(controller);
             mTvThemeTitle.setText(description);
             mThemeEditorAdapter.setData(editors);
         }
