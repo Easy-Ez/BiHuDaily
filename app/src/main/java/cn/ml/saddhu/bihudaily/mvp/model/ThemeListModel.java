@@ -26,7 +26,7 @@ public interface ThemeListModel {
      * @param onLoadMoreListener 加载更多回调
      * @param id                 获取 id 之前的数据
      */
-    void loadMoreThemePageList(OnLoadMoreListener onLoadMoreListener, String id);
+    void loadMoreThemePageList(OnLoadMoreListener onLoadMoreListener,String themeId, String id);
 
 
     interface OnRefreshListener {

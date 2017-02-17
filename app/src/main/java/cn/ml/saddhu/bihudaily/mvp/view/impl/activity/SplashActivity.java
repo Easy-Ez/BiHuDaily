@@ -21,7 +21,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import cn.ml.saddhu.bihudaily.R;
-import cn.ml.saddhu.bihudaily.engine.commondListener.AnimationEndListener;
+import cn.ml.saddhu.bihudaily.engine.commondListener.SimpleAnimationListener;
 import cn.ml.saddhu.bihudaily.engine.domain.Creative;
 import cn.ml.saddhu.bihudaily.mvp.presenter.SplashPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.SplashPresenterImpl;
@@ -48,7 +48,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
 
     private SplashPresenter mPresenter;
-    private Animation.AnimationListener mLogoTransListener = new AnimationEndListener() {
+    private Animation.AnimationListener mLogoTransListener = new SimpleAnimationListener() {
         @Override
         public void onAnimationEnd(Animation animation) {
             mLogoImageView.setImageDrawable(AnimatedVectorDrawableCompat.create(SplashActivity.this, R.drawable.daily_logo));

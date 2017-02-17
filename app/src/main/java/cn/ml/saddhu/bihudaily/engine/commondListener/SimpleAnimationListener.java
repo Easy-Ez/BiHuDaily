@@ -7,10 +7,15 @@ import android.view.animation.Animation;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public abstract class AnimationEndListener implements Animation.AnimationListener {
+public class SimpleAnimationListener implements Animation.AnimationListener {
 
     @Override
     public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
 
     }
 

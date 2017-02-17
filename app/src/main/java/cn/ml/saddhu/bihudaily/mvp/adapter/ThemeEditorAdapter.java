@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ml.saddhu.bihudaily.R;
+import cn.ml.saddhu.bihudaily.engine.commondListener.ItemClickable;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnRecyclerViewItemClickListener;
 import cn.ml.saddhu.bihudaily.engine.domain.Editor;
 
 /**
@@ -18,11 +20,11 @@ import cn.ml.saddhu.bihudaily.engine.domain.Editor;
  * Email static.sadhu@gmail.com
  * Describe: 主题_主编列表adapter
  */
-public class ThemeEditorAdapter extends RecyclerView.Adapter<ThemeEditorAdapter.ThemeEditorVH> {
+public class ThemeEditorAdapter extends RecyclerView.Adapter<ThemeEditorAdapter.ThemeEditorVH> implements ItemClickable<Editor> {
     private List<Editor> mEditors = new ArrayList<>();
+    private OnRecyclerViewItemClickListener<Editor> mItemClickListener;
 
     @Override
-
     public ThemeEditorVH onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ThemeEditorVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_theme_header_editor, parent, false));
     }
@@ -36,13 +38,18 @@ public class ThemeEditorAdapter extends RecyclerView.Adapter<ThemeEditorAdapter.
     public int getItemCount() {
         return mEditors == null ? 0 : mEditors.size();
     }
+    @Override
+    public void setOnRecyclerViewItemClickListener(OnRecyclerViewItemClickListener<Editor> listener) {
+        this.mItemClickListener = listener;
+    }
 
     public void setData(List<Editor> editors) {
-        if (mEditors != editors) {
-            mEditors = editors;
-            notifyDataSetChanged();
-        }
+        mEditors.clear();
+        mEditors.addAll(editors);
+        notifyDataSetChanged();
+
     }
+
 
     class ThemeEditorVH extends RecyclerView.ViewHolder {
         SimpleDraweeView mSdvAvatar;

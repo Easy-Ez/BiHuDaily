@@ -3,17 +3,11 @@ package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -23,7 +17,10 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 import cn.ml.saddhu.bihudaily.R;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnRecyclerViewItemClickListener;
 import cn.ml.saddhu.bihudaily.engine.domain.Editor;
+import cn.ml.saddhu.bihudaily.mvp.adapter.EditorListAdapter;
+import cn.ml.saddhu.bihudaily.widget.decoration.MyLinearDividerDecoration;
 
 /**
  * Created by sadhu on 2017/2/15.
@@ -31,72 +28,40 @@ import cn.ml.saddhu.bihudaily.engine.domain.Editor;
  * Describe: 主编列表
  */
 @EActivity(R.layout.act_editor_list)
-public class EditorListActivity extends AppCompatActivity {
+public class EditorListActivity extends AppCompatActivity implements OnRecyclerViewItemClickListener<String> {
     @Extra
     String mEditors;
-    @ViewById(R.id.ll_content)
-    LinearLayout mLlContent;
+    @ViewById(R.id.toolbar_editor)
+    Toolbar mToolbar;
     @ViewById(R.id.rv_editor_list)
     RecyclerView mRvEditorList;
-
-    private List<Editor> mEditorList;
 
     @AfterViews
     void afterViews() {
         Gson gson = new Gson();
-        mEditorList = gson.fromJson(mEditors, new TypeToken<List<Editor>>() {
+        List<Editor> mEditorList = gson.fromJson(mEditors, new TypeToken<List<Editor>>() {
         }.getType());
-        mLlContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logger.d("onclick");
-            }
-        });
         mRvEditorList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mRvEditorList.setAdapter(new MyAdapter());
+        EditorListAdapter editorListAdapter = new EditorListAdapter(mEditorList);
+        mRvEditorList.setAdapter(editorListAdapter);
+        mRvEditorList.addItemDecoration(new MyLinearDividerDecoration(this, 12, 12));
+        editorListAdapter.setOnRecyclerViewItemClickListener(this);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    class MyAdapter extends RecyclerView.Adapter<MyVH> {
-        @Override
-        public MyVH onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new MyVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_editor, parent, false));
-        }
 
-        @Override
-        public void onBindViewHolder(MyVH holder, int position) {
-            holder.setData(mEditorList.get(position));
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
-
-        @Override
-        public int getItemCount() {
-            return mEditorList.size();
-        }
+        return super.onOptionsItemSelected(item);
     }
 
-    class MyVH extends RecyclerView.ViewHolder {
-        SimpleDraweeView mSdvAvatar;
-        TextView mTvName;
-        TextView mTvTitle;
-        TextView mTvOrganization;
-
-        public MyVH(View itemView) {
-            super(itemView);
-            mSdvAvatar = (SimpleDraweeView) itemView.findViewById(R.id.theme_editor_sdv);
-            mTvName = (TextView) itemView.findViewById(R.id.theme_editor_name);
-            mTvTitle = (TextView) itemView.findViewById(R.id.theme_editor_title);
-            mTvOrganization = (TextView) itemView.findViewById(R.id.theme_editor_bio);
-        }
-
-        public void setData(Editor editor) {
-            mSdvAvatar.setImageURI(editor.avatar);
-            if (TextUtils.isEmpty(editor.title)) {
-                mTvTitle.setVisibility(View.GONE);
-            } else {
-                mTvTitle.setVisibility(View.VISIBLE);
-                mTvTitle.setText(editor.title);
-            }
-            mTvName.setText(editor.name);
-            mTvOrganization.setText(editor.bio);
-        }
+    @Override
+    public void onItemClick(String editorId, int position, int realPosition) {
+        EditorActivity_.intent(this).mEditorId(editorId).start();
     }
 }

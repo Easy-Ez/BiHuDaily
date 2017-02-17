@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="72dp"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/theme_editor_sdv"
-        app:roundAsCircle="true"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_centerVertical="true"
-        app:placeholderImage="@drawable/editor_profile_avatar" />
+        app:placeholderImage="@drawable/editor_profile_avatar"
+        app:roundAsCircle="true"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -36,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/theme_editor_name"
                 android:textSize="@dimen/text_size_16"
-                tools:text="什么什么" />
+                tools:text="什么什么"/>
 
             <TextView
                 android:id="@+id/theme_editor_title"
@@ -46,7 +48,7 @@
                 android:background="@drawable/btn_editor_title"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_12"
-                tools:text="什么什么" />
+                tools:text="什么什么"/>
         </LinearLayout>
 
         <TextView
@@ -57,6 +59,6 @@
             android:maxLines="1"
             android:textColor="@color/theme_editor_bio"
             android:textSize="@dimen/text_size_13"
-            tools:text="什么什么" />
+            tools:text="什么什么"/>
     </LinearLayout>
 </RelativeLayout>

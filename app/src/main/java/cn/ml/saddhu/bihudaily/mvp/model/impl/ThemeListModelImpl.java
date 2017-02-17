@@ -65,8 +65,8 @@ public class ThemeListModelImpl implements ThemeListModel {
     }
 
     @Override
-    public void loadMoreThemePageList(final OnLoadMoreListener onLoadMoreListener, String id) {
-        Call<ResponseBody> baseStoryCall = mApiService.loadMoreThemePageList(id);
+    public void loadMoreThemePageList(final OnLoadMoreListener onLoadMoreListener, String themeId, String id) {
+        Call<ResponseBody> baseStoryCall = mApiService.loadMoreThemePageList(themeId, id);
         baseStoryCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

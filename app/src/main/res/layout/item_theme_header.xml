@@ -26,11 +26,11 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:text="新闻说读读日报24小时" />
+            android:textSize="18sp"
+            tools:text="了解自己和别人 ,了解彼此的欲望和局限" />
     </RelativeLayout>
 
-    <LinearLayout
+    <cn.ml.saddhu.bihudaily.widget.InterceptTouchLinearLayout
         android:id="@+id/theme_editor_top_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -52,5 +52,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    </LinearLayout>
+    </cn.ml.saddhu.bihudaily.widget.InterceptTouchLinearLayout>
 </LinearLayout>

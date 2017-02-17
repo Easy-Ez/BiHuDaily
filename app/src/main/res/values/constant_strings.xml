@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="editor_profile_url">https://news-at.zhihu.com/api/4/editor/%1$s/profile-page/android</string>
+</resources>

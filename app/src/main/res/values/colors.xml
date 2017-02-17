@@ -6,14 +6,17 @@
 
     <color name="black">#000000</color>
     <color name="color22">#222222</color>
+    <color name="color30">#303030</color>
     <color name="color33">#333333</color>
     <color name="color25">#252525</color>
     <color name="color2C">#2C2C2C</color>
     <color name="color34">#343434</color>
+    <color name="color40">#FF404040</color>
     <color name="color66">#666666</color>
     <color name="color6e">#6e6e6e</color>
     <color name="color99">#999999</color>
     <color name="colorb8">#b8b8b8</color>
+    <color name="colore6">#E6E6E6</color>
     <color name="colorf0">#F0F0F0</color>
     <color name="white">#FFFFFF</color>
 
@@ -40,6 +43,8 @@
     <color name="drawerHeaderColor">@color/colorPrimary</color>
     <color name="drawer_item_bg_normal">@color/white</color>
     <color name="drawer_item_bg_selected">@color/colorf0</color>
+    <color name="theme_editor_bg">@color/white</color>
+    <color name="theme_editor_divider">@color/colore6</color>
     <color name="theme_editor_name">@color/color33</color>
     <color name="theme_editor_bio">@color/color99</color>
 </resources>

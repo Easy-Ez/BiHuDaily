@@ -1,7 +1,6 @@
 package cn.ml.saddhu.bihudaily.mvp.adapter;
 
 import android.net.Uri;
-import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -106,13 +104,14 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             mSdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_cover);
             mTvThemeTitle = (TextView) itemView.findViewById(R.id.tv_theme_title);
             mRvThemeList = (RecyclerView) itemView.findViewById(R.id.theme_editor_list);
+            mRvThemeList.getParent().requestDisallowInterceptTouchEvent(false);
+            // 使用InterceptLinearLayout 或者 setLayoutFrozen的办法 阻止recyclerview抢夺touchEvent
             mLlEditor = (LinearLayout) itemView.findViewById(R.id.theme_editor_top_layout);
             mLlEditor.setOnClickListener(this);
             mRvThemeList.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
             mThemeEditorAdapter = new ThemeEditorAdapter();
             mRvThemeList.setAdapter(mThemeEditorAdapter);
-            mRvThemeList.setHasFixedSize(true);
-            mRvThemeList.setLayoutFrozen(true);
+            //mRvThemeList.setLayoutFrozen(true);
         }
 
         @Override
@@ -133,7 +132,9 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .build();
             mSdvCover.setController(controller);
             mTvThemeTitle.setText(description);
+            //mRvThemeList.setLayoutFrozen(false);
             mThemeEditorAdapter.setData(editors);
+            //mRvThemeList.setLayoutFrozen(true);
         }
     }
 

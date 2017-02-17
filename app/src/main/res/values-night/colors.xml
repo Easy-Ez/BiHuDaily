@@ -9,6 +9,8 @@
     <color name="drawerHeaderColor">@color/color25</color>
     <color name="drawer_item_bg_normal">@color/color34</color>
     <color name="drawer_item_bg_selected">@color/color2C</color>
+    <color name="theme_editor_bg">@color/color30</color>
+    <color name="theme_editor_divider">@color/color40</color>
     <color name="theme_editor_name">@color/colorb8</color>
     <color name="theme_editor_bio">@color/color6e</color>
 </resources>

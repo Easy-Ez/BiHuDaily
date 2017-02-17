@@ -164,20 +164,10 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             tapGestureDetector = new GestureDetector(itemView.getContext(), new TapGestureListener());
             looper = (ViewPager) itemView.findViewById(R.id.vp_looper);
-            looper.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
+            looper.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {
                     viewPagerCurrentPosition = position;
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
                 }
             });
             looper.setOnTouchListener(new View.OnTouchListener() {

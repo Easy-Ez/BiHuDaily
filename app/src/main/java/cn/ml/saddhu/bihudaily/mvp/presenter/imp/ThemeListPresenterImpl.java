@@ -42,7 +42,7 @@ public class ThemeListPresenterImpl implements ThemeListPresenter {
     }
 
     @Override
-    public void loadMoreThemePageList() {
+    public void loadMoreThemePageList(String themeId) {
         mModel.loadMoreThemePageList(new ThemeListModel.OnLoadMoreListener() {
             @Override
             public void onSuccuss(List<BaseStory> info) {
@@ -53,7 +53,7 @@ public class ThemeListPresenterImpl implements ThemeListPresenter {
             public void onError(int code) {
                 mView.onLoadMoreError(code);
             }
-        }, mThemeInfo.stories.get(mThemeInfo.stories.size() - 1).id);
+        }, themeId, mThemeInfo.stories.get(mThemeInfo.stories.size() - 1).id);
     }
 
     @Override

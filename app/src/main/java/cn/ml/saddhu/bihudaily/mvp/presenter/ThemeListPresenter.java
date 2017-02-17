@@ -14,5 +14,5 @@ public interface ThemeListPresenter extends BasePresenter {
     /**
      * 加载更多
      */
-    void loadMoreThemePageList();
+    void loadMoreThemePageList(String themeId);
 }

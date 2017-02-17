@@ -19,4 +19,5 @@
     <string name="remove_subscribe">取消订阅</string>
     <string name="subscribe">订阅</string>
     <string name="editor">主编</string>
+    <string name="editor_profile">主编资料</string>
 </resources>

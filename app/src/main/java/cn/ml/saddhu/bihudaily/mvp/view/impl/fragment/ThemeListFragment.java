@@ -88,16 +88,15 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
 
     private void loadMoreThemePageList() {
         isLoadMore = true;
-        mPresenter.loadMoreThemePageList();
+        mPresenter.loadMoreThemePageList(mThemeId);
     }
 
 
     @Override
     public void onRefreshSucces(ThemeInfo data) {
         isRefresh = false;
-        mAdapter.setData(data);
         refresh.setRefreshing(false);
-        mLayoutManger.scrollToPosition(0);
+        mAdapter.setData(data);
     }
 
     @Override
@@ -108,6 +107,7 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
 
     @Override
     public void onRefreshError(int code) {
+        refresh.setRefreshing(false);
         isRefresh = false;
     }
 

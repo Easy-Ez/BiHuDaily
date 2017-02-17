@@ -31,8 +31,8 @@ public interface APIService {
     @GET("4/theme/{themeId}")
     Call<ThemeInfo> getThemePageList(@Path("themeId") String id);
 
-    @GET("/api/4/theme/13/before/{lastThemeId}")
-    Call<ResponseBody> loadMoreThemePageList(@Path("lastThemeId") String id);
+    @GET("/api/4/theme/{themeId}/before/{lastStoryId}")
+    Call<ResponseBody> loadMoreThemePageList(@Path("themeId") String themeId, @Path("lastStoryId") String id);
 
 
 }

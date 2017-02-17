@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
     FrameLayout fl_conent;
     @FragmentById(R.id.navigation_drawer)
     NavigationDrawerFragment mDrawerFrag;
-    @InstanceState
-    int someId;
     StoryListFragment mStoryListFragment;
     ThemeListFragment mThemeListFragment;
     private DayNightSpUtil mUtil = new DayNightSpUtil(this);
