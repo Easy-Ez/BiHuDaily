@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -93,6 +94,7 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ThemeHeaderVH extends RecyclerView.ViewHolder implements View.OnClickListener {
         SimpleDraweeView mSdvCover;
+        ImageView mImgAutomatic;
         TextView mTvThemeTitle;
         RecyclerView mRvThemeList;
         LinearLayout mLlEditor;
@@ -102,6 +104,7 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ThemeHeaderVH(View itemView) {
             super(itemView);
             mSdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_cover);
+            mImgAutomatic = (ImageView) itemView.findViewById(R.id.img_automatic);
             mTvThemeTitle = (TextView) itemView.findViewById(R.id.tv_theme_title);
             mRvThemeList = (RecyclerView) itemView.findViewById(R.id.theme_editor_list);
             mRvThemeList.getParent().requestDisallowInterceptTouchEvent(false);
@@ -135,6 +138,7 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //mRvThemeList.setLayoutFrozen(false);
             mThemeEditorAdapter.setData(editors);
             //mRvThemeList.setLayoutFrozen(true);
+            mImgAutomatic.setTag(background);
         }
     }
 

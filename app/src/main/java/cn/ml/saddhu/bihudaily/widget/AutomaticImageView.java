@@ -73,7 +73,7 @@ public class AutomaticImageView extends ImageView {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (matrix == null) {
+        if (getDrawable() != null && matrix == null) {
             calculateMatrix();
             initAnimator();
         }

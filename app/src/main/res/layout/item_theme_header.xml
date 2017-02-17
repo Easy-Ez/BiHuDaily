@@ -1,10 +1,10 @@
 <?xml version="1" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/theme_header_blank"
@@ -15,7 +15,12 @@
             android:id="@+id/sdv_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:placeholderImage="@color/black" />
+            app:placeholderImage="@color/black"/>
+
+        <cn.ml.saddhu.bihudaily.widget.AutomaticImageView
+            android:id="@+id/img_automatic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
         <TextView
             android:id="@+id/tv_theme_title"
@@ -27,7 +32,7 @@
             android:layout_marginRight="16dp"
             android:textColor="@color/white"
             android:textSize="18sp"
-            tools:text="了解自己和别人 ,了解彼此的欲望和局限" />
+            tools:text="了解自己和别人 ,了解彼此的欲望和局限"/>
     </RelativeLayout>
 
     <cn.ml.saddhu.bihudaily.widget.InterceptTouchLinearLayout
@@ -45,12 +50,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/editor" />
+            android:text="@string/editor"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/theme_editor_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
     </cn.ml.saddhu.bihudaily.widget.InterceptTouchLinearLayout>
 </LinearLayout>
