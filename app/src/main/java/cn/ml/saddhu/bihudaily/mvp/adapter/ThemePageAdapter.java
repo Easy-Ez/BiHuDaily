@@ -126,14 +126,14 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         void setHeaderData(String background, String description, List<Editor> editors) {
-            int width = 768 / 2, height = 648 / 2;
-            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(background))
-                    .setResizeOptions(new ResizeOptions(width, height))
-                    .build();
-            DraweeController controller = Fresco.newDraweeControllerBuilder()
-                    .setOldController(mSdvCover.getController())
-                    .setImageRequest(request)
-                    .build();
+//            int width = 768 / 2, height = 648 / 2;
+//            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(background))
+//                    .setResizeOptions(new ResizeOptions(width, height))
+//                    .build();
+//            DraweeController controller = Fresco.newDraweeControllerBuilder()
+//                    .setOldController(mSdvCover.getController())
+//                    .setImageRequest(request)
+//                    .build();
             //mSdvCover.setController(controller);
             mTvThemeTitle.setText(description);
             //mRvThemeList.setLayoutFrozen(false);
