@@ -23,6 +23,7 @@ import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.BaseStory;
 import cn.ml.saddhu.bihudaily.engine.domain.Editor;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
+import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoader;
 
 /**
  * Created by sadhu on 2017/2/11.
@@ -133,12 +134,13 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .setOldController(mSdvCover.getController())
                     .setImageRequest(request)
                     .build();
-            mSdvCover.setController(controller);
+            //mSdvCover.setController(controller);
             mTvThemeTitle.setText(description);
             //mRvThemeList.setLayoutFrozen(false);
             mThemeEditorAdapter.setData(editors);
             //mRvThemeList.setLayoutFrozen(true);
-            mImgAutomatic.setTag(background);
+
+            ImageLoader.getInstance().loadImage(mImgAutomatic, background);
         }
     }
 

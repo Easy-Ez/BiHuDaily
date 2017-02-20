@@ -6,13 +6,13 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 
@@ -35,8 +35,8 @@ public class AutomaticImageView extends ImageView {
     private float mDy;
     private float mCurrentDx;
     private float mCurrentDy;
-    private int mMoveMode = MOVE_MODE_BOTTOM;
-    private static final float SCALE_VIEW = 1.2F;
+    private int mMoveMode = MOVE_MODE_AUTO;
+    private static final float SCALE_VIEW = 1.3F;
     private ValueAnimator mValueAnimator;
 
     public AutomaticImageView(Context context) {
@@ -66,16 +66,11 @@ public class AutomaticImageView extends ImageView {
             matrix.postTranslate(mCurrentDx, mCurrentDy);
             canvas.concat(matrix);
             drawable.draw(canvas);
-        }
-    }
-
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        if (getDrawable() != null && matrix == null) {
-            calculateMatrix();
-            initAnimator();
+        } else {
+            if (getDrawable() != null && matrix == null) {
+                calculateMatrix();
+                initAnimator();
+            }
         }
     }
 
@@ -109,26 +104,27 @@ public class AutomaticImageView extends ImageView {
      * 初始化动画
      */
     private void initAnimator() {
-        mValueAnimator = ObjectAnimator.ofFloat(0, 1);
-        mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        mValueAnimator.setInterpolator(new AccelerateInterpolator());
-        mValueAnimator.setRepeatMode(mMoveMode == MOVE_MODE_AUTO ? ValueAnimator.RESTART : ValueAnimator.REVERSE);
-        mValueAnimator.setDuration(10000);
-        mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                calculateTranlateByMode(animation.getAnimatedFraction());
-                invalidate();
-            }
-        });
-        if (mMoveMode == MOVE_MODE_AUTO) {
-            mValueAnimator.addListener(new AnimatorListenerAdapter() {
+        if (mValueAnimator == null) {
+            mValueAnimator = ObjectAnimator.ofFloat(0, 1);
+            mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            mValueAnimator.setInterpolator(new AccelerateInterpolator());
+            mValueAnimator.setRepeatMode(mMoveMode == MOVE_MODE_AUTO ? ValueAnimator.RESTART : ValueAnimator.REVERSE);
+            mValueAnimator.setDuration(12000);
+            mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
-                public void onAnimationRepeat(Animator animation) {
-                    randomMoveMode();
-                    Log.i(TAG, "onAnimationStart: " + Integer.toBinaryString(mMoveMode));
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    calculateTranlateByMode(animation.getAnimatedFraction());
+                    invalidate();
                 }
             });
+            if (mMoveMode == MOVE_MODE_AUTO) {
+                mValueAnimator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                        randomMoveMode();
+                    }
+                });
+            }
         }
         mValueAnimator.start();
     }
@@ -192,7 +188,7 @@ public class AutomaticImageView extends ImageView {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (mValueAnimator != null) {
+        if (matrix != null && mValueAnimator != null) {
             mValueAnimator.start();
         }
     }
@@ -203,6 +199,16 @@ public class AutomaticImageView extends ImageView {
         if (mValueAnimator != null) {
             mValueAnimator.cancel();
         }
+    }
+
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        if (mValueAnimator != null) {
+            mValueAnimator.cancel();
+        }
+        super.setImageBitmap(bm);
+        matrix = null;
+        invalidate();
     }
 
     /**

@@ -102,8 +102,8 @@ class SyncClient(object):
         for i in range(0, 10):
             cexec([self._adb, 'forward', 'tcp:{}'.format(PORT_START + i), 'tcp:{}'.format(PORT_START + i)],
                   callback=None)
-            url = 'http://127.0.0.1:{}/checkSync?sync={}&uuid={}'.format(PORT_START + i, sync_value, uuid)
-            result, err, code = curl(url)
+            tag = 'http://127.0.0.1:{}/checkSync?sync={}&uuid={}'.format(PORT_START + i, sync_value, uuid)
+            result, err, code = curl(tag)
             if code == 0 and result is not None:
                 result = int(result)
                 self.debug('server result is {}'.format(result))
@@ -149,10 +149,10 @@ class SyncClient(object):
                 for dex_name in dexes:
                     dex_path = os.path.join(dex_dir, dex_name)
                     with open(dex_path, 'rb') as fp:
-                        url = 'http://127.0.0.1:{}/pushDex?dexName={}'.format(self._port, dex_name.replace('.dex', ''))
-                        self.debug('pushdex: ' + url)
+                        tag = 'http://127.0.0.1:{}/pushDex?dexName={}'.format(self._port, dex_name.replace('.dex', ''))
+                        self.debug('pushdex: ' + tag)
                         self.debug('dex path: {}'.format(dex_path))
-                        result, err, code = curl(url, body=fp.read())
+                        result, err, code = curl(tag, body=fp.read())
                         if code != 0:
                             from exceptions import FreelineException
                             raise FreelineException('sync incremental dex failed.', err.message)
@@ -166,10 +166,10 @@ class SyncClient(object):
             if self._is_need_sync_native():
                 restart_char = 'restart'
             update_last_sync_ticket(self._cache_dir)
-            url = 'http://127.0.0.1:{}/closeLongLink?{}&lastSync={}'.format(self._port, restart_char,
+            tag = 'http://127.0.0.1:{}/closeLongLink?{}&lastSync={}'.format(self._port, restart_char,
                                                                             get_last_sync_ticket(self._cache_dir))
-            self.debug('closeLongLink: ' + url)
-            result, err, code = curl(url)
+            self.debug('closeLongLink: ' + tag)
+            result, err, code = curl(tag)
             # self.wake_up()
             if code != 0:
                 rollback_last_sync_ticket(self._cache_dir)

@@ -454,9 +454,9 @@ class GradleSyncClient(SyncClient):
         self._is_need_sync_base_res = False
 
     def check_base_res_exist(self):
-        url = 'http://127.0.0.1:{}/checkResource'.format(self._port)
-        self.debug('checkresource: ' + url)
-        result, err, code = curl(url)
+        tag = 'http://127.0.0.1:{}/checkResource'.format(self._port)
+        self.debug('checkresource: ' + tag)
+        result, err, code = curl(tag)
         if code != 0:
             raise FreelineException('check base res failed', err.message)
         if int(result) == 0:
@@ -472,9 +472,9 @@ class GradleSyncClient(SyncClient):
                 self.debug('start to sync full resource pack...')
                 self.debug('full pack size: {}kb'.format(os.path.getsize(full_pack_path) / 1000))
                 with open(full_pack_path, 'rb') as fp:
-                    url = 'http://127.0.0.1:{}/pushFullResourcePack'.format(self._port)
-                    self.debug('pushfullpack: ' + url)
-                    result, err, code = curl(url, body=fp.read())
+                    tag = 'http://127.0.0.1:{}/pushFullResourcePack'.format(self._port)
+                    self.debug('pushfullpack: ' + tag)
+                    result, err, code = curl(tag, body=fp.read())
                     if code != 0:
                         raise FreelineException('push full res pack failed', err.message)
             else:
@@ -486,9 +486,9 @@ class GradleSyncClient(SyncClient):
             self.debug('start to sync native file...')
             native_zip_path = get_sync_native_file_path(self._config['build_cache_dir'])
             with open(native_zip_path, "rb") as fp:
-                url = "http://127.0.0.1:{}/pushNative?restart".format(self._port)
-                self.debug("pushNative: "+url)
-                result, err, code = curl(url, body=fp.read())
+                tag = "http://127.0.0.1:{}/pushNative?restart".format(self._port)
+                self.debug("pushNative: "+tag)
+                result, err, code = curl(tag, body=fp.read())
                 self.debug("code: {}".format(code))
                 # todo 此处返回-1 暂时先忽略
                 # if code != 0:
@@ -515,9 +515,9 @@ class GradleSyncClient(SyncClient):
             self.debug('start to sync {} incremental res pack...'.format(module))
             self.debug('{} pack size: {}kb'.format(module, os.path.getsize(fpath) / 1000))
             with open(fpath, 'rb') as fp:
-                url = 'http://127.0.0.1:{}/pushResource?mode={}&bundleId={}'.format(self._port, mode, 'base-res')
-                self.debug('pushres: ' + url)
-                result, err, code = curl(url, body=fp.read())
+                tag = 'http://127.0.0.1:{}/pushResource?mode={}&bundleId={}'.format(self._port, mode, 'base-res')
+                self.debug('pushres: ' + tag)
+                result, err, code = curl(tag, body=fp.read())
                 if code != 0:
                     raise FreelineException('sync incremental respack failed', err.message)
 

@@ -7,6 +7,8 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.orhanobut.logger.Logger;
 
+import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoader;
+import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoaderConfiguration;
 import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
 
 /**
@@ -33,5 +35,15 @@ public class MyApplication extends Application {
         Fresco.initialize(this, config);
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
         DBHelper.getInstance().init(this);
+
+        int maxMemory = (int) Runtime.getRuntime().maxMemory();
+        int memoryCache = maxMemory / 8;
+        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
+                .setMaxMemoryCache(memoryCache)
+                .setMaxDiskCache(30 * 1024 * 1024)
+                .setDiskCacheDirName("image")
+                .build();
+        ImageLoader.getInstance().init(configuration);
+
     }
 }

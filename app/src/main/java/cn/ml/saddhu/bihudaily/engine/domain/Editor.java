@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Editor {
     /**
-     * url : http://www.zhihu.com/people/moheng-esther
+     * tag : http://www.zhihu.com/people/moheng-esther
      * bio : 树上的女爵
      * id : 79
      * avatar : http://pic1.zhimg.com/0a6456810_m.jpg
@@ -27,7 +27,7 @@ public class Editor {
     @Override
     public String toString() {
         return "Editor{" +
-                "url='" + url + '\'' +
+                "tag='" + url + '\'' +
                 ", title='" + title + '\'' +
                 ", bio='" + bio + '\'' +
                 ", id=" + id +
