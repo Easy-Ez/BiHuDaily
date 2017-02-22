@@ -35,13 +35,6 @@
         <activity
             android:name=".mvp.view.impl.activity.EditorActivity_"
             android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
-            android:name=".mvp.view.impl.activity.TestActivity_"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".mvp.view.impl.activity.TestActivity1_"
-            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

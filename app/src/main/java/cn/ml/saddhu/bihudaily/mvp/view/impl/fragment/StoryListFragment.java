@@ -24,8 +24,6 @@ import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.StoryListView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StroyDetailActivity_;
-import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.TestActivity1_;
-import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.TestActivity_;
 
 /**
  * Created by sadhu on 2016/11/14.
@@ -158,8 +156,7 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
     @Override
     public void onLooperItemClick(int position) {
         Logger.d("onLooperItemClick position %d", position);
-        //StroyDetailActivity_.intent(this).start();
-        TestActivity1_.intent(this).start();
+        StroyDetailActivity_.intent(this).start();
     }
 
 

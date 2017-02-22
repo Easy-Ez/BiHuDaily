@@ -3,6 +3,7 @@ package cn.ml.saddhu.bihudaily.mvp.view;
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
@@ -27,12 +28,13 @@ public class ToolbarAlphaScrollBehavior extends CoordinatorLayout.Behavior<andro
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, Toolbar child, View dependency) {
-        return dependency instanceof AppBarLayout;
+        return dependency instanceof ViewPager;
     }
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, Toolbar child, View dependency) {
-        if (dependency instanceof AppBarLayout) {
+        Logger.d(dependency.toString());
+        if (dependency instanceof ViewPager) {
             Logger.i("height:" + dependency.getTop() + "scroll:" + dependency.getY());
         }
         return super.onDependentViewChanged(parent, child, dependency);

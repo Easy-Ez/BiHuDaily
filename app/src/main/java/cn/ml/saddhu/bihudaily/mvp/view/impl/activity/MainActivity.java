@@ -16,11 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
 import cn.ml.saddhu.bihudaily.R;
@@ -123,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
             boolean isDark = toggleThemeSetting();
             item.setTitle(isDark ? getString(R.string.light_mode) : getString(R.string.dark_mode));
             return true;
+        } else if (id == R.id.action_theme_edit) {
+            Toast.makeText(this, "订阅/取消订阅", Toast.LENGTH_SHORT).show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -193,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
                         : getString(R.string.subscribe));
                 if (mThemeListFragment == null) {
                     mThemeListFragment = ThemeListFragment_.builder().mThemeId(String.valueOf(theme.id)).build();
-                }else{
+                } else {
                     mThemeListFragment.setThemeId(String.valueOf(theme.id));
                 }
                 fragmentTransaction.hide(mStoryListFragment);
