@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:zhihudaily="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_share"
         android:icon="@drawable/share"
         android:orderInCategory="0"
         android:title=""
-        zhihudaily:showAsAction="always" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_favorite"
         android:icon="@drawable/collect"
         android:orderInCategory="1"
         android:title=""
-        zhihudaily:showAsAction="always" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_comment"
-        android:icon="@drawable/comment"
         android:orderInCategory="2"
         android:title=""
-        zhihudaily:showAsAction="always|withText" />
+        app:actionLayout="@layout/menu_action_comment"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_vote"
-        android:icon="@drawable/praise"
         android:orderInCategory="3"
         android:title=""
-        zhihudaily:showAsAction="always|withText" />
+        app:actionLayout="@layout/menu_action_vote"
+        app:showAsAction="always" />
 </menu>

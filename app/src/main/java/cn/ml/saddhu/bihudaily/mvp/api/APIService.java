@@ -1,6 +1,8 @@
 package cn.ml.saddhu.bihudaily.mvp.api;
 
 import cn.ml.saddhu.bihudaily.engine.domain.Creatives;
+import cn.ml.saddhu.bihudaily.engine.domain.StoryDetail;
+import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
 import cn.ml.saddhu.bihudaily.engine.domain.Themes;
@@ -34,5 +36,11 @@ public interface APIService {
     @GET("/api/4/theme/{themeId}/before/{lastStoryId}")
     Call<ResponseBody> loadMoreThemePageList(@Path("themeId") String themeId, @Path("lastStoryId") String id);
 
+
+    @GET("/api/4/story/{storyId}")
+    Call<StoryDetail> getStoryInfo(@Path("storyId") String storyId);
+
+    @GET("/api/4/story-extra/{storyId}")
+    Call<StoryDetailExtra> getStoryExtraInfo(@Path("storyId") String storyId);
 
 }
