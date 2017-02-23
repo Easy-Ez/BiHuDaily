@@ -64,7 +64,11 @@ public class SplashModelImpl implements SplashModel {
 
                 @Override
                 public void onFailure(Call<Creatives> call, Throwable t) {
-                    Logger.e(t, "getSplashInfo");
+                    if (call.isCanceled()) {
+
+                    } else {
+                        Logger.e(t, "getSplashInfo");
+                    }
                 }
             });
         }

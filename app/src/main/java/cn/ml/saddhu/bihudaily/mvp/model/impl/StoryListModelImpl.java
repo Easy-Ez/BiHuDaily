@@ -144,25 +144,30 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
 
             @Override
             public void onFailure(Call<StoryInfo> call, Throwable t) {
-                try {
-                    Date time = mParse.parse(date);
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(time);
-                    calendar.add(Calendar.DAY_OF_MONTH, -1);
-                    String format = mParse.format(calendar.getTime());
-                    List<Story> list = mStoryDao
-                            .queryBuilder()
-                            .where(StoryDao.Properties.Date.eq(format))
-                            .orderAsc(StoryDao.Properties.Date)
-                            .list();
-                    if (list != null && list.size() > 0) {
-                        mLoadMoreListener.onLoadMoreSuccess(list);
-                    } else {
-                        mLoadMoreListener.onLoadMoreError(0);
+
+                if (call.isCanceled()) {
+                } else {
+                    try {
+                        Date time = mParse.parse(date);
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(time);
+                        calendar.add(Calendar.DAY_OF_MONTH, -1);
+                        String format = mParse.format(calendar.getTime());
+                        List<Story> list = mStoryDao
+                                .queryBuilder()
+                                .where(StoryDao.Properties.Date.eq(format))
+                                .orderAsc(StoryDao.Properties.Date)
+                                .list();
+                        if (list != null && list.size() > 0) {
+                            mLoadMoreListener.onLoadMoreSuccess(list);
+                        } else {
+                            mLoadMoreListener.onLoadMoreError(0);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        mLoadMoreListener.onLoadMoreError(1);
                     }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    mLoadMoreListener.onLoadMoreError(1);
+
                 }
 
 

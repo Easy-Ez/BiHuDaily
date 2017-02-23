@@ -73,7 +73,11 @@ public class NagavitionModelImpl extends BaseModelImpl<UserInfo, Void> implement
 
             @Override
             public void onFailure(Call<Themes> call, Throwable t) {
-                mRefreshListener.onRefreshError(0);
+                if (call.isCanceled()) {
+
+                } else {
+                    mRefreshListener.onRefreshError(0);
+                }
             }
         });
     }

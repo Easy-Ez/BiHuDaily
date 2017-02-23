@@ -99,8 +99,11 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 if (mLoadMoreListener != null) {
-                    // TODO: 2017/2/12  处理错误类型
-                    mLoadMoreListener.onLoadMoreError(0);
+                    if (call.isCanceled()) {
+                    } else {
+                        // TODO: 2017/2/12  处理错误类型
+                        mLoadMoreListener.onLoadMoreError(0);
+                    }
                 }
             }
         });
