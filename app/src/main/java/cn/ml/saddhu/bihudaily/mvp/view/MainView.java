@@ -8,5 +8,5 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
  * Describe: 主界面View
  */
 public interface MainView extends BaseView {
-    void setToolBarInfo(StoryDetailExtra extra);
+
 }

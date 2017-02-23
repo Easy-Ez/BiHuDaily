@@ -40,6 +40,8 @@ public class SplashPresenterImpl implements SplashPresenter {
     @Override
     public void onDestroy() {
         mView = null;
+        mModel.onDestroy();
+        mModel = null;
     }
 
 

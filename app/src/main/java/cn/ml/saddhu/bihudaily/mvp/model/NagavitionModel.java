@@ -8,7 +8,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public interface NagavitionModel {
+public interface NagavitionModel extends BaseModel {
 
     /**
      * 获取默认的用户信息(themes 从网络获取)

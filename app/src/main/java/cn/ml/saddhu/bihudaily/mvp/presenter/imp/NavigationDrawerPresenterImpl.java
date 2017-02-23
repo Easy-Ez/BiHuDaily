@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 
-import java.util.Collections;
-
-import cn.ml.saddhu.bihudaily.engine.commondListener.NetCallbackListener;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.constant.SharedPreferenceConstants;
 import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
 import cn.ml.saddhu.bihudaily.mvp.model.NagavitionModel;
@@ -19,7 +17,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.NavigationDrawerView;
  * Email static.sadhu@gmail.com
  * Describe: 导航页
  */
-public class NavigationDrawerPresenterImpl implements NavigationDrawerPresenter, NetCallbackListener<UserInfo> {
+public class NavigationDrawerPresenterImpl implements NavigationDrawerPresenter, OnNetRefreshListener<UserInfo> {
 
     private NavigationDrawerView mView;
     private NagavitionModel mModel;
@@ -55,19 +53,21 @@ public class NavigationDrawerPresenterImpl implements NavigationDrawerPresenter,
 
 
     @Override
-    public void onSuccess(UserInfo info) {
+    public void onRefreshSuccess(UserInfo info) {
         mUerInfo = info;
         mView.showList(info);
     }
 
     @Override
-    public void onError(int code) {
+    public void onRefreshError(int code) {
         mView.showList(null);
     }
 
     @Override
     public void onDestroy() {
         mView = null;
+        mModel.onDestroy();
+        mModel = null;
     }
 
 }

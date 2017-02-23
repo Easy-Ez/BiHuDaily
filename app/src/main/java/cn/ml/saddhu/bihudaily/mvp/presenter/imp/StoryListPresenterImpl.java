@@ -1,9 +1,13 @@
 package cn.ml.saddhu.bihudaily.mvp.presenter.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetLoadMoreListener;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.domain.Story;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
+import cn.ml.saddhu.bihudaily.engine.domain.TopStory;
 import cn.ml.saddhu.bihudaily.mvp.model.StoryListModel;
 import cn.ml.saddhu.bihudaily.mvp.model.impl.StoryListModelImpl;
 import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
@@ -14,49 +18,38 @@ import cn.ml.saddhu.bihudaily.mvp.view.StoryListView;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public class StoryListPresenterImpl implements StoryListPresenter {
+public class StoryListPresenterImpl implements StoryListPresenter, OnNetRefreshListener<StoryInfo>, OnNetLoadMoreListener<List<Story>> {
     private StoryListView mView;
     private StoryListModel mModel;
     private StoryInfo mStoryInfo;
 
     public StoryListPresenterImpl(StoryListView view) {
         this.mView = view;
-        mModel = new StoryListModelImpl();
+        mModel = new StoryListModelImpl(this, this);
     }
+
     @Override
     public void setData(StoryInfo storyInfo) {
         this.mStoryInfo = storyInfo;
     }
 
     @Override
+    public ArrayList<String> getLooperIdList() {
+        ArrayList<String> looperIds = new ArrayList<>();
+        for (TopStory story : mStoryInfo.topStories) {
+            looperIds.add(story.id);
+        }
+        return looperIds;
+    }
+
+    @Override
     public void getHomePageList() {
-        mModel.getHomePageList(new StoryListModel.OnRefreshListener() {
-            @Override
-            public void onSuccuss(StoryInfo info) {
-                mStoryInfo = info;
-                mView.setFirstPageData(info);
-            }
-
-            @Override
-            public void onError(int code) {
-
-            }
-        });
+        mModel.getHomePageList();
     }
 
     @Override
     public void loadMoreHomePageList() {
-        mModel.loadMoreHomePageList(new StoryListModel.OnLoadMoreListener() {
-            @Override
-            public void onSuccuss(List<Story> info) {
-                mView.onLoadMoreSuccess(info);
-            }
-
-            @Override
-            public void onError(int code) {
-
-            }
-        }, mStoryInfo.stories.get(mStoryInfo.stories.size() - 1).date);
+        mModel.loadMoreHomePageList(mStoryInfo.stories.get(mStoryInfo.stories.size() - 1).date);
     }
 
     @Override
@@ -67,6 +60,28 @@ public class StoryListPresenterImpl implements StoryListPresenter {
     @Override
     public void onDestroy() {
         mView = null;
+        mModel.onDestroy();
         mModel = null;
+    }
+
+    @Override
+    public void onRefreshSuccess(StoryInfo t) {
+        mStoryInfo = t;
+        mView.setFirstPageData(t);
+    }
+
+    @Override
+    public void onRefreshError(int code) {
+
+    }
+
+    @Override
+    public void onLoadMoreSuccess(List<Story> stories) {
+        mView.onLoadMoreSuccess(stories);
+    }
+
+    @Override
+    public void onLoadMoreError(int code) {
+
     }
 }

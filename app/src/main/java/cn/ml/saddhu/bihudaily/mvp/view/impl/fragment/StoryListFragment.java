@@ -156,7 +156,11 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
     @Override
     public void onLooperItemClick(int position) {
         Logger.d("onLooperItemClick position %d", position);
-        StroyDetailActivity_.intent(this).start();
+        StroyDetailActivity_
+                .intent(this)
+                .mIdLists(mPresenter.getLooperIdList())
+                .mPosition(position)
+                .start();
     }
 
 

@@ -1,5 +1,8 @@
 package cn.ml.saddhu.bihudaily.mvp.presenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
 
 /**
@@ -28,4 +31,6 @@ public interface StoryListPresenter extends BasePresenter {
     String getTagName(int position, boolean hasLooper);
 
     void setData(StoryInfo storyInfo);
+
+    ArrayList<String> getLooperIdList();
 }

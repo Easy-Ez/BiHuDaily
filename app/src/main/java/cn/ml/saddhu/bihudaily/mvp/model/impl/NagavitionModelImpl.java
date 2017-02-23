@@ -3,7 +3,7 @@ package cn.ml.saddhu.bihudaily.mvp.model.impl;
 import java.util.Collections;
 
 import cn.ml.saddhu.bihudaily.DBHelper;
-import cn.ml.saddhu.bihudaily.engine.commondListener.NetCallbackListener;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.constant.SharedPreferenceConstants;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeDao;
@@ -22,21 +22,19 @@ import retrofit2.Response;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public class NagavitionModelImpl implements NagavitionModel {
+public class NagavitionModelImpl extends BaseModelImpl<UserInfo, Void> implements NagavitionModel {
 
     private final Call<Themes> call;
     private final ThemeDao mThemeDao;
-    private NetCallbackListener<UserInfo> listener;
     private final UserInfoDao mUserInfoDao;
 
-    public NagavitionModelImpl(NetCallbackListener<UserInfo> listener) {
+    public NagavitionModelImpl(OnNetRefreshListener<UserInfo> mRefreshListener) {
+        super(mRefreshListener);
         APIService apiService = APIHelper.getInstance().create(APIService.class);
         mUserInfoDao = DBHelper.getInstance().getDaoSession().getUserInfoDao();
         mThemeDao = DBHelper.getInstance().getDaoSession().getThemeDao();
         call = apiService.getThemes();
-        this.listener = listener;
     }
-
 
     @Override
     public UserInfo getUserInfo(long uid) {
@@ -67,15 +65,15 @@ public class NagavitionModelImpl implements NagavitionModel {
                         mThemeDao.insertOrReplace(userInfo.themes.get(i));
                     }
                     mUserInfoDao.insertOrReplace(userInfo);
-                    listener.onSuccess(userInfo);
+                    mRefreshListener.onRefreshSuccess(userInfo);
                 } else {
-                    listener.onError(0);
+                    mRefreshListener.onRefreshError(0);
                 }
             }
 
             @Override
             public void onFailure(Call<Themes> call, Throwable t) {
-                listener.onError(0);
+                mRefreshListener.onRefreshError(0);
             }
         });
     }
@@ -83,5 +81,10 @@ public class NagavitionModelImpl implements NagavitionModel {
     @Override
     public void updateTheme(Theme theme) {
         mThemeDao.update(theme);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (call != null) call.cancel();
     }
 }

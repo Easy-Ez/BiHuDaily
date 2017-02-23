@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.ml.saddhu.bihudaily.DBHelper;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetLoadMoreListener;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.domain.Story;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDao;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
@@ -27,7 +29,7 @@ import retrofit2.Response;
  * Email static.sadhu@gmail.com
  * Describe: 新闻列表Model类
  */
-public class StoryListModelImpl implements StoryListModel {
+public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> implements StoryListModel {
 
 
     private final TopStoryDao mTopStoryDao;
@@ -35,20 +37,22 @@ public class StoryListModelImpl implements StoryListModel {
     private final APIService apiService;
     private final SimpleDateFormat mParse;
     private final SimpleDateFormat mFormat;
+    private Call<StoryInfo> homePageListCall;
+    private Call<StoryInfo> storyInfoCall;
 
-    public StoryListModelImpl() {
+    public StoryListModelImpl(OnNetRefreshListener<StoryInfo> refreshListener, OnNetLoadMoreListener<List<Story>> loadMoreListener) {
+        super(refreshListener, loadMoreListener);
         mTopStoryDao = DBHelper.getInstance().getDaoSession().getTopStoryDao();
         mStoryDao = DBHelper.getInstance().getDaoSession().getStoryDao();
         apiService = APIHelper.getInstance().create(APIService.class);
 
         mFormat = new SimpleDateFormat("MM月dd日 E", Locale.CHINA);
         mParse = new SimpleDateFormat("yyyyMMdd", Locale.CHINA);
-
     }
 
     @Override
-    public void getHomePageList(final OnRefreshListener onRefreshListener) {
-        Call<StoryInfo> homePageListCall = apiService.getHomePageList();
+    public void getHomePageList() {
+        homePageListCall = apiService.getHomePageList();
         homePageListCall.enqueue(new Callback<StoryInfo>() {
             @Override
             public void onResponse(Call<StoryInfo> call, Response<StoryInfo> response) {
@@ -61,7 +65,7 @@ public class StoryListModelImpl implements StoryListModel {
                         body.stories.get(i).date = body.date;
                     }
                     // step1显示数据
-                    onRefreshListener.onSuccuss(body);
+                    mRefreshListener.onRefreshSuccess(body);
                     // step2先删除
                     mTopStoryDao.deleteAll();
                     // 如果今天已经获取过,只替换今日的,否则删除所有
@@ -81,7 +85,7 @@ public class StoryListModelImpl implements StoryListModel {
                     mStoryDao.insertOrReplaceInTx(body.stories);
                     mTopStoryDao.insertOrReplaceInTx(body.topStories);
                 } else {
-                    onRefreshListener.onError(1);
+                    mRefreshListener.onRefreshError(1);
                 }
             }
 
@@ -95,9 +99,9 @@ public class StoryListModelImpl implements StoryListModel {
                     info.date = stories.get(0).date;
                     info.topStories = topStories;
                     info.stories = stories;
-                    onRefreshListener.onSuccuss(info);
+                    mRefreshListener.onRefreshSuccess(info);
                 } else {
-                    onRefreshListener.onError(2);
+                    mRefreshListener.onRefreshError(2);
                 }
 
 
@@ -107,8 +111,8 @@ public class StoryListModelImpl implements StoryListModel {
     }
 
     @Override
-    public void loadMoreHomePageList(final OnLoadMoreListener onLoadMoreListener, final String date) {
-        Call<StoryInfo> storyInfoCall = apiService.loadMoreHomePageList(date);
+    public void loadMoreHomePageList(final String date) {
+        storyInfoCall = apiService.loadMoreHomePageList(date);
         storyInfoCall.enqueue(new Callback<StoryInfo>() {
             @Override
             public void onResponse(Call<StoryInfo> call, Response<StoryInfo> response) {
@@ -133,7 +137,7 @@ public class StoryListModelImpl implements StoryListModel {
                     // step1 存起来
                     mStoryDao.insertOrReplaceInTx(response.body().stories);
                     // step2 回调
-                    onLoadMoreListener.onSuccuss(response.body().stories);
+                    mLoadMoreListener.onLoadMoreSuccess(response.body().stories);
 
                 }
             }
@@ -152,18 +156,23 @@ public class StoryListModelImpl implements StoryListModel {
                             .orderAsc(StoryDao.Properties.Date)
                             .list();
                     if (list != null && list.size() > 0) {
-                        onLoadMoreListener.onSuccuss(list);
+                        mLoadMoreListener.onLoadMoreSuccess(list);
                     } else {
-                        onLoadMoreListener.onError(0);
+                        mLoadMoreListener.onLoadMoreError(0);
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    onLoadMoreListener.onError(1);
+                    mLoadMoreListener.onLoadMoreError(1);
                 }
 
 
             }
         });
+    }
 
+    @Override
+    public void onDestroy() {
+        if (homePageListCall != null) homePageListCall.cancel();
+        if (storyInfoCall != null) storyInfoCall.cancel();
     }
 }

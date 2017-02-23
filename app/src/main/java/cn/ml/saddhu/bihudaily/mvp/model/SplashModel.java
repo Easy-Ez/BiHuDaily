@@ -7,7 +7,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.Creative;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public interface SplashModel {
+public interface SplashModel extends BaseModel {
     void getSplashInfo(int width, int height);
 
     Creative getSplashBean();

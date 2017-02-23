@@ -28,6 +28,7 @@ public class SplashModelImpl implements SplashModel {
     public static final String TAG = "SplashModelImpl";
     private final CreativeDao mCreativeDao;
     private Creative creative;
+    private Call<Creatives> call;
 
     public SplashModelImpl() {
         mCreativeDao = DBHelper.getInstance().getDaoSession().getCreativeDao();
@@ -36,8 +37,8 @@ public class SplashModelImpl implements SplashModel {
     @Override
     public void getSplashInfo(int width, int height) {
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
         long start = calendar.getTimeInMillis() / 1000;
         calendar.add(Calendar.DATE, 1);
         long end = calendar.getTimeInMillis() / 1000;
@@ -46,7 +47,7 @@ public class SplashModelImpl implements SplashModel {
             creative = list.get(0);
         } else {
             APIService apiService = APIHelper.getInstance().create(APIService.class);
-            Call<Creatives> call = apiService.getSplashImage(String.format(Locale.CHINA, "%d*%d", width, height));
+            call = apiService.getSplashImage(String.format(Locale.CHINA, "%d*%d", width, height));
 
             call.enqueue(new Callback<Creatives>() {
                 @Override
@@ -74,5 +75,10 @@ public class SplashModelImpl implements SplashModel {
     @Override
     public Creative getSplashBean() {
         return creative;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (call != null) call.cancel();
     }
 }

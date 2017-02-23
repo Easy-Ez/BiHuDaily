@@ -87,5 +87,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     }
 
-
+    @Override
+    public void onDestroy() {
+        mPresenter.onDestroy();
+        super.onDestroy();
+    }
 }

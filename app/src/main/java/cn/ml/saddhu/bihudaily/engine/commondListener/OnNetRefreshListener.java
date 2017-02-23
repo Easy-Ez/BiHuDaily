@@ -5,8 +5,9 @@ package cn.ml.saddhu.bihudaily.engine.commondListener;
  * Email static.sadhu@gmail.com
  * Describe: 网络响应回调
  */
-public interface NetCallbackListener<T> {
-    void onSuccess(T t);
+public interface OnNetRefreshListener<R> {
+    void onRefreshSuccess(R r);
 
-    void onError(int code);
+    void onRefreshError(int code);
+
 }

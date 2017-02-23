@@ -13,6 +13,7 @@ import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 import cn.ml.saddhu.bihudaily.R;
@@ -31,6 +32,10 @@ public class StoryDetailFragment extends Fragment {
     NestedScrollView scrollView;
     @ViewById(R.id.wb)
     WebView mWb;
+
+    @FragmentArg
+    String mStoryId;
+
     OnToolBarNeedChangeListener mListener;
     private float mHeaderHeight;
 
@@ -96,5 +101,10 @@ public class StoryDetailFragment extends Fragment {
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, tv, true);
         int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         mHeaderHeight = actionBarHeight + getResources().getDimension(R.dimen.story_header_height);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

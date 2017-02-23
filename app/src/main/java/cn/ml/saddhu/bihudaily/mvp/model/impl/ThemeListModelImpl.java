@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetLoadMoreListener;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.domain.BaseStory;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
 import cn.ml.saddhu.bihudaily.mvp.api.APIHelper;
@@ -26,51 +28,55 @@ import retrofit2.Response;
  * Email static.sadhu@gmail.com
  * Describe:主题界面数据操作接口实现类
  */
-public class ThemeListModelImpl implements ThemeListModel {
+public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>> implements ThemeListModel {
     private APIService mApiService;
     private final Gson mGson;
     private final Type mType;
+    private Call<ResponseBody> baseStoryCall;
+    private Call<ThemeInfo> themePageListCall;
 
-    public ThemeListModelImpl() {
+    public ThemeListModelImpl(OnNetRefreshListener<ThemeInfo> refreshListener, OnNetLoadMoreListener<List<BaseStory>> loadMoreListener) {
+        super(refreshListener, loadMoreListener);
         mApiService = APIHelper.getInstance().create(APIService.class);
         mGson = new Gson();
         mType = new TypeToken<List<BaseStory>>() {
         }.getType();
     }
 
+
     @Override
-    public void getThemePageList(final OnRefreshListener onRefreshListener, String themeId) {
-        Call<ThemeInfo> themePageListCall = mApiService.getThemePageList(themeId);
+    public void getThemePageList(String themeId) {
+        themePageListCall = mApiService.getThemePageList(themeId);
         themePageListCall.enqueue(new Callback<ThemeInfo>() {
             @Override
             public void onResponse(Call<ThemeInfo> call, Response<ThemeInfo> response) {
-                if (onRefreshListener != null) {
+                if (mRefreshListener != null) {
                     ThemeInfo body = response.body();
                     if (body != null) {
-                        onRefreshListener.onSuccuss(body);
+                        mRefreshListener.onRefreshSuccess(body);
                     } else {
-                        onRefreshListener.onError(1);
+                        mRefreshListener.onRefreshError(1);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<ThemeInfo> call, Throwable t) {
-                if (onRefreshListener != null) {
+                if (mRefreshListener != null) {
                     // TODO: 2017/2/12  处理错误类型
-                    onRefreshListener.onError(0);
+                    mRefreshListener.onRefreshError(0);
                 }
             }
         });
     }
 
     @Override
-    public void loadMoreThemePageList(final OnLoadMoreListener onLoadMoreListener, String themeId, String id) {
-        Call<ResponseBody> baseStoryCall = mApiService.loadMoreThemePageList(themeId, id);
+    public void loadMoreThemePageList(String themeId, String id) {
+        baseStoryCall = mApiService.loadMoreThemePageList(themeId, id);
         baseStoryCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (onLoadMoreListener != null) {
+                if (mLoadMoreListener != null) {
                     ResponseBody body = response.body();
                     JSONArray stories = null;
                     try {
@@ -78,26 +84,32 @@ public class ThemeListModelImpl implements ThemeListModel {
                         stories = jsonObject.getJSONArray("stories");
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
-                        onLoadMoreListener.onError(1);
+                        mLoadMoreListener.onLoadMoreError(1);
                     }
                     if (stories == null || stories.length() == 0) {
                         // TODO: 2017/2/12  处理空结果
-                        onLoadMoreListener.onError(2);
+                        mLoadMoreListener.onLoadMoreError(2);
                     } else {
                         List<BaseStory> baseStories = mGson.fromJson(stories.toString(), mType);
-                        onLoadMoreListener.onSuccuss(baseStories);
+                        mLoadMoreListener.onLoadMoreSuccess(baseStories);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if (onLoadMoreListener != null) {
+                if (mLoadMoreListener != null) {
                     // TODO: 2017/2/12  处理错误类型
-                    onLoadMoreListener.onError(0);
+                    mLoadMoreListener.onLoadMoreError(0);
                 }
             }
         });
 
+    }
+
+    @Override
+    public void onDestroy() {
+        if (baseStoryCall != null) baseStoryCall.cancel();
+        if (themePageListCall != null) themePageListCall.cancel();
     }
 }

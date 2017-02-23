@@ -116,12 +116,6 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
         isLoadMore = false;
     }
 
-    @Override
-    public void onDestroy() {
-        mPresenter.onDestroy();
-        super.onDestroy();
-    }
-
 
     @Override
     public void onEditorItemClick(List<Editor> editors) {
@@ -135,5 +129,10 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
     @Override
     public void onNormalItemClick(BaseStory story) {
         // 进入文章详情
+    }
+    @Override
+    public void onDestroy() {
+        mPresenter.onDestroy();
+        super.onDestroy();
     }
 }

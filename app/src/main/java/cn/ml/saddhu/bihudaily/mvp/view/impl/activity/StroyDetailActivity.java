@@ -16,13 +16,18 @@ import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
 
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnToolBarNeedChangeListener;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
 import cn.ml.saddhu.bihudaily.engine.util.StringUtils;
-import cn.ml.saddhu.bihudaily.mvp.view.MainView;
+import cn.ml.saddhu.bihudaily.mvp.presenter.StoryActDetailPresetner;
+import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryActDetailPresenterImpl;
+import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryDetailFragment_;
 
 /**
@@ -31,16 +36,22 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryDetailFragment_;
  * Describe: 详情页
  */
 @EActivity(R.layout.act_story_detail)
-public class StroyDetailActivity extends AppCompatActivity implements MainView, OnToolBarNeedChangeListener, View.OnClickListener {
+public class StroyDetailActivity extends AppCompatActivity implements StoryDetailView, OnToolBarNeedChangeListener, View.OnClickListener {
     @ViewById
     Toolbar toolbar;
     @ViewById
     ViewPager vp_stroy_detail;
+    @Extra
+    ArrayList<String> mIdLists;
+    @Extra
+    int mPosition;
 
     private StoryDetailExtra mExtra;
+    private StoryActDetailPresetner mPresetner;
 
     @AfterViews
     void afterViews() {
+        mPresetner = new StoryActDetailPresenterImpl(this);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -48,6 +59,15 @@ public class StroyDetailActivity extends AppCompatActivity implements MainView, 
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         vp_stroy_detail.setAdapter(new MyPagerFragment(getSupportFragmentManager()));
+        vp_stroy_detail.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                mPresetner.getStoryInfoExtra(mIdLists.get(position));
+            }
+        });
+        vp_stroy_detail.setCurrentItem(mPosition, true);
+
     }
 
     @Override
@@ -125,12 +145,21 @@ public class StroyDetailActivity extends AppCompatActivity implements MainView, 
 
         @Override
         public Fragment getItem(int position) {
-            return StoryDetailFragment_.builder().build();
+            return StoryDetailFragment_
+                    .builder()
+                    .mStoryId(mIdLists.get(position))
+                    .build();
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return mIdLists.size();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresetner.onDestroy();
     }
 }

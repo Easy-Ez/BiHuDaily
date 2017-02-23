@@ -10,22 +10,8 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public interface StoryListModel {
+public interface StoryListModel  extends BaseModel{
+    void getHomePageList();
 
-    void getHomePageList(OnRefreshListener onRefreshListener);
-
-    void loadMoreHomePageList(OnLoadMoreListener onLoadMoreListener, String date);
-
-
-    interface OnRefreshListener {
-        void onSuccuss(StoryInfo info);
-
-        void onError(int code);
-    }
-
-    interface OnLoadMoreListener {
-        void onSuccuss(List<Story> info);
-
-        void onError(int code);
-    }
+    void loadMoreHomePageList(String date);
 }
