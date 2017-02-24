@@ -25,7 +25,7 @@ import org.androidannotations.annotations.ViewById;
 
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
-import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
+import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.NavigationDrawerFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryListFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryListFragment_;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
     NavigationDrawerFragment mDrawerFrag;
     StoryListFragment mStoryListFragment;
     ThemeListFragment mThemeListFragment;
-    private DayNightSpUtil mUtil = new DayNightSpUtil(this);
+    private SharePreferenceUtil mUtil = new SharePreferenceUtil(this);
 
 
     @Override
@@ -147,12 +147,12 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
             case Configuration.UI_MODE_NIGHT_YES:
                 isDark = false;
-                mUtil.setThemeMode(DayNightSpUtil.THEME_MODE_LIGHT);
+                mUtil.setThemeMode(SharePreferenceUtil.THEME_MODE_LIGHT);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case Configuration.UI_MODE_NIGHT_NO:
                 isDark = true;
-                mUtil.setThemeMode(DayNightSpUtil.THEME_MODE_DARK);
+                mUtil.setThemeMode(SharePreferenceUtil.THEME_MODE_DARK);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
         }

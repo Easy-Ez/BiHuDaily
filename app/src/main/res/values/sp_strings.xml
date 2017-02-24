@@ -1,4 +1,11 @@
 <resources>
-    <string name="sp_theme_file_name">themeMode</string>
-    <string name="sp_key_name">mode</string>
+    <string name="preference_key_theme_mode">theme_mode</string>
+    <string name="preference_key_big_font_mode_open">text_mode</string>
+    <string name="preference_key_no_image_mode_open">no_image_mode_open</string>
+    <string name="preference_key_last_cache_time"></string>
+    <string name="preference_key_last_offline_time"></string>
+    <string name="preference_key_push_open"></string>
+    <string name="preference_key_recommendation_reminder"></string>
+    <string name="preference_key_shake_to_dark_mode_open"></string>
+    <string name="preference_key_test_server"></string>
 </resources>

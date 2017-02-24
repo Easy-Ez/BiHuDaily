@@ -9,7 +9,7 @@ import com.orhanobut.logger.Logger;
 
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoader;
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoaderConfiguration;
-import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
+import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
 
 /**
  * Created by sadhu on 2016/11/7.
@@ -20,7 +20,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DayNightSpUtil sp = new DayNightSpUtil(this);
+        SharePreferenceUtil sp = new SharePreferenceUtil(this);
         if (sp.isLight()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else {

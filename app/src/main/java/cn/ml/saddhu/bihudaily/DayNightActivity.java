@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 
-import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
+import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
 
 /**
  * Created by sadhu on 2017/2/8.
@@ -15,7 +15,7 @@ import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
  */
 public class DayNightActivity extends AppCompatActivity {
 
-    protected final DayNightSpUtil mUtil = new DayNightSpUtil(this);
+    protected final SharePreferenceUtil mUtil = new SharePreferenceUtil(this);
 
 
     @Override
@@ -43,11 +43,11 @@ public class DayNightActivity extends AppCompatActivity {
     protected final boolean toggleThemeSetting() {
 //        boolean isDark = false;
 //        if (mUtil.isLight()) {
-//            mUtil.setThemeMode(DayNightSpUtil.THEME_MODE_DARK);
+//            mUtil.setThemeMode(SharePreferenceUtil.THEME_MODE_DARK);
 //            setTheme(R.style.AppTheme_NoActionBar_Dark);
 //            isDark = true;
 //        } else if (mUtil.isDark()) {
-//            mUtil.setThemeMode(DayNightSpUtil.THEME_MODE_LIGHT);
+//            mUtil.setThemeMode(SharePreferenceUtil.THEME_MODE_LIGHT);
 //            setTheme(R.style.AppTheme_NoActionBar_Light);
 //            isDark = false;
 //        }

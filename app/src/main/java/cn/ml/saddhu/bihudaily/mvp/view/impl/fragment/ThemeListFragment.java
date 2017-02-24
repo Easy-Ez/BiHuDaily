@@ -19,7 +19,7 @@ import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.BaseStory;
 import cn.ml.saddhu.bihudaily.engine.domain.Editor;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
-import cn.ml.saddhu.bihudaily.engine.util.DayNightSpUtil;
+import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
 import cn.ml.saddhu.bihudaily.mvp.adapter.ThemePageAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.ThemeListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.ThemeListPresenterImpl;
@@ -48,7 +48,7 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
     @AfterViews
     void afterViews() {
         Logger.d("StoryListFragment method");
-        DayNightSpUtil mUtil = new DayNightSpUtil(getContext());
+        SharePreferenceUtil mUtil = new SharePreferenceUtil(getContext());
         boolean isDark = mUtil.isDark();
         refresh.setOnRefreshListener(this);
         refresh.setColorSchemeResources(isDark ? R.color.color22 : R.color.colorPrimary);

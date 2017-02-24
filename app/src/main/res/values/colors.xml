@@ -47,4 +47,5 @@
     <color name="theme_editor_divider">@color/colore6</color>
     <color name="theme_editor_name">@color/color33</color>
     <color name="theme_editor_bio">@color/color99</color>
+    <color name="story_detail_bg">@color/white</color>
 </resources>

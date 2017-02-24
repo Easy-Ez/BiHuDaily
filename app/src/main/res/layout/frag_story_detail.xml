@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/story_detail_bg">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/story_detail_bg">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -23,16 +27,18 @@
                 android:layout_marginTop="?attr/actionBarSize"
                 app:layout_collapseMode="parallax">
 
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg"
-                    app:layout_collapseMode="parallax" />
+                    app:placeholderImage="@drawable/image_top_default"
+                    app:placeholderImageScaleType="fitXY"
+                    fresco:actualImageScaleType="focusCrop"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/mask" />
+                    android:background="@drawable/mask"/>
 
                 <TextView
                     android:id="@+id/story_title"
@@ -50,7 +56,7 @@
                     android:textColor="@color/white"
                     android:textIsSelectable="false"
                     android:textSize="22sp"
-                    tools:text="这样才能鼓励大家把共享单车停在该停的地方" />
+                    tools:text="这样才能鼓励大家把共享单车停在该停的地方"/>
 
                 <TextView
                     android:id="@+id/story_image_source"
@@ -67,7 +73,7 @@
                     android:textColor="#b3ffffff"
                     android:textIsSelectable="false"
                     android:textSize="12sp"
-                    tools:text="Chris Dusitin / CC BY" />
+                    tools:text="Chris Dusitin / CC BY"/>
             </RelativeLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -80,9 +86,9 @@
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <WebView
+        <cn.ml.saddhu.bihudaily.widget.StoryWebView
             android:id="@+id/wb"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
