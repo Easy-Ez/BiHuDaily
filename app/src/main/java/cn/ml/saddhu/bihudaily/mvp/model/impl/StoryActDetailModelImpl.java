@@ -26,7 +26,7 @@ public class StoryActDetailModelImpl extends BaseModelImpl<StoryDetailExtra, Voi
 
     @Override
     public void getStoryInfoExtral(String storyId) {
-        mCall = apiService.getStoryExtraInfo(storyId);
+        mCall = apiService.getStoryDetailExtra(storyId);
         mCall.enqueue(new Callback<StoryDetailExtra>() {
                           @Override
                           public void onResponse(Call<StoryDetailExtra> call, Response<StoryDetailExtra> response) {

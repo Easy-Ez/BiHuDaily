@@ -38,9 +38,9 @@ public interface APIService {
 
 
     @GET("/api/4/story/{storyId}")
-    Call<StoryDetail> getStoryInfo(@Path("storyId") String storyId);
+    Call<StoryDetail> getStoryDetail(@Path("storyId") String storyId);
 
     @GET("/api/4/story-extra/{storyId}")
-    Call<StoryDetailExtra> getStoryExtraInfo(@Path("storyId") String storyId);
+    Call<StoryDetailExtra> getStoryDetailExtra(@Path("storyId") String storyId);
 
 }

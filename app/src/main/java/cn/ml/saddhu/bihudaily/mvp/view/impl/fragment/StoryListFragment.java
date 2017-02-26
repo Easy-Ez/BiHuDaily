@@ -23,7 +23,7 @@ import cn.ml.saddhu.bihudaily.mvp.adapter.HomePageAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.StoryListView;
-import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StroyDetailActivity_;
+import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
 
 /**
  * Created by sadhu on 2016/11/14.
@@ -59,8 +59,7 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
     @AfterViews
     void afterViews() {
         Logger.d("StoryListFragment method");
-        SharePreferenceUtil mUtil = new SharePreferenceUtil(getContext());
-        boolean isDark = mUtil.isDark();
+        boolean isDark = SharePreferenceUtil.isDark(getContext());
         refresh.setOnRefreshListener(this);
         refresh.setColorSchemeResources(isDark ? R.color.color22 : R.color.colorPrimary);
         mLayoutManger = new LinearLayoutManager(getContext());
@@ -156,7 +155,7 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
     @Override
     public void onLooperItemClick(int position) {
         Logger.d("onLooperItemClick position %d", position);
-        StroyDetailActivity_
+        StoryDetailActivity_
                 .intent(this)
                 .mIdLists(mPresenter.getLooperIdList())
                 .mPosition(position)

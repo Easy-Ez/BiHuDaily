@@ -1,11 +1,15 @@
 package cn.ml.saddhu.bihudaily;
 
 import android.app.Application;
+import android.os.Environment;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.orhanobut.logger.Logger;
+
+import java.io.File;
 
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoader;
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoaderConfiguration;
@@ -17,11 +21,13 @@ import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
  * Describe:
  */
 public class MyApplication extends Application {
+    public static Application mContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        SharePreferenceUtil sp = new SharePreferenceUtil(this);
-        if (sp.isLight()) {
+        mContext = this;
+        if (SharePreferenceUtil.isLight(this)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -29,8 +35,22 @@ public class MyApplication extends Application {
         Logger.init("cai")
                 .methodCount(1)
                 .hideThreadInfo();
+        File directory;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            directory = getExternalCacheDir().getAbsoluteFile();
+        } else {
+            directory = getCacheDir().getAbsoluteFile();
+        }
+
+        DiskCacheConfig smallImageDiskCacheConfig = DiskCacheConfig
+                .newBuilder(this)
+                .setMaxCacheSize(100 * 1024 * 1024)
+                .setBaseDirectoryPath(directory)
+                .setBaseDirectoryName("zhihuImageCache")
+                .build();
         ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
                 .setDownsampleEnabled(true)
+                .setSmallImageDiskCacheConfig(smallImageDiskCacheConfig)
                 .build();
         Fresco.initialize(this, config);
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
@@ -44,6 +64,5 @@ public class MyApplication extends Application {
                 .setDiskCacheDirName("image")
                 .build();
         ImageLoader.getInstance().init(configuration);
-
     }
 }

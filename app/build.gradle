@@ -48,23 +48,21 @@ dependencies {
     })
     compile 'com.mcxiaoke.gradle:packer-helper:1.0.8'
     // 打包
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
-    compile 'com.android.support:cardview-v7:25.1.1'
-    compile 'com.android.support:recyclerview-v7:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support:cardview-v7:25.2.0'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
     testCompile 'junit:junit:4.12'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     // 其他依赖
-    compile 'com.facebook.fresco:fresco:0.12.0'
+    compile 'com.facebook.fresco:fresco:1.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.2'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile group: 'com.google.http-client', name: 'google-http-client-jackson2', version: '1.22.0'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.10.2'
-
-
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

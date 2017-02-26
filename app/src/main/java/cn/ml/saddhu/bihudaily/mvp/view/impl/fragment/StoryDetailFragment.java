@@ -25,6 +25,9 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryDetail;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryType;
 import cn.ml.saddhu.bihudaily.engine.util.HTMLUtils;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
+import cn.ml.saddhu.bihudaily.mvp.presenter.StoryFragDetailPresenter;
+import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryFragDetailPresenterImpl;
+import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailFragView;
 import cn.ml.saddhu.bihudaily.widget.StoryWebView;
 
 /**
@@ -33,7 +36,7 @@ import cn.ml.saddhu.bihudaily.widget.StoryWebView;
  * 文章详情Fragment
  */
 @EFragment(R.layout.frag_story_detail)
-public class StoryDetailFragment extends LazyLoadForViewPageFragment {
+public class StoryDetailFragment extends LazyLoadForViewPageFragment implements StoryDetailFragView {
     @ViewById(R.id.coordinator_layout)
     CoordinatorLayout coordinator_layout;
     @ViewById(R.id.appBarLayout)
@@ -55,6 +58,7 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment {
 
     OnToolBarNeedChangeListener mListener;
     private float mHeaderHeight;
+    private StoryFragDetailPresenter mPresenter;
 
     @Override
     public void onAttach(Context context) {
@@ -69,7 +73,7 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment {
 
     @AfterViews
     void afterViews() {
-
+        mPresenter = new StoryFragDetailPresenterImpl(this);
         coordinator_layout.setVisibility(View.GONE);
         calculateHeaderSize();
         mWb.getSettings().setJavaScriptEnabled(true);
@@ -122,8 +126,8 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment {
         mHeaderHeight = actionBarHeight + getResources().getDimension(R.dimen.story_header_height);
     }
 
-
-    private void setView(StoryDetail storyInfoDetail) {
+    @Override
+    public void setViewWithData(StoryDetail storyInfoDetail) {
         if (!TextUtils.isEmpty(storyInfoDetail.image)) {
             sdv_cover.setImageURI(storyInfoDetail.image);
         }
@@ -131,7 +135,6 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment {
         story_image_source.setText(storyInfoDetail.image_source);
 
         if (!TextUtils.isEmpty(storyInfoDetail.body)) {
-            StoryWebView v0_1 = mWb;
             String v1 = "file:///android_asset/";
             String body = storyInfoDetail.body;
             String v2 = "";
@@ -166,14 +169,25 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment {
     }
 
     @Override
+    public void loadDataWithBaseUrl(String htmlString) {
+        mWb.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
+    }
+
+    @Override
+    public void loadUrl(String url) {
+        mWb.loadUrl(url);
+    }
+
+    @Override
     void lazyLoadData() {
         coordinator_layout.setVisibility(View.VISIBLE);
-        mWb.loadUrl("https://segmentfault.com/");
+        mPresenter.getStoryDetail(mStoryId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mPresenter.onDestroy();
     }
 
 

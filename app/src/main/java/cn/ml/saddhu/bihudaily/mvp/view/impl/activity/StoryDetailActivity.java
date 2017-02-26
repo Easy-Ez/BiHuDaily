@@ -27,7 +27,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
 import cn.ml.saddhu.bihudaily.engine.util.StringUtils;
 import cn.ml.saddhu.bihudaily.mvp.presenter.StoryActDetailPresetner;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryActDetailPresenterImpl;
-import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailView;
+import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailActView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryDetailFragment_;
 
 /**
@@ -36,7 +36,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryDetailFragment_;
  * Describe: 详情页
  */
 @EActivity(R.layout.act_story_detail)
-public class StroyDetailActivity extends AppCompatActivity implements StoryDetailView, OnToolBarNeedChangeListener, View.OnClickListener {
+public class StoryDetailActivity extends AppCompatActivity implements StoryDetailActView, OnToolBarNeedChangeListener, View.OnClickListener {
     @ViewById
     Toolbar toolbar;
     @ViewById
@@ -63,7 +63,7 @@ public class StroyDetailActivity extends AppCompatActivity implements StoryDetai
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                mPresetner.getStoryInfoExtra(mIdLists.get(position));
+                mPresetner.getStoryDetailExtra(mIdLists.get(position));
             }
         });
         vp_stroy_detail.setCurrentItem(mPosition, true);

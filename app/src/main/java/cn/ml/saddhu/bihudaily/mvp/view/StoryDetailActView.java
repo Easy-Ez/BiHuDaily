@@ -7,6 +7,6 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
  * Email static.sadhu@gmail.com
  * Describe: 文章详情界面
  */
-public interface StoryDetailView extends BaseView {
+public interface StoryDetailActView extends BaseView {
     void setToolBarInfo(StoryDetailExtra extra);
 }

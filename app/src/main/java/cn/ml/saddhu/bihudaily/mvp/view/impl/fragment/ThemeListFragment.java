@@ -48,8 +48,7 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
     @AfterViews
     void afterViews() {
         Logger.d("StoryListFragment method");
-        SharePreferenceUtil mUtil = new SharePreferenceUtil(getContext());
-        boolean isDark = mUtil.isDark();
+        boolean isDark = SharePreferenceUtil.isDark(getContext());
         refresh.setOnRefreshListener(this);
         refresh.setColorSchemeResources(isDark ? R.color.color22 : R.color.colorPrimary);
         mLayoutManger = new LinearLayoutManager(getContext());
@@ -130,6 +129,7 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
     public void onNormalItemClick(BaseStory story) {
         // 进入文章详情
     }
+
     @Override
     public void onDestroy() {
         mPresenter.onDestroy();

@@ -30,7 +30,7 @@ public class SharePreferenceUtil {
     public static boolean isNoPicMode(Context context) {
         return (context != null
                 && (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.preference_key_no_image_mode_open), false))
-                && !NetUtils.isWifi(context))
+                && !NetUtils.isWifi(context));
     }
 
     /**
@@ -38,10 +38,8 @@ public class SharePreferenceUtil {
      *
      * @return
      */
-    public int getThemeMode() {
-        SharedPreferences sp = mContext.getSharedPreferences(mContext.getResources().getString(R.string.sp_file_name),
-                Context.MODE_PRIVATE);
-        int mode = sp.getInt(mContext.getResources().getString(R.string.sp_key_theme_mode),
+    public static int getThemeMode(Context context) {
+        int mode = PreferenceManager.getDefaultSharedPreferences(context).getInt(context.getResources().getString(R.string.preference_key_theme_mode),
                 THEME_MODE_LIGHT);
         if (mode < 1 || mode > 2) {
             mode = THEME_MODE_LIGHT;
@@ -49,21 +47,12 @@ public class SharePreferenceUtil {
         return mode;
     }
 
-    public boolean isLight() {
-        return getThemeMode() == THEME_MODE_LIGHT;
+    public static boolean isLight(Context context) {
+        return getThemeMode(context) == THEME_MODE_LIGHT;
     }
 
-    public boolean isDark() {
-        return getThemeMode() == THEME_MODE_DARK;
-    }
-
-    public static boolean d(Context arg3) {
-        boolean v0 = false;
-        if (arg3 != null && (PreferenceManager.getDefaultSharedPreferences(arg3).getBoolean(arg3.getString(2131165318), false)) && !i.a(arg3)) {
-            v0 = true;
-        }
-
-        return v0;
+    public static boolean isDark(Context context) {
+        return getThemeMode(context) == THEME_MODE_DARK;
     }
 
     /**
@@ -71,10 +60,10 @@ public class SharePreferenceUtil {
      *
      * @param mode 模式 @see {@link ThemeMode}
      */
-    public void setThemeMode(@ThemeMode int mode) {
-        SharedPreferences sp = mContext.getSharedPreferences(mContext.getResources().getString(R.string.sp_file_name), Context.MODE_PRIVATE);
+    public static void setThemeMode(Context context, @ThemeMode int mode) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = sp.edit();
-        edit.putInt(mContext.getResources().getString(R.string.sp_key_theme_mode),
+        edit.putInt(context.getResources().getString(R.string.preference_key_theme_mode),
                 mode);
         edit.apply();
     }

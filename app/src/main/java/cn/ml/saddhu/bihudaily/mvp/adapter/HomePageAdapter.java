@@ -227,7 +227,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onLooperItemClick((viewPagerCurrentPosition + 1) % info.topStories.size());
+                    mOnItemClickListener.onLooperItemClick(viewPagerCurrentPosition % info.topStories.size());
                 }
                 return true;
             }

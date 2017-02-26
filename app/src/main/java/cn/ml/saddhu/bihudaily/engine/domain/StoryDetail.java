@@ -1,7 +1,6 @@
 package cn.ml.saddhu.bihudaily.engine.domain;
 
-import com.google.api.client.json.GenericJson;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -181,18 +180,18 @@ public class StoryDetail {
 
 
     public String sectionOrThemeInfo() {
-        GenericJson v1 = new GenericJson();
-        v1.setFactory(JacksonFactory.getDefaultInstance());
+        JsonObject v1 = new JsonObject();
+
         if (this.theme != null) {
-            v1.put("theme_id", this.theme.getId());
-            v1.put("theme_name", this.theme.getName());
-            v1.put("theme_image", this.theme.getThumbnail());
+            v1.addProperty("theme_id", this.theme.getId());
+            v1.addProperty("theme_name", this.theme.getName());
+            v1.addProperty("theme_image", this.theme.getThumbnail());
         }
 
         if (this.section != null) {
-            v1.put("section_id", Integer.valueOf(this.section.getId()));
-            v1.put("section_name", this.section.getName());
-            v1.put("section_thumbnail", this.section.getThumbnailUrl());
+            v1.addProperty("section_id", this.section.getId());
+            v1.addProperty("section_name", this.section.getName());
+            v1.addProperty("section_thumbnail", this.section.getThumbnailUrl());
         }
 
         Boolean v0 = this.isThemeSubscribed();
@@ -200,7 +199,7 @@ public class StoryDetail {
             v0 = false;
         }
 
-        v1.put("theme_subscribed", v0);
+        v1.addProperty("theme_subscribed", v0);
         return v1.toString().replaceAll("\"", "\\\\\"");
     }
 

@@ -6,5 +6,5 @@ package cn.ml.saddhu.bihudaily.mvp.presenter;
  * Describe: 文章详情相关接口
  */
 public interface StoryActDetailPresetner extends BasePresenter {
-    void getStoryInfoExtra(String storyId);
+    void getStoryDetailExtra(String storyId);
 }

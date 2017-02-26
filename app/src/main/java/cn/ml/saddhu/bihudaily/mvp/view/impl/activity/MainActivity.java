@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
     NavigationDrawerFragment mDrawerFrag;
     StoryListFragment mStoryListFragment;
     ThemeListFragment mThemeListFragment;
-    private SharePreferenceUtil mUtil = new SharePreferenceUtil(this);
 
 
     @Override
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem item = menu.findItem(R.id.action_theme);
-        boolean isDark = mUtil.isDark();
+        boolean isDark = SharePreferenceUtil.isDark(this);
         item.setTitle(isDark ? getString(R.string.light_mode) : getString(R.string.dark_mode));
         return true;
     }
@@ -147,12 +146,12 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
             case Configuration.UI_MODE_NIGHT_YES:
                 isDark = false;
-                mUtil.setThemeMode(SharePreferenceUtil.THEME_MODE_LIGHT);
+                SharePreferenceUtil.setThemeMode(this, SharePreferenceUtil.THEME_MODE_LIGHT);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case Configuration.UI_MODE_NIGHT_NO:
                 isDark = true;
-                mUtil.setThemeMode(SharePreferenceUtil.THEME_MODE_DARK);
+                SharePreferenceUtil.setThemeMode(this, SharePreferenceUtil.THEME_MODE_DARK);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
         }
