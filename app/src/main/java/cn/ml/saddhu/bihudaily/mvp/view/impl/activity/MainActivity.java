@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             // 设置选项
+            SettingsActivity_.intent(this).start();
             return true;
         } else if (id == R.id.action_message) {
             // 消息

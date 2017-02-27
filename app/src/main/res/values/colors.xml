@@ -48,4 +48,5 @@
     <color name="theme_editor_name">@color/color33</color>
     <color name="theme_editor_bio">@color/color99</color>
     <color name="story_detail_bg">@color/white</color>
+    <color name="settings_accent_color">@color/colorPrimary</color>
 </resources>

@@ -12,7 +12,8 @@
     <string name="drawer_favorite">我的收藏</string>
     <string name="drawer_offline">离线下载</string>
     <string name="drawer_user_default_name">请登入</string>
-    <string name="settings">设置选项</string>
+    <string name="settings_preference">设置选项</string>
+    <string name="settings">设置</string>
     <string name="dark_mode">夜间模式</string>
     <string name="light_mode">日间模式</string>
     <string name="message">消息</string>
@@ -20,4 +21,15 @@
     <string name="subscribe">订阅</string>
     <string name="editor">主编</string>
     <string name="editor_profile">主编资料</string>
+    <string name="routine">常规</string>
+    <string name="automatic_download_offline">自动离线下载</string>
+    <string name="automatic_download_offline_summary">仅Wi-Fi下可用，自动下载最新内容</string>
+    <string name="no_image_mode">无图模式</string>
+    <string name="no_image_mode_summary">2G/3G 网络下不下载图片</string>
+    <string name="big_font">大字号</string>
+    <string name="other">其他</string>
+    <string name="push_message">推送消息</string>
+    <string name="comment_share_to_weibo">点评分享到微博</string>
+    <string name="delete_cache">清除缓存</string>
+    <string name="feed_back">反馈</string>
 </resources>
