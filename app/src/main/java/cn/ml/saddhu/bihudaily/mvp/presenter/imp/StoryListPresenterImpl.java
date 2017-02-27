@@ -43,6 +43,15 @@ public class StoryListPresenterImpl implements StoryListPresenter, OnNetRefreshL
     }
 
     @Override
+    public ArrayList<String> getNormalIdList() {
+        ArrayList<String> normalIds = new ArrayList<>();
+        for (Story story : mStoryInfo.stories) {
+            normalIds.add(story.id);
+        }
+        return normalIds;
+    }
+
+    @Override
     public void getHomePageList() {
         mModel.getHomePageList();
     }

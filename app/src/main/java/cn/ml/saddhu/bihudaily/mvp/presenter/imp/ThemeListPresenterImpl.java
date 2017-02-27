@@ -1,5 +1,6 @@
 package cn.ml.saddhu.bihudaily.mvp.presenter.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetLoadMoreListener;
@@ -37,6 +38,15 @@ public class ThemeListPresenterImpl implements ThemeListPresenter, OnNetRefreshL
         mModel.loadMoreThemePageList(themeId, mThemeInfo.stories.get(mThemeInfo.stories.size() - 1).id);
     }
 
+    @Override
+    public ArrayList<String> getThemeIdList() {
+        ArrayList<String> ThemeIds = new ArrayList<>();
+        for (BaseStory story : mThemeInfo.stories) {
+            ThemeIds.add(story.id);
+        }
+        return ThemeIds;
+
+    }
 
     @Override
     public void onRefreshSuccess(ThemeInfo themeInfo) {

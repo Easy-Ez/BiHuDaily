@@ -1,5 +1,7 @@
 package cn.ml.saddhu.bihudaily.mvp.presenter;
 
+import java.util.ArrayList;
+
 /**
  * Created by sadhu on 2017/2/11.
  * Email static.sadhu@gmail.com
@@ -15,4 +17,10 @@ public interface ThemeListPresenter extends BasePresenter {
      * 加载更多
      */
     void loadMoreThemePageList(String themeId);
+
+    /**
+     * 获取id集合
+     * @return 文章id集合
+     */
+    ArrayList<String> getThemeIdList();
 }

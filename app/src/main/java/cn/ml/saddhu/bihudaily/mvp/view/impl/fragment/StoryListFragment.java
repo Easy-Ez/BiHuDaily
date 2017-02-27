@@ -150,6 +150,11 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
     @Override
     public void onNormalItemClick(int position) {
         Logger.d("onNormalItemClick position %d", position);
+        StoryDetailActivity_
+                .intent(this)
+                .mIdLists(mPresenter.getNormalIdList())
+                .mPosition(position)
+                .start();
     }
 
     @Override

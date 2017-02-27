@@ -174,12 +174,10 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        Logger.d("onTouch down");
                         if (info.topStories.size() > 1) {
                             mHandler.removeCallbacksAndMessages(null);
                         }
                     } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                        Logger.d("onTouch up");
                         if (info.topStories.size() > 1) {
                             mHandler.postDelayed(new Task(), AUTO_NEXT_MILLIS);
                         }

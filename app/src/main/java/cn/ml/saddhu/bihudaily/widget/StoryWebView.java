@@ -12,6 +12,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -79,6 +81,14 @@ public class StoryWebView extends WebView {
         this.loadUrl("javascript:" + methodName + "(" + ("\'" + TextUtils.join("\',\'", arguments) + "\'") + ");");
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mHandler.removeCallbacksAndMessages(null);
+        mHandler = null;
+        Logger.d("onDetachedFromWindow");
+    }
+
     @JavascriptInterface
     public void clickToLoadImage(final String path) {
         if (!TextUtils.isEmpty(path)) {
@@ -120,11 +130,12 @@ public class StoryWebView extends WebView {
     }
 
     @JavascriptInterface
-    public void openImage(String arg4) {
+    public void openImage(String url) {
 //        Context v0 = this.getContext();
 //        Intent v1 = new Intent(v0, ImageViewActivity_.class);
 //        v1.putExtra("extra_image_url", arg4);
 //        ActivityCompat.startActivity(((Activity) v0), v1, null);
+        Logger.i("openImage :%s", url);
     }
 
     public final class MyWebViewClient extends WebViewClient {

@@ -168,7 +168,7 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Override
         public void onClick(View view) {
             if (mListener != null) {
-                mListener.onNormalItemClick(mThemeInfo.stories.get(getAdapterPosition() - 1));
+                mListener.onNormalItemClick( getAdapterPosition() - 1);
             }
         }
     }
@@ -180,6 +180,6 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public interface OnItemClickListener {
         void onEditorItemClick(List<Editor> editors);
 
-        void onNormalItemClick(BaseStory story);
+        void onNormalItemClick(int position);
     }
 }

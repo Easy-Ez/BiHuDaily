@@ -3,7 +3,7 @@ package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 import android.support.annotation.FloatRange;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -58,7 +58,8 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        vp_stroy_detail.setAdapter(new MyPagerFragment(getSupportFragmentManager()));
+        vp_stroy_detail.setOffscreenPageLimit(1);
+        vp_stroy_detail.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager()));
         vp_stroy_detail.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -67,6 +68,9 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
             }
         });
         vp_stroy_detail.setCurrentItem(mPosition, true);
+        if (mPosition == 0) {
+            mPresetner.getStoryDetailExtra(mIdLists.get(mPosition));
+        }
 
     }
 
@@ -137,9 +141,9 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
     }
 
 
-    class MyPagerFragment extends FragmentPagerAdapter {
+    class MyPagerFragmentAdapter extends FragmentStatePagerAdapter {
 
-        public MyPagerFragment(FragmentManager fm) {
+        public MyPagerFragmentAdapter(FragmentManager fm) {
             super(fm);
         }
 

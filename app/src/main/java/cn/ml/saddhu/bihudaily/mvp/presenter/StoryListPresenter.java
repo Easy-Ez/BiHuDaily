@@ -1,7 +1,6 @@
 package cn.ml.saddhu.bihudaily.mvp.presenter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
 
@@ -30,7 +29,24 @@ public interface StoryListPresenter extends BasePresenter {
      */
     String getTagName(int position, boolean hasLooper);
 
+    /**
+     * 获取头部信息
+     *
+     * @param storyInfo
+     */
     void setData(StoryInfo storyInfo);
 
+    /**
+     * 获取轮播的所有id
+     *
+     * @return
+     */
     ArrayList<String> getLooperIdList();
+
+    /**
+     * 获取列表的所有id
+     *
+     * @return
+     */
+    ArrayList<String> getNormalIdList();
 }

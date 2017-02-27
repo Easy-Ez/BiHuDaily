@@ -25,6 +25,7 @@ import cn.ml.saddhu.bihudaily.mvp.presenter.ThemeListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.ThemeListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.ThemeListView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.EditorListActivity_;
+import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
 
 /**
  * Created by sadhu on 2017/2/11.
@@ -126,8 +127,13 @@ public class ThemeListFragment extends Fragment implements ThemeListView, SwipeR
     }
 
     @Override
-    public void onNormalItemClick(BaseStory story) {
+    public void onNormalItemClick(int position) {
         // 进入文章详情
+        StoryDetailActivity_
+                .intent(this)
+                .mIdLists(mPresenter.getThemeIdList())
+                .mPosition(position)
+                .start();
     }
 
     @Override
