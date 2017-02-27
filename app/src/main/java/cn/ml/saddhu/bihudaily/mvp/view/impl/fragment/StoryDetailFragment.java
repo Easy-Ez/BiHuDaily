@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.webkit.WebSettings;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -41,6 +42,8 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
     CoordinatorLayout coordinator_layout;
     @ViewById(R.id.appBarLayout)
     AppBarLayout appBarLayout;
+    @ViewById(R.id.topHeader)
+    RelativeLayout topHeader;
     @ViewById(R.id.nested_scrollview)
     NestedScrollView scrollView;
 
@@ -87,7 +90,8 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 Logger.d("getTop:" + appBarLayout.getTop());
-                if (mListener != null && Math.abs(appBarLayout.getTop()) == mHeaderHeight) {
+                // 处理下误差
+                if (mListener != null && Math.abs(Math.abs(appBarLayout.getTop()) - mHeaderHeight) <= 1) {
                     if (scrollY > oldScrollY) {
                         // scroll to top
                         mListener.setToolBarAlpha(0.0f);
@@ -130,6 +134,9 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
     public void setViewWithData(StoryDetail storyInfoDetail) {
         if (!TextUtils.isEmpty(storyInfoDetail.image)) {
             sdv_cover.setImageURI(storyInfoDetail.image);
+            topHeader.setVisibility(View.VISIBLE);
+        } else {
+            topHeader.setVisibility(View.GONE);
         }
         story_title.setText(storyInfoDetail.title);
         story_image_source.setText(storyInfoDetail.image_source);
