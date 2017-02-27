@@ -172,7 +172,6 @@ public class ImageLoader {
             Bitmap bm = null;
             try {
                 String key = MD5Utils.getMD5(urlStr);
-                Logger.d("key:" + key);
                 DiskLruCache.Snapshot snapshot = mDiskCache.get(key);
                 if (snapshot == null) {
                     DiskLruCache.Editor editor = mDiskCache.edit(key);
@@ -189,12 +188,10 @@ public class ImageLoader {
                     if (snapshot != null) {
                         fileInputStream = (FileInputStream) snapshot.getInputStream(0);
                         fd = fileInputStream.getFD();
-                        Logger.i("load from net");
                     }
                 } else {
                     fileInputStream = (FileInputStream) snapshot.getInputStream(0);
                     fd = fileInputStream.getFD();
-                    Logger.i("load from disk");
                 }
 
 

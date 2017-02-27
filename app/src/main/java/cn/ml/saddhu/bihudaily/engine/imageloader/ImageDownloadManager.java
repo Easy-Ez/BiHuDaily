@@ -9,10 +9,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import cn.ml.saddhu.bihudaily.engine.util.FileUtils;
 import cn.ml.saddhu.bihudaily.engine.util.MD5Utils;
@@ -21,6 +19,7 @@ import cn.ml.saddhu.bihudaily.engine.util.MD5Utils;
  * Created by sadhu on 2017/2/26.
  * Email static.sadhu@gmail.com
  * Describe:
+ * // FIXME: 2017/2/27  queue 可能会崩溃
  */
 public class ImageDownloadManager {
     private static final String TAG = "ImageDownloadManager log: %s";
@@ -28,6 +27,8 @@ public class ImageDownloadManager {
     private final ExecutorService executorService;
     private LinkedList<DownloadRunnable> mQueue;
     private boolean taskActive;
+    private ExecutorService mPostExecutors = Executors.newFixedThreadPool(2);
+    private ExecutorService mTaskExecutors = Executors.newFixedThreadPool(2);
 
     public static ImageDownloadManager getInstance() {
         if (mInstance == null) {
@@ -45,17 +46,22 @@ public class ImageDownloadManager {
         mQueue = new LinkedList<>();
     }
 
-    public void addTask(String url, DownloadListener listener) {
-        if (checkInTask(url)) {
-            return;
-        }
-        mQueue.add(new DownloadRunnable(url, listener));
-        Logger.i(TAG, "addTask is invoke");
-        if (!taskActive) {
-            Logger.i(TAG, "startLooper");
-            taskActive = true;
-            startLooper();
-        }
+    public void addTask(final String url, final DownloadListener listener) {
+        mPostExecutors.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (checkInTask(url)) {
+                    return;
+                }
+                mQueue.addFirst(new DownloadRunnable(url, listener));
+                Logger.i(TAG, "addTask is invoke");
+                if (!taskActive) {
+                    Logger.i(TAG, "startLooper");
+                    taskActive = true;
+                    startLooper();
+                }
+            }
+        });
     }
 
     private boolean checkInTask(String url) {
@@ -68,22 +74,27 @@ public class ImageDownloadManager {
     }
 
     private void startLooper() {
-        while (true) {
-            Runnable runnable = mQueue.poll();
-            if (runnable == null) {
-                synchronized (this) {
-                    // Check again, this time in synchronized
-                    runnable = mQueue.poll();
+        mTaskExecutors.execute(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    Runnable runnable = mQueue.poll();
                     if (runnable == null) {
-                        taskActive = false;
-                        Logger.i(TAG, "taskActive is false");
-                        return;
+                        synchronized (this) {
+                            // Check again, this time in synchronized
+                            runnable = mQueue.poll();
+                            if (runnable == null) {
+                                taskActive = false;
+                                Logger.i(TAG, "taskActive is false");
+                                return;
+                            }
+                        }
                     }
+                    Logger.i(TAG, "task submit");
+                    executorService.submit(runnable);
                 }
             }
-            Logger.i(TAG, "task submit");
-            executorService.submit(runnable);
-        }
+        });
     }
 
 
