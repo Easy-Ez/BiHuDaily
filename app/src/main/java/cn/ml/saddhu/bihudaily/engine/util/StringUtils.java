@@ -12,7 +12,7 @@ public class StringUtils {
         String result = String.valueOf(num);
         if (num >= 1000) {
             NumberFormat instance = NumberFormat.getInstance();
-            instance.setMaximumFractionDigits(2);
+            instance.setMaximumFractionDigits(1);
             result = instance.format(num / 1000.0) + "K";
         }
         return result;
