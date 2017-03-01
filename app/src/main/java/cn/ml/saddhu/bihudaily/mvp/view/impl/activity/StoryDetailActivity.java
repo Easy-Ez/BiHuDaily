@@ -3,7 +3,6 @@ package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 import android.support.annotation.FloatRange;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -66,6 +65,8 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 mPresetner.getStoryDetailExtra(mIdLists.get(position));
+                hideToolbar(false);
+                setToolBarAlpha(1.0f);
             }
         });
         vp_stroy_detail.setCurrentItem(mPosition, true);
