@@ -2,6 +2,8 @@ package cn.ml.saddhu.bihudaily.mvp.presenter.imp;
 
 import android.text.TextUtils;
 
+import com.orhanobut.logger.Logger;
+
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDetail;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryType;
