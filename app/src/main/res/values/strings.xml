@@ -32,4 +32,7 @@
     <string name="comment_share_to_weibo">点评分享到微博</string>
     <string name="delete_cache">清除缓存</string>
     <string name="feed_back">反馈</string>
+    <string name="test_str1">11This is just a work around to get the desire result. Put a Button with visibility set to as invisible and place it just below your expandableTextView. Now on click of your expandableTextView just set the visibility of your Button to visible</string>
+    <string name="test_str2">21333333333asd21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzzdddddddddddxczzzzz</string>
+    <string name="test_str3">11This is just a work around to get the desire result. Put a Button with </string>
 </resources>

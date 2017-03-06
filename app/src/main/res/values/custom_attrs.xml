@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FlowLayout">
+        <attr name="max_line" format="integer"/>
+        <attr name="span_margin" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ExpandableTextView">
+        <attr name="max_line"/>
+        <attr name="expand" format="boolean"/>
+        <attr name="text" format="string"/>
+
+    </declare-styleable>
+</resources>
