@@ -65,6 +65,8 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 mPresetner.getStoryDetailExtra(mIdLists.get(position));
+                hideToolbar(false);
+                setToolBarAlpha(1.0f);
             }
         });
         vp_stroy_detail.setCurrentItem(mPosition, true);

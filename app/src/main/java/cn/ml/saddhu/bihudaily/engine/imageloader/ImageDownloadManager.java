@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -65,10 +66,10 @@ public class ImageDownloadManager {
     }
 
     private boolean checkInTask(String url) {
-        for (DownloadRunnable runnable : mQueue) {
-            if (runnable.getUrl().equals(url)) {
+        Iterator<DownloadRunnable> iterator = mQueue.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getUrl().equals(url))
                 return true;
-            }
         }
         return false;
     }

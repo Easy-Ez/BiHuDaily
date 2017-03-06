@@ -1,5 +1,7 @@
 package cn.ml.saddhu.bihudaily.mvp.model.impl;
 
+import com.orhanobut.logger.Logger;
+
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDetail;
 import cn.ml.saddhu.bihudaily.mvp.api.APIHelper;
@@ -27,7 +29,9 @@ public class StoryFragModelImpl extends BaseModelImpl<StoryDetail, Void> impleme
 
     @Override
     public void onDestroy() {
-        if (mStoryDetailCall != null) mStoryDetailCall.isCanceled();
+        if (mStoryDetailCall != null) {
+            mStoryDetailCall.cancel();
+        }
     }
 
     @Override
@@ -36,7 +40,8 @@ public class StoryFragModelImpl extends BaseModelImpl<StoryDetail, Void> impleme
         mStoryDetailCall.enqueue(new Callback<StoryDetail>() {
             @Override
             public void onResponse(Call<StoryDetail> call, Response<StoryDetail> response) {
-                if (mRefreshListener != null) {
+                Logger.e("onResponse and isCanceled" + call.isCanceled());
+                if (mRefreshListener != null && !call.isCanceled()) {
                     mRefreshListener.onRefreshSuccess(response.body());
                 }
             }
@@ -44,6 +49,7 @@ public class StoryFragModelImpl extends BaseModelImpl<StoryDetail, Void> impleme
             @Override
             public void onFailure(Call<StoryDetail> call, Throwable t) {
                 // TODO: 2017/2/25 fixme error code
+                Logger.e("onFailure and isCanceled" + call.isCanceled());
                 if (mRefreshListener != null && !call.isCanceled()) {
                     mRefreshListener.onRefreshError(1);
                 }

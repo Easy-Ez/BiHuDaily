@@ -78,7 +78,7 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
     void afterViews() {
         mPresenter = new StoryFragDetailPresenterImpl(this);
         coordinator_layout.setVisibility(View.GONE);
-        calculateHeaderSize();
+        calculateHeaderSize(true);
         mWb.getSettings().setJavaScriptEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mWb.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -107,7 +107,7 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-
+                Logger.d("verticalOffset:" + verticalOffset);
                 if (mListener != null) {
                     if (verticalOffset == 0) {
                         mListener.setToolBarAlpha(1.0f);
@@ -123,11 +123,11 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
         });
     }
 
-    private void calculateHeaderSize() {
+    private void calculateHeaderSize(boolean hasHeader) {
         TypedValue tv = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, tv, true);
         int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-        mHeaderHeight = actionBarHeight + getResources().getDimension(R.dimen.story_header_height);
+        mHeaderHeight = actionBarHeight + (hasHeader ? getResources().getDimension(R.dimen.story_header_height) : 0);
     }
 
     @Override
@@ -135,7 +135,9 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
         if (!TextUtils.isEmpty(storyInfoDetail.image)) {
             sdv_cover.setImageURI(storyInfoDetail.image);
             topHeader.setVisibility(View.VISIBLE);
+            calculateHeaderSize(true);
         } else {
+            calculateHeaderSize(false);
             topHeader.setVisibility(View.GONE);
         }
         story_title.setText(storyInfoDetail.title);
