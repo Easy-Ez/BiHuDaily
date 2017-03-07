@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
 
     <cn.ml.saddhu.bihudaily.widget.customview.FlowLayout
@@ -17,98 +17,107 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="11111"/>
+            android:text="11111" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="1111111111111111111111111"/>
+            android:text="1111111111111111111111111" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="111111"/>
+            android:text="111111" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="1111111111111111111111111"/>
+            android:text="1111111111111111111111111" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="111111"/>
+            android:text="111111" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="测试代"/>
+            android:text="测试代" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="1111111111111111111111111"/>
+            android:text="1111111111111111111111111" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="111111"/>
+            android:text="111111" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="111111"/>
+            android:text="111111" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="11111111111111111111"/>
+            android:text="11111111111111111111" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hot_word"
             android:includeFontPadding="false"
-            android:text="111111"/>
+            android:text="111111" />
 
     </cn.ml.saddhu.bihudaily.widget.customview.FlowLayout>
 
-
-    <cn.ml.saddhu.bihudaily.widget.customview.ExpandableTextView
-        android:id="@+id/expandable_tv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:max_line="1"
-        app:text="@string/test_str1"/>
+        android:minHeight="180dp"
+        android:orientation="vertical">
 
+        <cn.ml.saddhu.bihudaily.widget.customview.ExpandableTextView
+            android:id="@+id/expandable_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:ellipsize="end"
+            android:text="@string/test_str1"
+            app:collapse="true"
+            app:max_line="1" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"/>
+        android:text="test" />
 
     <Button
         android:id="@+id/btn_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"/>
+        android:text="test" />
 </LinearLayout>

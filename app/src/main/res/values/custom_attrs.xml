@@ -8,7 +8,7 @@
 
     <declare-styleable name="ExpandableTextView">
         <attr name="max_line"/>
-        <attr name="expand" format="boolean"/>
+        <attr name="collapse" format="boolean"/>
         <attr name="text" format="string"/>
 
     </declare-styleable>
