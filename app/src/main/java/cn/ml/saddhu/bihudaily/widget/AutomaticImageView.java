@@ -26,7 +26,7 @@ import java.util.Random;
  * Created by sadhu on 2017/2/13.
  * Email static.sadhu@gmail.com
  */
-public class AutomaticImageView extends ImageView {
+public class AutomaticImageView extends android.support.v7.widget.AppCompatImageView {
 
     public static final String TAG = "AutomaticImageView";
     Matrix matrix = null;
@@ -49,11 +49,6 @@ public class AutomaticImageView extends ImageView {
 
     public AutomaticImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public AutomaticImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
 
@@ -79,7 +74,7 @@ public class AutomaticImageView extends ImageView {
      */
     private void calculateMatrix() {
         Drawable drawable = getDrawable();
-        matrix = getMatrix();
+        matrix = new Matrix();
         final int dwidth = drawable.getIntrinsicWidth();
         final int dheight = drawable.getIntrinsicHeight();
         final float vwidth = getWidth() - getPaddingLeft() - getPaddingRight();

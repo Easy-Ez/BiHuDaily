@@ -89,7 +89,6 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                Logger.d("getTop:" + appBarLayout.getTop());
                 // 处理下误差
                 if (mListener != null && Math.abs(Math.abs(appBarLayout.getTop()) - mHeaderHeight) <= 1) {
                     if (scrollY > oldScrollY) {
@@ -107,7 +106,6 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                Logger.d("verticalOffset:" + verticalOffset);
                 if (mListener != null) {
                     if (verticalOffset == 0) {
                         mListener.setToolBarAlpha(1.0f);

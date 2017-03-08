@@ -111,7 +111,7 @@ public class ExpandableTextView extends android.support.v7.widget.AppCompatTextV
             setMaxLines(mMaxShowLine);
         }
         // Re-measure with new setup
-        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec),mTextHeightWithMaxLines/getLineCount());
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), getLineHeight() * mMaxShowLine);
         if (mCollapsed) {
             // Saves the collapsed height of this ViewGroup
             mCollapsedHeight = getMeasuredHeight();
