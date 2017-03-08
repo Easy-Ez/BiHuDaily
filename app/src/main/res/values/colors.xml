@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="black">#000000</color>
+    <color name="black_transparent66">#66000000</color>
     <color name="color22">#222222</color>
     <color name="color30">#303030</color>
     <color name="color33">#333333</color>
@@ -19,7 +20,7 @@
     <color name="colore6">#E6E6E6</color>
     <color name="colorf0">#F0F0F0</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="white_transparent11">#11FFFFFF</color>
     <color name="windowsBackground">#2B2B2B</color>
     <color name="logo_tint">#C2C5CC</color>
     <color name="text_light">#CED2D9</color>

@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
             SettingsActivity_.intent(this).start();
             return true;
         } else if (id == R.id.action_message) {
-            // 消息
+            // 消息 暂时用来做测试
+            TestActivity_.intent(this).start();
             return true;
         } else if (id == R.id.action_theme) {
             // 切换主题
