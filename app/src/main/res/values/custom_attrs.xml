@@ -10,6 +10,8 @@
         <attr name="max_line"/>
         <attr name="collapse" format="boolean"/>
         <attr name="text" format="string"/>
-
+    </declare-styleable>
+    <declare-styleable name="DragFrameLayout">
+        <attr name="description_bottom_margin" format="dimension"/>
     </declare-styleable>
 </resources>
