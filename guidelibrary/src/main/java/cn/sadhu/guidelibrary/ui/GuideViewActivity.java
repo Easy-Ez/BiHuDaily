@@ -7,10 +7,11 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.sadhu.guidelibrary.R;
+import cn.sadhu.guidelibrary.domain.GuideViewInfo;
+import cn.sadhu.guidelibrary.domain.TargetViewInfo;
 
 /**
  * Created by sadhu on 2017/3/14.
@@ -20,7 +21,7 @@ public class GuideViewActivity extends AppCompatActivity {
     public static final String EXTRA_LIST = "extra_target_view_infos";
     FrameLayout fl_container;
 
-    private ArrayList<ArrayList<GuideViewInfo>> mLists;
+    private GuideViewInfo mGuideViewInfo;
     private int mCurrentStep = 0;
 
     @SuppressWarnings("unchecked")
@@ -28,30 +29,31 @@ public class GuideViewActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mLists = (ArrayList<ArrayList<GuideViewInfo>>) getIntent().getSerializableExtra(GuideViewActivity.EXTRA_LIST);
-        if (mLists == null) {
-            finish();
-        } else {
+        mGuideViewInfo = (GuideViewInfo) getIntent().getSerializableExtra(GuideViewActivity.EXTRA_LIST);
+        if (mGuideViewInfo != null && mGuideViewInfo.mLists != null) {
             setContentView(R.layout.act_guide_view);
             fl_container = (FrameLayout) findViewById(R.id.fl_container);
             fl_container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mLists.size() > 1 && mCurrentStep < mLists.size()) {
-                        addGuideView(mLists.get(mCurrentStep));
+                    if (mGuideViewInfo.mLists.size() > 1 && mCurrentStep < mGuideViewInfo.mLists.size()) {
+                        addGuideView(mGuideViewInfo.mLists.get(mCurrentStep));
                     } else {
                         finish();
                     }
                 }
             });
-            addGuideView(mLists.get(mCurrentStep));
+            fl_container.setBackgroundColor(mGuideViewInfo.mBackgroundColor);
+            addGuideView(mGuideViewInfo.mLists.get(mCurrentStep));
+        } else {
+            throw new RuntimeException("data is null");
         }
     }
 
 
-    private void addGuideView(List<GuideViewInfo> guideViewInfos) {
+    private void addGuideView(List<TargetViewInfo> targetViewInfos) {
         fl_container.removeAllViews();
-        for (GuideViewInfo info : guideViewInfos) {
+        for (TargetViewInfo info : targetViewInfos) {
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(info.marginLeft, info.marginTop, info.marginRight, info.marginBottom);
             params.gravity = info.gravity;

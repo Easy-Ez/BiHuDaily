@@ -1,4 +1,4 @@
-package cn.sadhu.guidelibrary.ui;
+package cn.sadhu.guidelibrary.domain;
 
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
@@ -12,51 +12,58 @@ import java.lang.annotation.Target;
 /**
  * Created by sadhu on 2017/3/14.
  * Email static.sadhu@gmail.com
+ * Describe: 每张引导图信息封装
  */
-public class GuideViewInfo implements Serializable {
-    protected static final int DEFAULT_CHILD_GRAVITY = android.view.Gravity.TOP | android.view.Gravity.START;
-
+public class TargetViewInfo implements Serializable {
+    /**
+     * 默认gravity为左上
+     */
+    public static final int DEFAULT_CHILD_GRAVITY = android.view.Gravity.TOP | android.view.Gravity.START;
     public int marginLeft;
     public int marginTop;
     public int marginRight;
     public int marginBottom;
     @DrawableRes
     public int resource;
-    @Gravity
+    @TargetViewInfo.Gravity
     public int gravity = DEFAULT_CHILD_GRAVITY;
 
-    public GuideViewInfo setMarginLeft(int marginLeft) {
+    public TargetViewInfo setMarginLeft(int marginLeft) {
         this.marginLeft = marginLeft;
         return this;
     }
 
-    public GuideViewInfo setMarginTop(int marginTop) {
+    public TargetViewInfo setMarginTop(int marginTop) {
         this.marginTop = marginTop;
         return this;
     }
 
-    public GuideViewInfo setMarginRight(int marginRight) {
+    public TargetViewInfo setMarginRight(int marginRight) {
         this.marginRight = marginRight;
         return this;
     }
 
-    public GuideViewInfo setMarginBottom(int marginBottom) {
+    public TargetViewInfo setMarginBottom(int marginBottom) {
         this.marginBottom = marginBottom;
         return this;
     }
 
-    public GuideViewInfo setResource(int resource) {
+    public TargetViewInfo setResource(int resource) {
         this.resource = resource;
         return this;
     }
 
 
-    public GuideViewInfo setGravity(@Gravity int gravity) {
+    /**
+     * 设置引导图的gravity
+     *
+     * @param gravity {@link Gravity}
+     * @return
+     */
+    public TargetViewInfo setGravity(@TargetViewInfo.Gravity int gravity) {
         this.gravity = gravity;
         return this;
     }
-
-
 
     @IntDef(flag = true, value = {
             android.view.Gravity.LEFT,
@@ -70,6 +77,6 @@ public class GuideViewInfo implements Serializable {
             android.view.Gravity.CENTER_VERTICAL,})
     @Retention(RetentionPolicy.SOURCE)
     @Target(value = {ElementType.FIELD, ElementType.PARAMETER})
-    @interface Gravity {
+    public @interface Gravity {
     }
 }
