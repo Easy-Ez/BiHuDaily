@@ -63,6 +63,7 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.10.2'
+    compile 'org.jsoup:jsoup:1.10.2'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile project(':guidelibrary')
 }
