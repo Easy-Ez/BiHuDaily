@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#00A2ED</color>
-    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimaryDark">#1976d2</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="black">#000000</color>
@@ -50,4 +50,5 @@
     <color name="theme_editor_bio">@color/color99</color>
     <color name="story_detail_bg">@color/white</color>
     <color name="settings_accent_color">@color/colorPrimary</color>
+    <color name="loadingbarColor">@color/colorPrimary</color>
 </resources>

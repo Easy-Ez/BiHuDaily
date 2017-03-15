@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.webkit.JavascriptInterface;
@@ -21,7 +20,9 @@ import java.net.URLEncoder;
 import cn.ml.saddhu.bihudaily.engine.domain.Story;
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageDownloadManager;
 import cn.ml.saddhu.bihudaily.engine.util.ActivityUtils;
+import cn.ml.saddhu.bihudaily.engine.util.HTMLUtils;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
+import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.ImageViewerActiviy_;
 
 /**
  * Created by sadhu on 2016/12/5.
@@ -32,6 +33,8 @@ public class StoryWebView extends WebView {
     private Context mContext;
     private Story c;
     private static final int WHAT_IMAGE_LOADING_COMPLETE = 1;
+    private static final int WHAT_IMAGE_LOADING_ERROR = 2;
+    private static final int WHAT_IMAGE_START_LOADING = 3;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -40,6 +43,22 @@ public class StoryWebView extends WebView {
                     try {
                         ImageUrlInfo obj = (ImageUrlInfo) msg.obj;
                         loadJsMethod("onImageLoadingComplete", new String[]{URLEncoder.encode(obj.oldUrl, "UTF-8"), obj.newFile});
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case WHAT_IMAGE_START_LOADING:
+                    try {
+                        String oldUrl = (String) msg.obj;
+                        loadJsMethod("onImageLoadingComplete", new String[]{URLEncoder.encode(oldUrl, "UTF-8"), HTMLUtils.DEFAULT_IMAGE_URI});
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case WHAT_IMAGE_LOADING_ERROR:
+                    try {
+                        String oldUrl = (String) msg.obj;
+                        loadJsMethod("onImageLoadingComplete", new String[]{URLEncoder.encode(oldUrl, "UTF-8"), HTMLUtils.DEFAULT_DOWNLOAD_IMAGE_URI});
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -96,12 +115,29 @@ public class StoryWebView extends WebView {
             post(new Runnable() {
                 @Override
                 public void run() {
+//                    Message message = Message.obtain();
+//                    message.what = WHAT_IMAGE_START_LOADING;
+//                    message.obj = path;
+//                    mHandler.sendMessage(message);
+                    try {
+                        loadJsMethod("onImageLoadingComplete", new String[]{URLEncoder.encode(path, "UTF-8"), HTMLUtils.DEFAULT_IMAGE_URI});
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                     ImageDownloadManager.getInstance().addTask(path, new ImageDownloadManager.DownloadListener() {
                         @Override
                         public void onSuccuss(String oldUrl, String newFile) {
                             Message message = Message.obtain();
                             message.what = WHAT_IMAGE_LOADING_COMPLETE;
                             message.obj = new ImageUrlInfo(oldUrl, newFile);
+                            mHandler.sendMessage(message);
+                        }
+
+                        @Override
+                        public void onError(String oldUrl) {
+                            Message message = Message.obtain();
+                            message.what = WHAT_IMAGE_LOADING_ERROR;
+                            message.obj = oldUrl;
                             mHandler.sendMessage(message);
                         }
                     });
@@ -124,6 +160,14 @@ public class StoryWebView extends WebView {
                             message.obj = new ImageUrlInfo(oldUrl, newFile);
                             mHandler.sendMessage(message);
                         }
+
+                        @Override
+                        public void onError(String oldUrl) {
+                            Message message = Message.obtain();
+                            message.what = WHAT_IMAGE_LOADING_ERROR;
+                            message.obj = oldUrl;
+                            mHandler.sendMessage(message);
+                        }
                     });
                 }
             });
@@ -132,10 +176,7 @@ public class StoryWebView extends WebView {
 
     @JavascriptInterface
     public void openImage(String url) {
-//        Context v0 = this.getContext();
-//        Intent v1 = new Intent(v0, ImageViewActivity_.class);
-//        v1.putExtra("extra_image_url", arg4);
-//        ActivityCompat.startActivity(((Activity) v0), v1, null);
+        ImageViewerActiviy_.intent(getContext()).extra_image_url(url).start();
         Logger.i("openImage :%s", url);
     }
 

@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,14 +21,16 @@ import cn.ml.saddhu.bihudaily.engine.util.MD5Utils;
 /**
  * Created by sadhu on 2017/2/26.
  * Email static.sadhu@gmail.com
- * Describe:
- * // FIXME: 2017/2/27  queue 可能会崩溃
+ * Describe: 下载详情中的图片
  */
+// FIXME: 2017/3/16 生产者 消费者 下载队列 存在严重已知问题 了解清楚后修复
 public class ImageDownloadManager {
+    private static final int DEFAULT_TIME_OUT = 1000;
     private static final String TAG = "ImageDownloadManager log: %s";
     private static ImageDownloadManager mInstance;
     private final ExecutorService executorService;
     private LinkedList<DownloadRunnable> mQueue;
+    private Map<String, GlobalDownloadListener> mGlobalListenerByUrl = new HashMap<>();
     private boolean taskActive;
     private ExecutorService mPostExecutors = Executors.newFixedThreadPool(2);
     private ExecutorService mTaskExecutors = Executors.newFixedThreadPool(2);
@@ -65,13 +69,24 @@ public class ImageDownloadManager {
         });
     }
 
-    private boolean checkInTask(String url) {
+    public boolean checkInTask(String url) {
         Iterator<DownloadRunnable> iterator = mQueue.iterator();
         while (iterator.hasNext()) {
             if (iterator.next().getUrl().equals(url))
                 return true;
         }
         return false;
+    }
+
+    public void registerGlobalListener(String key, GlobalDownloadListener listener) {
+        GlobalDownloadListener globalDownloadListeners = mGlobalListenerByUrl.get(key);
+        if (globalDownloadListeners == null) {
+            mGlobalListenerByUrl.put(key, listener);
+        }
+    }
+
+    public void unRegisterGlobalListener(String key) {
+        mGlobalListenerByUrl.remove(key);
     }
 
     private void startLooper() {
@@ -113,6 +128,15 @@ public class ImageDownloadManager {
             File saveFile = download(url);
             if (saveFile != null) {
                 listener.onSuccuss(url, saveFile.getAbsolutePath());
+                if (mGlobalListenerByUrl.get(url) != null) {
+                    mGlobalListenerByUrl.get(url).onSuccess(saveFile.getAbsolutePath(), url);
+                }
+            } else {
+                Logger.i("donwload error");
+                listener.onError(url);
+                if (mGlobalListenerByUrl.get(url) != null) {
+                    mGlobalListenerByUrl.get(url).onError();
+                }
             }
         }
 
@@ -128,25 +152,29 @@ public class ImageDownloadManager {
         try {
             String key = MD5Utils.getMD5(url);
             // 先判断本地有木有
-            File file = new File(FileUtils.getStoryImageCacheFile(), key + 1);
-            if (file.exists()) {
-                Logger.i(TAG, "find cache file");
+            File file = FileUtils.checkStoryImageInCahe(key);
+            if (file != null) {
                 return file;
             }
             file = new File(FileUtils.getStoryImageCacheFile(), key);
             URL urlPath = new URL(url);
             conn = (HttpURLConnection) urlPath.openConnection();
+            conn.setConnectTimeout(DEFAULT_TIME_OUT);
             inputStream = conn.getInputStream();
             outputStream = new FileOutputStream(file);
+            int totalLength = conn.getContentLength();
+            int currentLength = 0;
             byte[] data = new byte[1024 * 4];
             int read;
             while ((read = inputStream.read(data)) != -1) {
+                currentLength += read;
                 outputStream.write(data, 0, read);
+                Logger.i("download: " + url + " : " + currentLength + "/" + totalLength);
             }
             outputStream.flush();
             File renameFile = new File(file.getParentFile(), file.getName() + 1);
             file.renameTo(renameFile);
-            Logger.i(TAG, "save file" + renameFile.getAbsolutePath());
+            Logger.i("save file" + renameFile.getAbsolutePath());
             return renameFile;
         } catch (IOException e) {
             e.printStackTrace();
@@ -172,7 +200,16 @@ public class ImageDownloadManager {
         }
     }
 
-    public static interface DownloadListener {
+    public interface DownloadListener {
         void onSuccuss(String oldUrl, String newFile);
+
+        void onError(String oldUrl);
     }
+
+    public interface GlobalDownloadListener {
+        void onError();
+
+        void onSuccess(String localPath, String orginPath);
+    }
+
 }

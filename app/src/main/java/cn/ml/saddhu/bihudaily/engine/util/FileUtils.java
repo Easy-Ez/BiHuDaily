@@ -1,7 +1,8 @@
 package cn.ml.saddhu.bihudaily.engine.util;
 
-import android.content.Context;
 import android.os.Environment;
+
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -14,6 +15,7 @@ import cn.ml.saddhu.bihudaily.MyApplication;
  */
 
 public class FileUtils {
+
     public static File getStoryImageCacheFile() {
         File file;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
@@ -26,5 +28,16 @@ public class FileUtils {
             file.mkdirs();
         }
         return file;
+    }
+
+    public static File checkStoryImageInCahe(String md5Key) {
+        // 先判断本地有木有
+        File file = new File(FileUtils.getStoryImageCacheFile(), md5Key + 1);
+        if (file.exists()) {
+            Logger.i("find cache file");
+            return file;
+        } else {
+            return null;
+        }
     }
 }

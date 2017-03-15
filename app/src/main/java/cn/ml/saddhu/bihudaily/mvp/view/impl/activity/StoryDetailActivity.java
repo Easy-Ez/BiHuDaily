@@ -56,7 +56,6 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         vp_stroy_detail.setOffscreenPageLimit(1);
         vp_stroy_detail.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager()));
@@ -96,9 +95,6 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
                 return true;
             case R.id.action_favorite:
                 Logger.i("action_favorite");
-                return true;
-            case android.R.id.home:
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

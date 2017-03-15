@@ -15,4 +15,5 @@
     <color name="theme_editor_bio">@color/color6e</color>
     <color name="story_detail_bg">@color/color34</color>
     <color name="settings_accent_color">@color/white</color>
+    <color name="loadingbarColor">@color/color22</color>
 </resources>
