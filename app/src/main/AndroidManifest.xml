@@ -33,6 +33,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".mvp.view.impl.activity.EditorListActivity_"
+            android:parentActivityName=".mvp.view.impl.activity.MainActivity_"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".mvp.view.impl.activity.EditorActivity_"

@@ -50,16 +50,6 @@ public class EditorListActivity extends AppCompatActivity implements OnRecyclerV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void onItemClick(String editorId, int position, int realPosition) {
         EditorActivity_.intent(this).mEditorId(editorId).start();
