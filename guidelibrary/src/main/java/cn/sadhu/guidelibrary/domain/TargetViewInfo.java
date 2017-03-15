@@ -66,11 +66,9 @@ public class TargetViewInfo implements Serializable {
     }
 
     @IntDef(flag = true, value = {
-            android.view.Gravity.LEFT,
             android.view.Gravity.START,
             android.view.Gravity.TOP,
             android.view.Gravity.END,
-            android.view.Gravity.RIGHT,
             android.view.Gravity.BOTTOM,
             android.view.Gravity.CENTER,
             android.view.Gravity.CENTER_HORIZONTAL,

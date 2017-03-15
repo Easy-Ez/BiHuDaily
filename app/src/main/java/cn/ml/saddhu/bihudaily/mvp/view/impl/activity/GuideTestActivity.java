@@ -1,10 +1,8 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 
 import android.graphics.Color;
-import android.graphics.Rect;
+import android.view.Gravity;
 import android.widget.ImageView;
-
-import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -13,7 +11,6 @@ import org.androidannotations.annotations.ViewById;
 import cn.ml.saddhu.bihudaily.R;
 import cn.sadhu.guidelibrary.domain.TargetViewInfo;
 import cn.sadhu.guidelibrary.ui.GuideViewManager;
-import cn.sadhu.guidelibrary.util.UIUtils;
 
 /**
  * Created by sadhu on 2017/3/14.
@@ -29,19 +26,21 @@ public class GuideTestActivity extends BaseActivity {
 
     @AfterViews
     void afterViews() {
-        img_my_mall.post(new Runnable() {
-            @Override
-            public void run() {
-                Rect viewOnScreenRect = UIUtils.getViewOnScreenRect(img_my_mall);
-                Logger.i("left:" + viewOnScreenRect.left + ";left:" + viewOnScreenRect.bottom);
-                new GuideViewManager.Builder(GuideTestActivity.this)
-                        .addTargetView(new TargetViewInfo().setResource(R.drawable.guide1).setMarginTop(20).setMarginLeft(20))
-                        .addTargetView(new TargetViewInfo().setResource(R.drawable.guide2).setMarginTop(500).setMarginLeft(20))
-                        .setBackgroundColor(Color.parseColor("#33ff0000"))
-                        .build()
-                        .show();
-            }
-        });
+        new GuideViewManager.Builder(GuideTestActivity.this)
+                .addTargetView(new TargetViewInfo().setResource(R.drawable.guide1).setMarginTop(20).setMarginLeft(20))
+                .addTargetView(new TargetViewInfo().setResource(R.drawable.guide2).setMarginTop(500).setMarginLeft(20))
+                .switchNextSetp()
+                .addTargetView(new TargetViewInfo().setResource(R.drawable.guide3).setMarginTop(100).setMarginLeft(20))
+                .addTargetView(new TargetViewInfo().setResource(R.drawable.guide4).setMarginTop(300).setMarginLeft(20))
+                .addTargetView(new TargetViewInfo().setResource(R.drawable.guide5).setMarginTop(600).setMarginLeft(20))
+                .switchNextSetp()
+                .addTargetView(new TargetViewInfo().setResource(R.drawable.guide1).setGravity(Gravity.END).setMarginTop(100).setMarginRight(20))
+                .addTargetView(new TargetViewInfo().setResource(R.drawable.guide2).setMarginTop(500).setMarginLeft(20))
+                .setIsFullMode(true)
+                .setWithAnimation(true)
+                .setBackgroundColor(Color.parseColor("#55000000"))
+                .build()
+                .show();
     }
 
     @Override

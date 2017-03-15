@@ -13,5 +13,7 @@ import java.util.ArrayList;
 public class GuideViewInfo implements Serializable {
     @ColorInt
     public int mBackgroundColor;
+    public boolean mWithAnimation;
+    public boolean mIsFullMode;
     public ArrayList<ArrayList<TargetViewInfo>> mLists;
 }
