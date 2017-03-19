@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/color34">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_imageviewer"
-        style="@style/ToolbarStyle"
-        android:background="@android:color/transparent" />
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -17,5 +12,15 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:visibility="gone" />
+
+    <me.relex.photodraweeview.PhotoDraweeView
+        android:id="@+id/photo_viewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_imageviewer"
+        style="@style/ToolbarStyle"
+        android:background="@android:color/transparent" />
 </FrameLayout>
 

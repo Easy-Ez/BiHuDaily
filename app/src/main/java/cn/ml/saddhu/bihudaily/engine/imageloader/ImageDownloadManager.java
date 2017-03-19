@@ -1,5 +1,9 @@
 package cn.ml.saddhu.bihudaily.engine.imageloader;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -8,12 +12,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import cn.ml.saddhu.bihudaily.engine.util.FileUtils;
 import cn.ml.saddhu.bihudaily.engine.util.MD5Utils;
@@ -23,17 +28,41 @@ import cn.ml.saddhu.bihudaily.engine.util.MD5Utils;
  * Email static.sadhu@gmail.com
  * Describe: 下载详情中的图片
  */
-// FIXME: 2017/3/16 生产者 消费者 下载队列 存在严重已知问题 了解清楚后修复
 public class ImageDownloadManager {
     private static final int DEFAULT_TIME_OUT = 1000;
+    private static final int CODE_DOWNLOAD_SUCCESS = 1;
+    private static final int CODE_DOWNLOAD_ERROR = 2;
     private static final String TAG = "ImageDownloadManager log: %s";
     private static ImageDownloadManager mInstance;
     private final ExecutorService executorService;
-    private LinkedList<DownloadRunnable> mQueue;
+    private LinkedBlockingQueue<DownloadRunnable> mQueue;
+    private List<String> mDownloadingUrl;
     private Map<String, GlobalDownloadListener> mGlobalListenerByUrl = new HashMap<>();
     private boolean taskActive;
     private ExecutorService mPostExecutors = Executors.newFixedThreadPool(2);
-    private ExecutorService mTaskExecutors = Executors.newFixedThreadPool(2);
+    private android.os.Handler handler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+
+
+            switch (msg.what) {
+                case CODE_DOWNLOAD_SUCCESS:
+                    DonwloadSuccessInfo info = (DonwloadSuccessInfo) msg.obj;
+                    GlobalDownloadListener listener = mGlobalListenerByUrl.get(info.orginPath);
+                    if (listener != null) {
+                        listener.onSuccess(info.localPath, info.orginPath);
+                    }
+                    break;
+                case CODE_DOWNLOAD_ERROR:
+                    String url = (String) msg.obj;
+                    GlobalDownloadListener errorListener = mGlobalListenerByUrl.get(url);
+                    if (errorListener != null) {
+                        errorListener.onError();
+                    }
+                    break;
+            }
+        }
+    };
 
     public static ImageDownloadManager getInstance() {
         if (mInstance == null) {
@@ -48,7 +77,8 @@ public class ImageDownloadManager {
 
     private ImageDownloadManager() {
         executorService = Executors.newCachedThreadPool();
-        mQueue = new LinkedList<>();
+        mQueue = new LinkedBlockingQueue<>();
+        mDownloadingUrl = new ArrayList<>();
     }
 
     public void addTask(final String url, final DownloadListener listener) {
@@ -58,7 +88,8 @@ public class ImageDownloadManager {
                 if (checkInTask(url)) {
                     return;
                 }
-                mQueue.addFirst(new DownloadRunnable(url, listener));
+                mDownloadingUrl.add(url);
+                mQueue.add(new DownloadRunnable(url, listener));
                 Logger.i(TAG, "addTask is invoke");
                 if (!taskActive) {
                     Logger.i(TAG, "startLooper");
@@ -70,10 +101,10 @@ public class ImageDownloadManager {
     }
 
     public boolean checkInTask(String url) {
-        Iterator<DownloadRunnable> iterator = mQueue.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getUrl().equals(url))
+        for (String downloadingUrl : mDownloadingUrl) {
+            if (downloadingUrl.equals(url)) {
                 return true;
+            }
         }
         return false;
     }
@@ -90,29 +121,23 @@ public class ImageDownloadManager {
     }
 
     private void startLooper() {
-        mTaskExecutors.execute(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    Runnable runnable = mQueue.poll();
+        while (true) {
+            Runnable runnable = mQueue.poll();
+            if (runnable == null) {
+                synchronized (this) {
+                    // Check again, this time in synchronized
+                    runnable = mQueue.poll();
                     if (runnable == null) {
-                        synchronized (this) {
-                            // Check again, this time in synchronized
-                            runnable = mQueue.poll();
-                            if (runnable == null) {
-                                taskActive = false;
-                                Logger.i(TAG, "taskActive is false");
-                                return;
-                            }
-                        }
+                        taskActive = false;
+                        Logger.i(TAG, "taskActive is false");
+                        return;
                     }
-                    Logger.i(TAG, "task submit");
-                    executorService.submit(runnable);
                 }
             }
-        });
+            Logger.i(TAG, "task submit");
+            executorService.submit(runnable);
+        }
     }
-
 
     private class DownloadRunnable implements Runnable {
         String url;
@@ -126,17 +151,19 @@ public class ImageDownloadManager {
         @Override
         public void run() {
             File saveFile = download(url);
+            mDownloadingUrl.remove(url);
             if (saveFile != null) {
                 listener.onSuccuss(url, saveFile.getAbsolutePath());
-                if (mGlobalListenerByUrl.get(url) != null) {
-                    mGlobalListenerByUrl.get(url).onSuccess(saveFile.getAbsolutePath(), url);
-                }
+                Message message = Message.obtain();
+                message.what = CODE_DOWNLOAD_SUCCESS;
+                message.obj = new DonwloadSuccessInfo(saveFile.getAbsolutePath(), url);
+                handler.sendMessage(message);
             } else {
-                Logger.i("donwload error");
                 listener.onError(url);
-                if (mGlobalListenerByUrl.get(url) != null) {
-                    mGlobalListenerByUrl.get(url).onError();
-                }
+                Message message = Message.obtain();
+                message.what = CODE_DOWNLOAD_ERROR;
+                message.obj = url;
+                handler.sendMessage(message);
             }
         }
 
@@ -152,7 +179,7 @@ public class ImageDownloadManager {
         try {
             String key = MD5Utils.getMD5(url);
             // 先判断本地有木有
-            File file = FileUtils.checkStoryImageInCahe(key);
+            File file = FileUtils.checkStoryImageInCache(key);
             if (file != null) {
                 return file;
             }
@@ -212,4 +239,13 @@ public class ImageDownloadManager {
         void onSuccess(String localPath, String orginPath);
     }
 
+    public class DonwloadSuccessInfo {
+        public String localPath;
+        public String orginPath;
+
+        public DonwloadSuccessInfo(String localPath, String orginPath) {
+            this.localPath = localPath;
+            this.orginPath = orginPath;
+        }
+    }
 }

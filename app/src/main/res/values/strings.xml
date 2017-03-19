@@ -9,6 +9,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <string name="please_login">请登入</string>
+    <string name="please_insert_sdcart">请插入内存卡</string>
+    <string name="save_success">保存成功</string>
     <string name="drawer_favorite">我的收藏</string>
     <string name="drawer_offline">离线下载</string>
     <string name="drawer_user_default_name">请登入</string>
@@ -36,4 +38,5 @@
     <string name="test_str2">21333333333asd21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzz21333333333asddddddddddddxczzzzzdddddddddddxczzzzz</string>
     <string name="test_str3">11This is just a work around to get the desire result. Put a Button with </string>
     <string name="save">保存</string>
+    <string name="is_loading">正在加载</string>
 </resources>
