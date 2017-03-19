@@ -1,5 +1,6 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.widget.Toolbar;
@@ -148,7 +149,11 @@ public class ImageViewerActiviy extends BaseActivity implements ImageDownloadMan
                     destFile.mkdirs();
                 }
                 File imageCacheFile = FileUtils.getImageCacheFile(extra_image_url);
-                FileUtils.copy(imageCacheFile, new File(destFile, FileUtils.getImageSaveName(extra_image_url)));
+                destFile = new File(destFile, FileUtils.getImageSaveName(extra_image_url));
+                FileUtils.copy(imageCacheFile, destFile);
+                // 通知重新扫描
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(destFile));
+                sendBroadcast(mediaScanIntent);
                 showToast(getString(R.string.save_success));
                 Logger.i(absolutePath);
             } else {
