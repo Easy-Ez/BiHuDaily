@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -78,7 +79,7 @@ public class ImageDownloadManager {
     private ImageDownloadManager() {
         executorService = Executors.newCachedThreadPool();
         mQueue = new LinkedBlockingQueue<>();
-        mDownloadingUrl = new ArrayList<>();
+        mDownloadingUrl = new CopyOnWriteArrayList<>();
     }
 
     public void addTask(final String url, final DownloadListener listener) {
@@ -100,9 +101,9 @@ public class ImageDownloadManager {
         });
     }
 
-    public boolean checkInTask(String url) {
+    public  boolean checkInTask(String url) {
         for (String downloadingUrl : mDownloadingUrl) {
-            if (downloadingUrl.equals(url)) {
+            if (url.equals(downloadingUrl)) {
                 return true;
             }
         }

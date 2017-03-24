@@ -13,7 +13,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="AppTheme.NoActionBar.ImageViewer">
 
+    </style>
     <style name="AppTheme.NoActionBar.Settings">
         <item name="colorAccent">@color/settings_accent_color</item>
     </style>

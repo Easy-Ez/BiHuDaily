@@ -6,7 +6,9 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/statusBarColor</item>
     </style>
-
+    <style name="AppTheme.NoActionBar.ImageViewer">
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
     <style name="AppTheme.NoActionBar.Settings">
         <item name="colorAccent">@color/settings_accent_color</item>
     </style>

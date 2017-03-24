@@ -3,6 +3,7 @@ package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,8 +40,10 @@ public class ImageViewerActiviy extends BaseActivity implements ImageDownloadMan
     @Extra
     String extra_image_url;
 
-    private boolean isStatusHiding = true;
+    private boolean isStatusHiding = false;
     private boolean hasDownload;
+    private Handler mHandler = new Handler();
+    private HideRunnable runnable = new HideRunnable();
 
     @AfterViews
     void afterView() {
@@ -67,6 +70,7 @@ public class ImageViewerActiviy extends BaseActivity implements ImageDownloadMan
                     showStatusBar();
                 } else {
                     hideStatusBar();
+                    mHandler.removeCallbacks(runnable);
                 }
             }
         });
@@ -82,13 +86,14 @@ public class ImageViewerActiviy extends BaseActivity implements ImageDownloadMan
                     public void onSystemUiVisibilityChange(int visibility) {
                         // Note that system bars will only be "visible" if none of the
                         // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
-                        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                        if ((visibility & View.SYSTEM_UI_FLAG_LOW_PROFILE) == 0) {
                             // The system bars are visible. Make any desired
                             // adjustments to your UI, such as showing the action bar or
                             // other navigational controls.
                             Logger.i("The system bars are visible. Make any desired");
                             isStatusHiding = false;
                             getSupportActionBar().show();
+                            mHandler.postDelayed(runnable, 5000);
                         } else {
                             //  The system bars are NOT visible. Make any desired
                             // adjustments to your UI, such as hiding the action bar or
@@ -99,27 +104,23 @@ public class ImageViewerActiviy extends BaseActivity implements ImageDownloadMan
                         }
                     }
                 });
-        hideStatusBar();
     }
 
     private void showStatusBar() {
         View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(0);
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
     }
 
     private void hideStatusBar() {
         View decorView = getWindow().getDecorView();
         // Hide the status bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE;
+            //  decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+            // decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            // decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         }
-        decorView.setSystemUiVisibility(uiOptions);
+
     }
 
     @Override
@@ -198,6 +199,14 @@ public class ImageViewerActiviy extends BaseActivity implements ImageDownloadMan
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
         ImageDownloadManager.getInstance().unRegisterGlobalListener(extra_image_url);
+    }
+
+    class HideRunnable implements Runnable {
+        @Override
+        public void run() {
+            hideStatusBar();
+        }
     }
 }

@@ -47,7 +47,7 @@
         <activity
             android:name=".mvp.view.impl.activity.ImageViewerActiviy_"
             android:parentActivityName=".mvp.view.impl.activity.MainActivity_"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.ImageViewer" />
         <activity
             android:name=".mvp.view.impl.activity.SettingsActivity_"
             android:parentActivityName=".mvp.view.impl.activity.MainActivity_"
