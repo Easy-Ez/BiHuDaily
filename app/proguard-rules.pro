@@ -23,5 +23,5 @@
 -dontwarn retrofit2.Platform$Java8
 # Retain generic type information for use by reflection by converters and adapters.
 -keepattributes Signature
-# Retain declared checked exceptions for use by a Proxy instance.
+# Retain declared checked exceptions for use by A Proxy instance.
 -keepattributes Exceptions
