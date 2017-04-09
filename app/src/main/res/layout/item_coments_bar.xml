@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/list_header_height">
+
+    <TextView
+        android:id="@+id/tv_comment_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16.0dip"
+        android:textColor="@color/comment_header"
+        android:textIsSelectable="false"
+        android:textSize="@dimen/text_size_14"
+        tools:text="@string/long_comment_count" />
+
+    <ImageView
+        android:id="@+id/img_comment_expand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16.0dip"
+        android:src="@drawable/comment_icon_fold"
+        android:visibility="gone" />
+
+</RelativeLayout>

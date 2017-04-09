@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.ml.saddhu.bihudaily.DBHelper;
+import cn.ml.saddhu.bihudaily.engine.api.APIHelper;
+import cn.ml.saddhu.bihudaily.engine.api.APIService;
 import cn.ml.saddhu.bihudaily.engine.domain.Creative;
 import cn.ml.saddhu.bihudaily.engine.domain.CreativeDao;
 import cn.ml.saddhu.bihudaily.engine.domain.Creatives;
-import cn.ml.saddhu.bihudaily.mvp.api.APIHelper;
-import cn.ml.saddhu.bihudaily.mvp.api.APIService;
 import cn.ml.saddhu.bihudaily.mvp.model.SplashModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,7 +53,7 @@ public class SplashModelImpl implements SplashModel {
                 @Override
                 public void onResponse(Call<Creatives> call, Response<Creatives> response) {
                     Creatives body = response.body();
-                    if (body != null) {
+                    if (body != null && body.creatives.size() > 0) {
                         creative = body.creatives.get(0);
                         mCreativeDao.deleteAll();
                         for (int i = 0; i < body.creatives.size(); i++) {

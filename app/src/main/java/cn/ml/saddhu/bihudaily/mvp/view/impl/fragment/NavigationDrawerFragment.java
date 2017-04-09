@@ -13,7 +13,7 @@ import org.androidannotations.annotations.ViewById;
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
 import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
-import cn.ml.saddhu.bihudaily.mvp.adapter.NavigationAdapter;
+import cn.ml.saddhu.bihudaily.engine.adapter.NavigationAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.NavigationDrawerPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.NavigationDrawerPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.NavigationDrawerView;

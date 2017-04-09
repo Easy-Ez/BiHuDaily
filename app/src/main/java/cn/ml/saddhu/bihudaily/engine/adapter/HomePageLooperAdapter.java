@@ -1,4 +1,4 @@
-package cn.ml.saddhu.bihudaily.mvp.adapter;
+package cn.ml.saddhu.bihudaily.engine.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;

@@ -19,7 +19,7 @@ import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.Story;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
-import cn.ml.saddhu.bihudaily.mvp.adapter.HomePageAdapter;
+import cn.ml.saddhu.bihudaily.engine.adapter.HomePageAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.StoryListView;

@@ -1,4 +1,4 @@
-package cn.ml.saddhu.bihudaily.mvp.adapter;
+package cn.ml.saddhu.bihudaily.engine.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;

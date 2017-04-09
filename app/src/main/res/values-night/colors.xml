@@ -16,4 +16,12 @@
     <color name="story_detail_bg">@color/color34</color>
     <color name="settings_accent_color">@color/white</color>
     <color name="loadingbarColor">@color/color22</color>
+    <color name="comment_no_comment_prompt_text">@color/color50</color>
+    <color name="comment_item_author">@color/colorb6</color>
+    <color name="comment_item_content">@color/color7f</color>
+    <color name="comment_item_reply_prompt_message_bg">@color/color31</color>
+    <color name="comment_item_reply_prompt_message">@color/color56</color>
+    <color name="comment_item_reply_comment_content">@color/color56</color>
+    <color name="comment_item_reply_expand_button_bg">@color/color2b</color>
+    <color name="comment_header">@color/colorb8</color>
 </resources>

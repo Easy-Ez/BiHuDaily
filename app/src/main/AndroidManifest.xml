@@ -48,7 +48,7 @@
             android:parentActivityName=".mvp.view.impl.activity.MainActivity_"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".mvp.view.impl.activity.CommentsAcitivty_"
+            android:name=".mvp.view.impl.activity.CommentsListAcitivty_"
             android:parentActivityName=".mvp.view.impl.activity.StoryDetailActivity_"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -74,7 +74,7 @@
             android:theme="@style/AppTheme.NoActionBar.Settings" />
 
 
-        <receiver android:name=".engine.push.huawei.MyHuaWeiPushReceiver">
+        <receiver android:name=".engine.push.huawei.HuaWeiPushReceiver">
             <intent-filter>
                 <!-- 必须,用于接收token -->
                 <action android:name="com.huawei.android.push.intent.REGISTRATION" />

@@ -38,6 +38,16 @@ android {
                     "proguard-huawei.pro"
             debuggable true
         }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro',
+                    'proguard-fresco.pro',
+                    "proguard-grenndao.pro",
+                    "proguard-huawei.pro"
+            debuggable true
+        }
     }
 }
 

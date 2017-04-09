@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -19,7 +18,7 @@ import java.util.List;
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnRecyclerViewItemClickListener;
 import cn.ml.saddhu.bihudaily.engine.domain.Editor;
-import cn.ml.saddhu.bihudaily.mvp.adapter.EditorListAdapter;
+import cn.ml.saddhu.bihudaily.engine.adapter.EditorListAdapter;
 import cn.ml.saddhu.bihudaily.widget.decoration.MyLinearDividerDecoration;
 
 /**

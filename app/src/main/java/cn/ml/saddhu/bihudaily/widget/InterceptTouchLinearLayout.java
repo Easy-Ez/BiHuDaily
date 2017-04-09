@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
  * Email static.sadhu@gmail.com
  * 当linearLayout子view会抢夺touch事件,而linearLayout需要touch事件时,使用此类
  *
- * @see {@link cn.ml.saddhu.bihudaily.mvp.adapter.ThemePageAdapter.ThemeHeaderVH#ThemeHeaderVH(View)}
+ * @see {@link cn.ml.saddhu.bihudaily.engine.adapter.ThemePageAdapter.ThemeHeaderVH#ThemeHeaderVH(View)}
  */
 public class InterceptTouchLinearLayout extends LinearLayout {
     public InterceptTouchLinearLayout(Context context) {

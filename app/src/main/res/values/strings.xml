@@ -39,4 +39,14 @@
     <string name="test_str3">11This is just a work around to get the desire result. Put a Button with </string>
     <string name="save">保存</string>
     <string name="is_loading">正在加载</string>
+
+    <string name="comment_no_comment">深度长评虚位以待</string>
+    <string name="comment_colspan">收起</string>
+    <string name="comment_reply">回复</string>
+    <string name="comment_expand">展开</string>
+    <string name="write_comments">写评论</string>
+    <string name="comment_count">%1$d条点评</string>
+    <string name="long_comment_count">%1$d 条长评</string>
+    <string name="short_comment_count">%1$d 条短评</string>
+    <string name="reply_content_fix">//%1$s：</string>
 </resources>

@@ -5,7 +5,7 @@ package cn.ml.saddhu.bihudaily.mvp.view;
  * Email static.sadhu@gmail.com
  * Describe: 所以能刷新.加载更多的界面都应该实现该接口或其子类
  */
-public interface BaseListView<R, L> extends BaseView {
+public interface BaseListView<R, L> extends BaseListLoadmoreView<L>, BaseListRefreshView<R> {
     void onRefreshSucces(R data);
 
     void onLoadMoreSuccuess(L data);

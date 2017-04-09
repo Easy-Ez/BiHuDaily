@@ -7,4 +7,6 @@ package cn.ml.saddhu.bihudaily.mvp.presenter;
  */
 public interface StoryActDetailPresetner extends BasePresenter {
     void getStoryDetailExtra(String storyId);
+
+    String getCurrentStoryId();
 }

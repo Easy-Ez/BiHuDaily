@@ -15,6 +15,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailActView;
 public class StoryActDetailPresenterImpl implements StoryActDetailPresetner, OnNetRefreshListener<StoryDetailExtra> {
     private StoryDetailActView mView;
     private StoryActDetailModel mModel;
+    private String mStoryId;
 
     public StoryActDetailPresenterImpl(StoryDetailActView view) {
         this.mView = view;
@@ -23,9 +24,15 @@ public class StoryActDetailPresenterImpl implements StoryActDetailPresetner, OnN
 
     @Override
     public void getStoryDetailExtra(String storyId) {
+        mView.setToolBarInfo(null);
         mModel.getStoryInfoExtral(storyId);
+        mStoryId = storyId;
     }
 
+    @Override
+    public String getCurrentStoryId() {
+        return mStoryId;
+    }
 
     @Override
     public void onRefreshSuccess(StoryDetailExtra storyDetailExtra) {

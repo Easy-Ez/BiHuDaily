@@ -20,7 +20,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.BaseStory;
 import cn.ml.saddhu.bihudaily.engine.domain.Editor;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
-import cn.ml.saddhu.bihudaily.mvp.adapter.ThemePageAdapter;
+import cn.ml.saddhu.bihudaily.engine.adapter.ThemePageAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.ThemeListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.ThemeListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.ThemeListView;
@@ -33,7 +33,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
  * Describe: 订阅页
  */
 @EFragment(R.layout.frag_story_list)
-public class ThemeListFragment extends Fragment implements ThemeListView, SwipeRefreshLayout.OnRefreshListener, ThemePageAdapter.OnItemClickListener {
+public class  ThemeListFragment extends Fragment implements ThemeListView, SwipeRefreshLayout.OnRefreshListener, ThemePageAdapter.OnItemClickListener {
     @ViewById
     SwipeRefreshLayout refresh;
     @ViewById

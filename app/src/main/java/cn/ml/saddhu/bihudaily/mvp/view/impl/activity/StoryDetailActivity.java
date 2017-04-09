@@ -4,8 +4,8 @@ import android.support.annotation.FloatRange;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +36,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryDetailFragment_;
  * Describe: 详情页
  */
 @EActivity(R.layout.act_story_detail)
-public class StoryDetailActivity extends AppCompatActivity implements StoryDetailActView, OnToolBarNeedChangeListener, View.OnClickListener {
+public class StoryDetailActivity extends BaseActivity implements StoryDetailActView, OnToolBarNeedChangeListener, View.OnClickListener {
     @ViewById
     Toolbar toolbar;
     @ViewById
@@ -78,8 +78,9 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stroy, menu);
-        menu.findItem(R.id.action_comment).getActionView().setOnClickListener(this);
-        menu.findItem(R.id.action_vote).getActionView().setOnClickListener(this);
+        //  actionLayout 需要自己设置点击事件
+        MenuItemCompat.getActionView(menu.findItem(R.id.action_comment)).setOnClickListener(this);
+        MenuItemCompat.getActionView(menu.findItem(R.id.action_vote)).setOnClickListener(this);
         return true;
     }
 
@@ -87,7 +88,6 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                Logger.i("action_share");
                 StoryDetailExtra storyDetailExtra = new StoryDetailExtra();
                 storyDetailExtra.comments = 145;
                 storyDetailExtra.popularity = 2500;
@@ -105,11 +105,20 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tv_menu_comment) {
-            Logger.i("action_comment");
+            if (mExtra != null) {
+                CommentsListAcitivty_
+                        .intent(this)
+                        .mStoryId(mPresetner.getCurrentStoryId())
+                        .mExtra(mExtra)
+                        .start();
+            } else {
+                showToast(getString(R.string.is_loading));
+            }
         } else if (v.getId() == R.id.tv_menu_vote) {
             Logger.i("action_vote");
         }
     }
+
 
     @Override
     public void setToolBarInfo(StoryDetailExtra extra) {
@@ -124,6 +133,11 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
                     .setText(StringUtils.integer2StringWithThousand(mExtra.comments));
             ((TextView) menu.findItem(R.id.action_vote).getActionView())
                     .setText(StringUtils.integer2StringWithThousand(mExtra.popularity));
+        } else {
+            ((TextView) menu.findItem(R.id.action_comment).getActionView())
+                    .setText("...");
+            ((TextView) menu.findItem(R.id.action_vote).getActionView())
+                    .setText("...");
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -139,7 +153,7 @@ public class StoryDetailActivity extends AppCompatActivity implements StoryDetai
     }
 
 
-    class MyPagerFragmentAdapter extends FragmentStatePagerAdapter {
+    private class MyPagerFragmentAdapter extends FragmentStatePagerAdapter {
 
         public MyPagerFragmentAdapter(FragmentManager fm) {
             super(fm);
