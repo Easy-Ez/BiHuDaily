@@ -19,7 +19,9 @@ public class CommentEmptyVH extends RecyclerView.ViewHolder {
         super(itemView);
         RelativeLayout comment_item_empty = (RelativeLayout) itemView.findViewById(R.id.comment_item_empty);
         ViewGroup.LayoutParams layoutParams = comment_item_empty.getLayoutParams();
-        layoutParams.height = UIUtils.getContentHeight(itemView.getContext()) - (itemView.getContext().getResources().getDimensionPixelSize(R.dimen.list_header_height) * 2) ;
+        layoutParams.height = UIUtils.getContentHeight(itemView.getContext()) -
+                (itemView.getContext().getResources().getDimensionPixelSize(R.dimen.list_header_height) * 2) -
+                (UIUtils.getDefaultDivederHeihgt(itemView.getContext()) * 2);
         comment_item_empty.setLayoutParams(layoutParams);
     }
 }

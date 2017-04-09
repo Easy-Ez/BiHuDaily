@@ -2,6 +2,7 @@ package cn.ml.saddhu.bihudaily.engine.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
 /**
@@ -65,10 +66,19 @@ public class UIUtils {
 
     /**
      * 内容区域高度
+     *
      * @param context
      * @return
      */
     public static int getContentHeight(Context context) {
         return getWindowsHeight(context) - getActionBarSize(context);
+    }
+
+    public static int getDefaultDivederHeihgt(Context context) {
+        int[] ATTRS = new int[]{android.R.attr.listDivider};
+        TypedArray a = context.obtainStyledAttributes(ATTRS);
+        Drawable divider = a.getDrawable(0);
+        a.recycle();
+        return divider != null ? divider.getIntrinsicHeight() : 0;
     }
 }
