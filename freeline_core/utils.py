@@ -35,13 +35,13 @@ def cexec(args, callback=None, add_path=None, cwd=None):
         return output, err, code
 
 
-def curl(tag, body=None):
+def curl(url, body=None):
     code = 0
     err = None
     result = None
     try:
         import urllib2
-        result = urllib2.urlopen(tag, data=body).read().decode('utf-8').strip()
+        result = urllib2.urlopen(url, data=body).read().decode('utf-8').strip()
     except Exception as e:
         code = -1
         err = e

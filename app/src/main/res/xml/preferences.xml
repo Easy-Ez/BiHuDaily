@@ -1,39 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/routine">
-        <CheckBoxPreference
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v7.preference.PreferenceCategory android:title="@string/routine">
+        <android.support.v7.preference.CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_key_automatic_download_open"
             android:summary="@string/automatic_download_offline_summary"
             android:title="@string/automatic_download_offline" />
-        <CheckBoxPreference
+        <android.support.v7.preference.CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_key_no_image_mode_open"
             android:summary="@string/no_image_mode_summary"
             android:title="@string/no_image_mode" />
-        <CheckBoxPreference
+        <android.support.v7.preference.CheckBoxPreference
             android:key="@string/preference_key_big_font_mode_open"
             android:title="@string/big_font" />
-    </PreferenceCategory>
+    </android.support.v7.preference.PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/other">
-        <CheckBoxPreference
+    <android.support.v7.preference.PreferenceCategory android:title="@string/other">
+        <android.support.v7.preference.CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_key_push_open"
             android:title="@string/push_message" />
-        <CheckBoxPreference
+        <android.support.v7.preference.CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_key_comment_share_open"
             android:title="@string/comment_share_to_weibo" />
-        <Preference
+        <android.support.v7.preference.Preference
             android:key="@string/preference_key_clear_cache"
             android:title="@string/delete_cache" />
-        <Preference
+        <android.support.v7.preference.Preference
             android:key="@string/preference_key_check_update"
             android:summary="版本: 260(744)"
             android:title="检查更新" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/feed_back">
-        <Preference android:title="意见反馈" />
-    </PreferenceCategory>
-</PreferenceScreen>
+    </android.support.v7.preference.PreferenceCategory>
+    <android.support.v7.preference.PreferenceCategory android:title="@string/feed_back">
+        <android.support.v7.preference.Preference android:title="意见反馈" />
+        <android.support.v7.preference.EditTextPreference
+            android:defaultValue="Default value"
+            android:dialogMessage="Dialog Message"
+            android:key="key2"
+            android:dialogLayout="@layout/pref_dialog_edittext_fix"
+            android:summary="EditText Summary"
+            android:title="测试编辑" />
+    </android.support.v7.preference.PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>

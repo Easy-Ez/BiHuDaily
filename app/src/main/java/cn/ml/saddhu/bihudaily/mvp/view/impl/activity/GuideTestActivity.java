@@ -26,7 +26,7 @@ public class GuideTestActivity extends BaseActivity {
 
     @AfterViews
     void afterViews() {
-        new GuideViewManager.Builder(GuideTestActivity.this)
+        new GuideViewManager.Builder(this)
                 .addTargetView(new TargetViewInfo().setResource(R.drawable.guide1).setMarginTop(20).setMarginLeft(20))
                 .addTargetView(new TargetViewInfo().setResource(R.drawable.guide2).setMarginTop(500).setMarginLeft(20))
                 .switchNextSetp()
