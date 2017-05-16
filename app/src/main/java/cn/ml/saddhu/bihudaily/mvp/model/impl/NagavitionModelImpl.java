@@ -2,7 +2,7 @@ package cn.ml.saddhu.bihudaily.mvp.model.impl;
 
 import java.util.Collections;
 
-import cn.ml.saddhu.bihudaily.DBHelper;
+import cn.ml.saddhu.bihudaily.engine.db.DBHelper;
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.constant.SharedPreferenceConstants;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;

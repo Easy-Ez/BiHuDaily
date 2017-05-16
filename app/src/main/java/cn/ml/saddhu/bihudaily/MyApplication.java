@@ -8,12 +8,17 @@ import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.orhanobut.logger.Logger;
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.io.File;
 
+import cn.ml.saddhu.bihudaily.engine.db.DBHelper;
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoader;
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoaderConfiguration;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
+import cn.sadhu.share_library.constant.Constants;
 
 /**
  * Created by sadhu on 2016/11/7.
@@ -26,7 +31,14 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
         mContext = this;
+        LeakCanary.install(this);
+        WbSdk.install(this, new AuthInfo(this, getString(R.string.weibo_app_id), Constants.REDIRECT_URL, Constants.SCOPE));
         if (SharePreferenceUtil.isLight(this)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else {

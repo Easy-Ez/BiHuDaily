@@ -11,12 +11,15 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetLoadMoreListener;
-import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
-import cn.ml.saddhu.bihudaily.engine.domain.BaseStory;
-import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
 import cn.ml.saddhu.bihudaily.engine.api.APIHelper;
 import cn.ml.saddhu.bihudaily.engine.api.APIService;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetLoadMoreListener;
+import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
+import cn.ml.saddhu.bihudaily.engine.db.DBHelper;
+import cn.ml.saddhu.bihudaily.engine.domain.BaseStory;
+import cn.ml.saddhu.bihudaily.engine.domain.ReadHistory;
+import cn.ml.saddhu.bihudaily.engine.domain.ReadHistoryDao;
+import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
 import cn.ml.saddhu.bihudaily.mvp.model.ThemeListModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -34,6 +37,7 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
     private final Type mType;
     private Call<ResponseBody> baseStoryCall;
     private Call<ThemeInfo> themePageListCall;
+    private final ReadHistoryDao mReadHistoryDao;
 
     public ThemeListModelImpl(OnNetRefreshListener<ThemeInfo> refreshListener, OnNetLoadMoreListener<List<BaseStory>> loadMoreListener) {
         super(refreshListener, loadMoreListener);
@@ -41,6 +45,7 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
         mGson = new Gson();
         mType = new TypeToken<List<BaseStory>>() {
         }.getType();
+        mReadHistoryDao = DBHelper.getInstance().getDaoSession().getReadHistoryDao();
     }
 
 
@@ -53,6 +58,15 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
                 if (mRefreshListener != null) {
                     ThemeInfo body = response.body();
                     if (body != null) {
+                        // 是否已读
+                        for (int i = 0; i < body.stories.size(); i++) {
+                            if (mReadHistoryDao
+                                    .queryBuilder()
+                                    .where(ReadHistoryDao.Properties.StoryId.eq(body.stories.get(i).id))
+                                    .unique() != null) {
+                                body.stories.get(i).isRead = true;
+                            }
+                        }
                         mRefreshListener.onRefreshSuccess(body);
                     } else {
                         mRefreshListener.onRefreshError(1);
@@ -91,6 +105,15 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
                         mLoadMoreListener.onLoadMoreError(2);
                     } else {
                         List<BaseStory> baseStories = mGson.fromJson(stories.toString(), mType);
+                        // 是否已读
+                        for (int i = 0; i < baseStories.size(); i++) {
+                            if (mReadHistoryDao
+                                    .queryBuilder()
+                                    .where(ReadHistoryDao.Properties.StoryId.eq(baseStories.get(i).id))
+                                    .unique() != null) {
+                                baseStories.get(i).isRead = true;
+                            }
+                        }
                         mLoadMoreListener.onLoadMoreSuccess(baseStories);
                     }
                 }
@@ -108,6 +131,13 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
             }
         });
 
+    }
+
+    @Override
+    public void setItemRead(String id) {
+        ReadHistory readHistory = new ReadHistory();
+        readHistory.setStoryId(id);
+        mReadHistoryDao.insert(readHistory);
     }
 
     @Override

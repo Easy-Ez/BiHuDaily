@@ -16,15 +16,6 @@ public class StoryDetailTest {
 
     }
 
-    @Test
-    public void sectionOrThemeInfo() throws Exception {
-        StoryDetail storyDetail = new StoryDetail();
-        storyDetail.section = new Section();
-        storyDetail.section.setId(11);
-        storyDetail.section.setName("section_name");
-        storyDetail.section.setThumbnailUrl("www.baidu.com");
-        String result = storyDetail.sectionOrThemeInfo();
-        Logger.d(result);
-    }
+
 
 }

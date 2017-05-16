@@ -1,1 +1,1 @@
-include ':app', ':guidelibrary'
+include ':app', ':guidelibrary', ':share_library'

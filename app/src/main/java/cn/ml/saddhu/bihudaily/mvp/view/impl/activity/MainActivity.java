@@ -1,9 +1,7 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,15 +18,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.huawei.hms.api.ConnectionResult;
-import com.huawei.hms.api.HuaweiApiAvailability;
-import com.huawei.hms.api.HuaweiApiClient;
-import com.huawei.hms.support.api.client.PendingResult;
-import com.huawei.hms.support.api.client.ResultCallback;
-import com.huawei.hms.support.api.push.HuaweiPush;
-import com.huawei.hms.support.api.push.TokenResult;
-import com.orhanobut.logger.Logger;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
@@ -44,13 +33,9 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.ThemeListFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.ThemeListFragment_;
 
 @EActivity(R.layout.act_main)
-public class MainActivity extends AppCompatActivity implements StoryListFragment.OnToolBarTitleChangeListener, HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConnectionFailedListener, HuaweiApiAvailability.OnUpdateListener {
+public class MainActivity extends AppCompatActivity implements StoryListFragment.OnToolBarTitleChangeListener {
 
     private static final String STATE_KEY_FRAGMENT = "keyStoryFragment";
-
-    private static final int REQUEST_RESOLVE_ERROR = 1001;
-    private boolean mResolvingError = false;
-    private HuaweiApiClient client;
 
 
     @ViewById
@@ -74,13 +59,6 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         } else {
             mStoryListFragment = StoryListFragment_.builder().build();
         }
-
-        client = new HuaweiApiClient.Builder(this) //
-                .addApi(HuaweiPush.PUSH_API) //
-                .addConnectionCallbacks(this) //
-                .addOnConnectionFailedListener(this) //
-                .build();
-        client.connect();
     }
 
 
@@ -268,67 +246,5 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         manager.putFragment(outState, STATE_KEY_FRAGMENT, mStoryListFragment);
     }
 
-    @Override
-    public void onConnected() {
-        Logger.d("onConnected, IsConnected: " + client.isConnected());
-        getToken();
-    }
-
-    private void getToken() {
-        if (!client.isConnected()) {
-            Toast.makeText(this, "get token failed, HMS is disconnect.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // 异步调用方式
-        PendingResult<TokenResult> tokenResult =
-                HuaweiPush.HuaweiPushApi.getToken(client);
-        tokenResult.setResultCallback(new ResultCallback<TokenResult>() {
-            @Override
-            public void onResult(TokenResult result) {
-                Toast.makeText(MainActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Logger.d("onConnectionSuspended, cause: " + i + ", IsConnected: " + client.isConnected());
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult result) {
-        if (mResolvingError) {
-            return;
-        }
-        final int errorCode = result.getErrorCode();
-        final HuaweiApiAvailability availability = HuaweiApiAvailability.getInstance();
-        if (availability.isUserResolvableError(errorCode)) {
-            mResolvingError = true;
-            availability.resolveError(this, errorCode, REQUEST_RESOLVE_ERROR, this);
-        }
-    }
-
-    @Override
-    public void onUpdateFailed(@NonNull ConnectionResult connectionResult) {
-        mResolvingError = false;
-        // TODO: 处理result.getErrorCode()
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_RESOLVE_ERROR) {
-            mResolvingError = false;
-            final int errorCode =
-                    HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(this);
-            if (errorCode == ConnectionResult.SUCCESS) {
-                if (!client.isConnecting() && !client.isConnected()) {
-                    client.connect();
-                }
-            } else {
-                // TODO: 处理errorCode
-            }
-        }
-    }
 
 }

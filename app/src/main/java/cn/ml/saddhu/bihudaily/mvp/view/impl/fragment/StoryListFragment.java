@@ -16,10 +16,10 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 import cn.ml.saddhu.bihudaily.R;
+import cn.ml.saddhu.bihudaily.engine.adapter.HomePageAdapter;
 import cn.ml.saddhu.bihudaily.engine.domain.Story;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
-import cn.ml.saddhu.bihudaily.engine.adapter.HomePageAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.StoryListView;
@@ -150,11 +150,19 @@ public class StoryListFragment extends Fragment implements StoryListView, SwipeR
     @Override
     public void onNormalItemClick(int position) {
         Logger.d("onNormalItemClick position %d", position);
+        //设置已读
+        mPresenter.setItemRead(position);
+        // 进入详情
         StoryDetailActivity_
                 .intent(this)
                 .mIdLists(mPresenter.getNormalIdList())
                 .mPosition(position)
                 .start();
+    }
+
+    @Override
+    public void notifyItemChange(int position) {
+        mAdapter.notifyItemChanged(mAdapter.isHasLooper() ? position + 1 : position);
     }
 
     @Override

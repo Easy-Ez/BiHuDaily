@@ -1,5 +1,6 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 
+import android.content.Intent;
 import android.support.annotation.FloatRange;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,6 +30,11 @@ import cn.ml.saddhu.bihudaily.mvp.presenter.StoryActDetailPresetner;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryActDetailPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailActView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryDetailFragment_;
+import cn.sadhu.share_library.domain.ErrorInfo;
+import cn.sadhu.share_library.callback.IShareCallback;
+import cn.sadhu.share_library.domain.PlatformType;
+import cn.sadhu.share_library.domain.ShareInfoBean;
+import cn.sadhu.share_library.ShareManager;
 
 /**
  * Created by sadhu on 2016/12/5.
@@ -48,6 +54,7 @@ public class StoryDetailActivity extends BaseActivity implements StoryDetailActV
 
     private StoryDetailExtra mExtra;
     private StoryActDetailPresetner mPresetner;
+    private ShareManager mShareManager;
 
     @AfterViews
     void afterViews() {
@@ -88,10 +95,35 @@ public class StoryDetailActivity extends BaseActivity implements StoryDetailActV
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                StoryDetailExtra storyDetailExtra = new StoryDetailExtra();
-                storyDetailExtra.comments = 145;
-                storyDetailExtra.popularity = 2500;
-                setToolBarInfo(storyDetailExtra);
+//                StoryDetailExtra storyDetailExtra = new StoryDetailExtra();
+//                storyDetailExtra.comments = 145;
+//                storyDetailExtra.popularity = 2500;
+//                setToolBarInfo(storyDetailExtra);
+                if (mShareManager == null) {
+                    mShareManager = new ShareManager();
+                }
+                mShareManager.share(this,
+                        PlatformType.WEIBO,
+                        new ShareInfoBean("要分享的标题",
+                                "要分享的摘要",
+                                "http://www.baidu.com",
+                                "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif"),
+                        new IShareCallback() {
+                            @Override
+                            public void onComplete(PlatformType type) {
+                                Logger.d("onComplete");
+                            }
+
+                            @Override
+                            public void onError(PlatformType type, ErrorInfo errorInfo) {
+                                Logger.d("onError:" + errorInfo.message);
+                            }
+
+                            @Override
+                            public void onCancel(PlatformType type) {
+                                Logger.d("onCancel");
+                            }
+                        });
                 return true;
             case R.id.action_favorite:
                 Logger.i("action_favorite");
@@ -100,6 +132,19 @@ public class StoryDetailActivity extends BaseActivity implements StoryDetailActV
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mShareManager.onActivityResultData(requestCode, resultCode, data);
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mShareManager.onActivityResultData(0, 0, intent);
     }
 
     @Override

@@ -14,4 +14,6 @@ public interface StoryListView {
     void setFirstPageData(StoryInfo info);
 
     void onLoadMoreSuccess(List<Story> info);
+
+    void notifyItemChange(int position);
 }

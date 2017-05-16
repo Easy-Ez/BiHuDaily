@@ -157,12 +157,13 @@ public class ThemePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 mSdvCovers.setImageURI(story.images.get(0));
             }
             mTvTitle.setText(story.title);
+            mTvTitle.setSelected(story.isRead);
         }
 
         @Override
         public void onClick(View view) {
             if (mListener != null) {
-                mListener.onNormalItemClick( getAdapterPosition() - 1);
+                mListener.onNormalItemClick(getAdapterPosition() - 1);
             }
         }
     }

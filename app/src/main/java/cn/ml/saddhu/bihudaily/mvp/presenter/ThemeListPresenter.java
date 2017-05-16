@@ -23,4 +23,10 @@ public interface ThemeListPresenter extends BasePresenter {
      * @return 文章id集合
      */
     ArrayList<String> getThemeIdList();
+
+    /**
+     * 设置已读
+     * @param position
+     */
+    void setItemRead(int position);
 }

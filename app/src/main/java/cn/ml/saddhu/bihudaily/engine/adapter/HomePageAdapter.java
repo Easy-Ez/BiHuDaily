@@ -139,6 +139,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (story.isTag) {
                 tv_tag.setText(story.tagName);
             }
+            tv_title.setSelected(story.isRead);
             tv_title.setText(story.title);
             sdv_covers.setImageURI(story.images.get(0));
             img_mutil_tag.setVisibility(story.multipic ? View.VISIBLE : View.GONE);

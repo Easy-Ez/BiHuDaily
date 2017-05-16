@@ -9,16 +9,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import cn.ml.saddhu.bihudaily.DBHelper;
+import cn.ml.saddhu.bihudaily.engine.api.APIHelper;
+import cn.ml.saddhu.bihudaily.engine.api.APIService;
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetLoadMoreListener;
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
+import cn.ml.saddhu.bihudaily.engine.db.DBHelper;
+import cn.ml.saddhu.bihudaily.engine.domain.ReadHistory;
+import cn.ml.saddhu.bihudaily.engine.domain.ReadHistoryDao;
 import cn.ml.saddhu.bihudaily.engine.domain.Story;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDao;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
 import cn.ml.saddhu.bihudaily.engine.domain.TopStory;
 import cn.ml.saddhu.bihudaily.engine.domain.TopStoryDao;
-import cn.ml.saddhu.bihudaily.engine.api.APIHelper;
-import cn.ml.saddhu.bihudaily.engine.api.APIService;
 import cn.ml.saddhu.bihudaily.mvp.model.StoryListModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,11 +41,13 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
     private final SimpleDateFormat mFormat;
     private Call<StoryInfo> homePageListCall;
     private Call<StoryInfo> storyInfoCall;
+    private final ReadHistoryDao mReadHistoryDao;
 
     public StoryListModelImpl(OnNetRefreshListener<StoryInfo> refreshListener, OnNetLoadMoreListener<List<Story>> loadMoreListener) {
         super(refreshListener, loadMoreListener);
         mTopStoryDao = DBHelper.getInstance().getDaoSession().getTopStoryDao();
         mStoryDao = DBHelper.getInstance().getDaoSession().getStoryDao();
+        mReadHistoryDao = DBHelper.getInstance().getDaoSession().getReadHistoryDao();
         apiService = APIHelper.getInstance().create(APIService.class);
 
         mFormat = new SimpleDateFormat("MM月dd日 E", Locale.CHINA);
@@ -80,6 +84,15 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
                                 .executeDeleteWithoutDetachingEntities();
                     } else {
                         mStoryDao.deleteAll();
+                    }
+                    // 是否已读
+                    for (int i = 0; i < body.stories.size(); i++) {
+                        if (mReadHistoryDao
+                                .queryBuilder()
+                                .where(ReadHistoryDao.Properties.StoryId.eq(body.stories.get(i).getId()))
+                                .unique() != null) {
+                            body.stories.get(i).setIsRead(true);
+                        }
                     }
                     // step3存起来
                     mStoryDao.insertOrReplaceInTx(body.stories);
@@ -130,9 +143,17 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
                     response.body().stories.get(0).isTag = true;
                     for (int i = 0; i < response.body().stories.size(); i++) {
                         response.body().stories.get(i).date = response.body().date;
+                        // 是否已读
+                        if (mReadHistoryDao
+                                .queryBuilder()
+                                .where(ReadHistoryDao.Properties.StoryId.eq(response.body().stories.get(i).getId()))
+                                .unique() != null) {
+                            response.body().stories.get(i).setIsRead(true);
+                        }
                         if (!TextUtils.isEmpty(formatDate)) {
                             response.body().stories.get(i).tagName = formatDate;
                         }
+
                     }
                     // step1 存起来
                     mStoryDao.insertOrReplaceInTx(response.body().stories);
@@ -173,6 +194,13 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
 
             }
         });
+    }
+
+    @Override
+    public void setItemRead(String id) {
+        ReadHistory readHistory = new ReadHistory();
+        readHistory.setStoryId(id);
+        mReadHistoryDao.insert(readHistory);
     }
 
     @Override

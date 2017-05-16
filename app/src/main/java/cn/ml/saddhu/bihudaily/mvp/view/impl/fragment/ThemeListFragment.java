@@ -16,11 +16,11 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 import cn.ml.saddhu.bihudaily.R;
+import cn.ml.saddhu.bihudaily.engine.adapter.ThemePageAdapter;
 import cn.ml.saddhu.bihudaily.engine.domain.BaseStory;
 import cn.ml.saddhu.bihudaily.engine.domain.Editor;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
-import cn.ml.saddhu.bihudaily.engine.adapter.ThemePageAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.ThemeListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.ThemeListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.ThemeListView;
@@ -33,7 +33,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
  * Describe: 订阅页
  */
 @EFragment(R.layout.frag_story_list)
-public class  ThemeListFragment extends Fragment implements ThemeListView, SwipeRefreshLayout.OnRefreshListener, ThemePageAdapter.OnItemClickListener {
+public class ThemeListFragment extends Fragment implements ThemeListView, SwipeRefreshLayout.OnRefreshListener, ThemePageAdapter.OnItemClickListener {
     @ViewById
     SwipeRefreshLayout refresh;
     @ViewById
@@ -128,12 +128,20 @@ public class  ThemeListFragment extends Fragment implements ThemeListView, Swipe
 
     @Override
     public void onNormalItemClick(int position) {
+        //设置已读
+        mPresenter.setItemRead(position);
         // 进入文章详情
         StoryDetailActivity_
                 .intent(this)
                 .mIdLists(mPresenter.getThemeIdList())
                 .mPosition(position)
                 .start();
+    }
+
+    @Override
+    public void notifyItemChange(int position) {
+        // 有个头部
+        mAdapter.notifyItemChanged(position + 1);
     }
 
     @Override

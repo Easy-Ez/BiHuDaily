@@ -11,4 +11,5 @@ import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
  * Describe: 主题list界面
  */
 public interface ThemeListView extends BaseListView<ThemeInfo, List<BaseStory>> {
+    void notifyItemChange(int position);
 }

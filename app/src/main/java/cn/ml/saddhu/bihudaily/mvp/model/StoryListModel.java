@@ -14,4 +14,6 @@ public interface StoryListModel  extends BaseModel{
     void getHomePageList();
 
     void loadMoreHomePageList(String date);
+
+    void setItemRead(String id);
 }

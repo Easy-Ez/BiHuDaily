@@ -25,70 +25,92 @@ public class Story implements Parcelable {
     public int type;
     @Id
     public String id;
+    private long sectionId;
     public String title;
     public boolean multipic;
     public String tagName;
     public boolean isTag;
-    @Generated(hash = 883416079)
-    public Story(List<String> images, String date, int type, String id,
-            String title, boolean multipic, String tagName, boolean isTag) {
+    public boolean isRead;
+
+    @Generated(hash = 46138201)
+    public Story(List<String> images, String date, int type, String id, long sectionId,
+            String title, boolean multipic, String tagName, boolean isTag, boolean isRead) {
         this.images = images;
         this.date = date;
         this.type = type;
         this.id = id;
+        this.sectionId = sectionId;
         this.title = title;
         this.multipic = multipic;
         this.tagName = tagName;
         this.isTag = isTag;
+        this.isRead = isRead;
     }
+
     @Generated(hash = 922655990)
     public Story() {
     }
+
     public List<String> getImages() {
         return this.images;
     }
+
     public void setImages(List<String> images) {
         this.images = images;
     }
+
     public String getDate() {
         return this.date;
     }
+
     public void setDate(String date) {
         this.date = date;
     }
+
     public int getType() {
         return this.type;
     }
+
     public void setType(int type) {
         this.type = type;
     }
+
     public String getId() {
         return this.id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
+
     public String getTitle() {
         return this.title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public boolean getMultipic() {
         return this.multipic;
     }
+
     public void setMultipic(boolean multipic) {
         this.multipic = multipic;
     }
+
     public String getTagName() {
         return this.tagName;
     }
+
     public void setTagName(String tagName) {
         this.tagName = tagName;
     }
+
     public boolean getIsTag() {
         return this.isTag;
     }
+
     public void setIsTag(boolean isTag) {
         this.isTag = isTag;
     }
@@ -109,6 +131,22 @@ public class Story implements Parcelable {
         dest.writeByte(this.multipic ? (byte) 1 : (byte) 0);
         dest.writeString(this.tagName);
         dest.writeByte(this.isTag ? (byte) 1 : (byte) 0);
+    }
+
+    public long getSectionId() {
+        return this.sectionId;
+    }
+
+    public void setSectionId(long sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    public boolean getIsRead() {
+        return this.isRead;
+    }
+
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
     }
 
     protected Story(Parcel in) {

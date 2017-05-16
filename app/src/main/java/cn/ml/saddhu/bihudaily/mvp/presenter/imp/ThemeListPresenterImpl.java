@@ -49,6 +49,15 @@ public class ThemeListPresenterImpl implements ThemeListPresenter, OnNetRefreshL
     }
 
     @Override
+    public void setItemRead(int position) {
+        if (!mThemeInfo.stories.get(position).isRead) {
+            mThemeInfo.stories.get(position).isRead = true;
+            mModel.setItemRead(mThemeInfo.stories.get(position).id);
+            mView.notifyItemChange(position);
+        }
+    }
+
+    @Override
     public void onRefreshSuccess(ThemeInfo themeInfo) {
         mThemeInfo = themeInfo;
         mView.onRefreshSucces(themeInfo);

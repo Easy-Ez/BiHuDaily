@@ -49,4 +49,11 @@ public interface StoryListPresenter extends BasePresenter {
      * @return
      */
     ArrayList<String> getNormalIdList();
+
+    /**
+     * 设置已读
+     *
+     * @param position
+     */
+    void setItemRead(int position);
 }

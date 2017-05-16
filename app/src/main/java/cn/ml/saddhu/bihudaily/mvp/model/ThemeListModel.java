@@ -21,4 +21,10 @@ public interface ThemeListModel extends BaseModel {
     void loadMoreThemePageList(String themeId, String id);
 
 
+    /**
+     * 设置已读
+     *
+     * @param id
+     */
+    void setItemRead(String id);
 }

@@ -4,6 +4,7 @@
     <color name="statusBarColor">@color/black</color>
     <color name="toolBarColor">@color/color22</color>
     <color name="titleTextColor">@color/white</color>
+    <color name="titleTextReadColor">@color/color76</color>
     <color name="card_item_color">#404040</color>
     <color name="edgeEffectColor">#222222</color>
     <color name="drawerHeaderColor">@color/color25</color>

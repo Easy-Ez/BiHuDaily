@@ -1,5 +1,6 @@
 package cn.ml.saddhu.bihudaily.engine.domain;
 
+import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
@@ -8,6 +9,8 @@ import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import cn.ml.saddhu.bihudaily.engine.dbconverter.StringConverter;
 import java.util.List;
@@ -29,13 +32,16 @@ public class StoryDao extends AbstractDao<Story, String> {
         public final static Property Date = new Property(1, String.class, "date", false, "DATE");
         public final static Property Type = new Property(2, int.class, "type", false, "TYPE");
         public final static Property Id = new Property(3, String.class, "id", true, "ID");
-        public final static Property Title = new Property(4, String.class, "title", false, "TITLE");
-        public final static Property Multipic = new Property(5, boolean.class, "multipic", false, "MULTIPIC");
-        public final static Property TagName = new Property(6, String.class, "tagName", false, "TAG_NAME");
-        public final static Property IsTag = new Property(7, boolean.class, "isTag", false, "IS_TAG");
+        public final static Property SectionId = new Property(4, long.class, "sectionId", false, "SECTION_ID");
+        public final static Property Title = new Property(5, String.class, "title", false, "TITLE");
+        public final static Property Multipic = new Property(6, boolean.class, "multipic", false, "MULTIPIC");
+        public final static Property TagName = new Property(7, String.class, "tagName", false, "TAG_NAME");
+        public final static Property IsTag = new Property(8, boolean.class, "isTag", false, "IS_TAG");
+        public final static Property IsRead = new Property(9, boolean.class, "isRead", false, "IS_READ");
     }
 
     private final StringConverter imagesConverter = new StringConverter();
+    private Query<Story> section_StoryListQuery;
 
     public StoryDao(DaoConfig config) {
         super(config);
@@ -53,10 +59,12 @@ public class StoryDao extends AbstractDao<Story, String> {
                 "\"DATE\" TEXT," + // 1: date
                 "\"TYPE\" INTEGER NOT NULL ," + // 2: type
                 "\"ID\" TEXT PRIMARY KEY NOT NULL ," + // 3: id
-                "\"TITLE\" TEXT," + // 4: title
-                "\"MULTIPIC\" INTEGER NOT NULL ," + // 5: multipic
-                "\"TAG_NAME\" TEXT," + // 6: tagName
-                "\"IS_TAG\" INTEGER NOT NULL );"); // 7: isTag
+                "\"SECTION_ID\" INTEGER NOT NULL ," + // 4: sectionId
+                "\"TITLE\" TEXT," + // 5: title
+                "\"MULTIPIC\" INTEGER NOT NULL ," + // 6: multipic
+                "\"TAG_NAME\" TEXT," + // 7: tagName
+                "\"IS_TAG\" INTEGER NOT NULL ," + // 8: isTag
+                "\"IS_READ\" INTEGER NOT NULL );"); // 9: isRead
     }
 
     /** Drops the underlying database table. */
@@ -84,18 +92,20 @@ public class StoryDao extends AbstractDao<Story, String> {
         if (id != null) {
             stmt.bindString(4, id);
         }
+        stmt.bindLong(5, entity.getSectionId());
  
         String title = entity.getTitle();
         if (title != null) {
-            stmt.bindString(5, title);
+            stmt.bindString(6, title);
         }
-        stmt.bindLong(6, entity.getMultipic() ? 1L: 0L);
+        stmt.bindLong(7, entity.getMultipic() ? 1L: 0L);
  
         String tagName = entity.getTagName();
         if (tagName != null) {
-            stmt.bindString(7, tagName);
+            stmt.bindString(8, tagName);
         }
-        stmt.bindLong(8, entity.getIsTag() ? 1L: 0L);
+        stmt.bindLong(9, entity.getIsTag() ? 1L: 0L);
+        stmt.bindLong(10, entity.getIsRead() ? 1L: 0L);
     }
 
     @Override
@@ -117,18 +127,20 @@ public class StoryDao extends AbstractDao<Story, String> {
         if (id != null) {
             stmt.bindString(4, id);
         }
+        stmt.bindLong(5, entity.getSectionId());
  
         String title = entity.getTitle();
         if (title != null) {
-            stmt.bindString(5, title);
+            stmt.bindString(6, title);
         }
-        stmt.bindLong(6, entity.getMultipic() ? 1L: 0L);
+        stmt.bindLong(7, entity.getMultipic() ? 1L: 0L);
  
         String tagName = entity.getTagName();
         if (tagName != null) {
-            stmt.bindString(7, tagName);
+            stmt.bindString(8, tagName);
         }
-        stmt.bindLong(8, entity.getIsTag() ? 1L: 0L);
+        stmt.bindLong(9, entity.getIsTag() ? 1L: 0L);
+        stmt.bindLong(10, entity.getIsRead() ? 1L: 0L);
     }
 
     @Override
@@ -143,10 +155,12 @@ public class StoryDao extends AbstractDao<Story, String> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // date
             cursor.getInt(offset + 2), // type
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // id
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // title
-            cursor.getShort(offset + 5) != 0, // multipic
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // tagName
-            cursor.getShort(offset + 7) != 0 // isTag
+            cursor.getLong(offset + 4), // sectionId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // title
+            cursor.getShort(offset + 6) != 0, // multipic
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // tagName
+            cursor.getShort(offset + 8) != 0, // isTag
+            cursor.getShort(offset + 9) != 0 // isRead
         );
         return entity;
     }
@@ -157,10 +171,12 @@ public class StoryDao extends AbstractDao<Story, String> {
         entity.setDate(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setType(cursor.getInt(offset + 2));
         entity.setId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setTitle(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setMultipic(cursor.getShort(offset + 5) != 0);
-        entity.setTagName(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setIsTag(cursor.getShort(offset + 7) != 0);
+        entity.setSectionId(cursor.getLong(offset + 4));
+        entity.setTitle(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setMultipic(cursor.getShort(offset + 6) != 0);
+        entity.setTagName(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setIsTag(cursor.getShort(offset + 8) != 0);
+        entity.setIsRead(cursor.getShort(offset + 9) != 0);
      }
     
     @Override
@@ -187,4 +203,18 @@ public class StoryDao extends AbstractDao<Story, String> {
         return true;
     }
     
+    /** Internal query to resolve the "storyList" to-many relationship of Section. */
+    public List<Story> _querySection_StoryList(long sectionId) {
+        synchronized (this) {
+            if (section_StoryListQuery == null) {
+                QueryBuilder<Story> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.SectionId.eq(null));
+                section_StoryListQuery = queryBuilder.build();
+            }
+        }
+        Query<Story> query = section_StoryListQuery.forCurrentThread();
+        query.setParameter(0, sectionId);
+        return query.list();
+    }
+
 }

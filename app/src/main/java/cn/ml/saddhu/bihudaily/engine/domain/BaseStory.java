@@ -12,4 +12,5 @@ public class BaseStory {
     public String id;
     public String title;
     public int type;
+    public boolean isRead;
 }

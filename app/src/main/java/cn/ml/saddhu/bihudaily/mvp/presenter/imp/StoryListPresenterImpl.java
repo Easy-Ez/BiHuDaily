@@ -52,6 +52,16 @@ public class StoryListPresenterImpl implements StoryListPresenter, OnNetRefreshL
     }
 
     @Override
+    public void setItemRead(int position) {
+        if (!mStoryInfo.stories.get(position).isRead) {
+            mStoryInfo.stories.get(position).setIsRead(true);
+            mModel.setItemRead(mStoryInfo.stories.get(position).getId());
+            mView.notifyItemChange(position);
+        }
+
+    }
+
+    @Override
     public void getHomePageList() {
         mModel.getHomePageList();
     }

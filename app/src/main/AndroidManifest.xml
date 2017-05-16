@@ -20,15 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.huawei.hms.client.appid"
-            android:value="10878555"></meta-data>
-        <provider
-            android:name="com.huawei.hms.update.provider.UpdateProvider"
-            android:authorities="cn.ml.saddhu.bihudaily.hms.update.provider"
-            android:exported="false"
-            android:grantUriPermissions="true"></provider>
-
         <activity
             android:name=".mvp.view.impl.activity.SplashActivity_"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
@@ -74,27 +65,26 @@
             android:theme="@style/AppTheme.NoActionBar.Settings" />
 
 
-        <receiver android:name=".engine.push.huawei.HuaWeiPushReceiver">
+        <!--QQsdk-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
             <intent-filter>
-                <!-- 必须,用于接收token -->
-                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
-                <!-- 必须，用于接收消息 -->
-                <action android:name="com.huawei.android.push.intent.RECEIVE" />
-                <!-- 可选，用于点击通知栏或通知栏上的按钮后触发onEvent回调 -->
-                <action android:name="com.huawei.android.push.intent.CLICK" />
-                <!-- 可选，查看push通道是否连接，不查看则不需要 -->
-                <action android:name="com.huawei.intent.action.PUSH_STATE" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1106085175" />
             </intent-filter>
-            <meta-data
-                android:name="CS_cloud_ablitity"
-                android:value="@string/hwpush_ability_value" />
-        </receiver>
-        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
-            <intent-filter>
-                <!-- 接收通道发来的通知栏消息，兼容老版本Push -->
-                <action android:name="com.huawei.intent.action.PUSH" />
-            </intent-filter>
-        </receiver>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden">
+        </activity>
     </application>
 
 </manifest>
