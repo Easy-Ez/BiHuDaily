@@ -48,3 +48,6 @@ signConfig.properties
 
 #freeline
 /freeline_project_description.json
+freeline/
+freeline_core/
+freeline.py
