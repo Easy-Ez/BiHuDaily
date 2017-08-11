@@ -22,7 +22,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
 import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryListPresenterImpl;
-import cn.ml.saddhu.bihudaily.mvp.view.StoryListView;
+import cn.ml.saddhu.bihudaily.mvp.view.IStoryListView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
 
 /**
@@ -31,7 +31,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
  * Describe: 新闻列表fragment
  */
 @EFragment(R.layout.frag_story_list)
-public class StoryListFragment extends Fragment implements StoryListView, SwipeRefreshLayout.OnRefreshListener, HomePageAdapter.OnItemClickListener {
+public class StoryListFragment extends Fragment implements IStoryListView, SwipeRefreshLayout.OnRefreshListener, HomePageAdapter.OnItemClickListener {
     @ViewById
     SwipeRefreshLayout refresh;
     @ViewById

@@ -18,7 +18,7 @@
 
     </style>
 
-    <style name="AppTheme.NoActionBar.Settings">
+    <style name="SettingsTheme" parent="@style/PreferenceFixTheme.Light.NoActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="colorAccent">@color/settings_accent_color</item>
     </style>
@@ -29,12 +29,12 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 
-    <style name="Daily.TextAppearance" parent="@android:style/TextAppearance.Holo" />
+    <style name="Daily.TextAppearance" parent="@android:style/TextAppearance.Holo"/>
 
     <style name="Daily.TextAppearance.Drawer.Primary" parent="@style/Daily.TextAppearance">
         <item name="android:textSize">@dimen/text_size_16</item>

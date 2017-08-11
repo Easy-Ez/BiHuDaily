@@ -3,11 +3,15 @@ package cn.ml.saddhu.bihudaily;
 import android.app.Application;
 import android.os.Environment;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.PrettyFormatStrategy;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.squareup.leakcanary.LeakCanary;
@@ -26,11 +30,13 @@ import cn.sadhu.share_library.constant.Constants;
  * Describe:
  */
 public class MyApplication extends Application {
+    public static final String TAG = "MyApplication";
     public static Application mContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i(TAG, "MyApplication onCreate");
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -44,9 +50,16 @@ public class MyApplication extends Application {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
-        Logger.init("cai")
-                .methodCount(1)
-                .hideThreadInfo();
+
+        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+                .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
+                .methodCount(0)         // (Optional) How many method line to show. Default 2
+                .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
+                //.logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
+                .tag("cai")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .build();
+
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
         File directory;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             directory = getExternalCacheDir().getAbsoluteFile();
@@ -76,5 +89,6 @@ public class MyApplication extends Application {
                 .setDiskCacheDirName("image")
                 .build();
         ImageLoader.getInstance().init(configuration);
+        //EventBus.builder().addIndex(new MyEventBusIndex()).build();
     }
 }

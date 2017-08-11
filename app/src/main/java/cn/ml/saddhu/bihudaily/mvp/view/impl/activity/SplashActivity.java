@@ -23,9 +23,9 @@ import org.androidannotations.annotations.ViewById;
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.commondListener.SimpleAnimationListener;
 import cn.ml.saddhu.bihudaily.engine.domain.Creative;
-import cn.ml.saddhu.bihudaily.mvp.presenter.SplashPresenter;
+import cn.ml.saddhu.bihudaily.mvp.presenter.ISplashPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.SplashPresenterImpl;
-import cn.ml.saddhu.bihudaily.mvp.view.SplashView;
+import cn.ml.saddhu.bihudaily.mvp.view.ISplashView;
 
 /**
  * Created by sadhu on 2016/11/7.
@@ -33,7 +33,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.SplashView;
  * Describe: 启动页
  */
 @EActivity(R.layout.act_splash)
-public class SplashActivity extends BaseActivity implements SplashView {
+public class SplashActivity extends BaseActivity implements ISplashView {
 
 
     @ViewById(R.id.logo_container)
@@ -47,7 +47,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
     SimpleDraweeView mSplashImageView;
 
 
-    private SplashPresenter mPresenter;
+    private ISplashPresenter mPresenter;
     private Animation.AnimationListener mLogoTransListener = new SimpleAnimationListener() {
         @Override
         public void onAnimationEnd(Animation animation) {

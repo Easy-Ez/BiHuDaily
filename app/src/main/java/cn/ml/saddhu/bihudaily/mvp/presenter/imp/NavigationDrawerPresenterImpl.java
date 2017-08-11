@@ -9,27 +9,26 @@ import cn.ml.saddhu.bihudaily.engine.constant.SharedPreferenceConstants;
 import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
 import cn.ml.saddhu.bihudaily.mvp.model.NagavitionModel;
 import cn.ml.saddhu.bihudaily.mvp.model.impl.NagavitionModelImpl;
-import cn.ml.saddhu.bihudaily.mvp.presenter.NavigationDrawerPresenter;
-import cn.ml.saddhu.bihudaily.mvp.view.NavigationDrawerView;
+import cn.ml.saddhu.bihudaily.mvp.presenter.INavigationDrawerPresenter;
+import cn.ml.saddhu.bihudaily.mvp.view.INavigationDrawerView;
 
 /**
  * Created by sadhu on 2016/11/13.
  * Email static.sadhu@gmail.com
  * Describe: 导航页
  */
-public class NavigationDrawerPresenterImpl implements NavigationDrawerPresenter, OnNetRefreshListener<UserInfo> {
+public class NavigationDrawerPresenterImpl extends BasePresenter<INavigationDrawerView> implements INavigationDrawerPresenter, OnNetRefreshListener<UserInfo> {
 
-    private NavigationDrawerView mView;
     private NagavitionModel mModel;
     private final SharedPreferences mPreferences;
     private UserInfo mUerInfo;
 
-    public NavigationDrawerPresenterImpl(NavigationDrawerView view) {
-        this.mView = view;
+    public NavigationDrawerPresenterImpl(INavigationDrawerView iNavigationDrawerView) {
+        super(iNavigationDrawerView);
         mModel = new NagavitionModelImpl(this);
         mPreferences = ((Fragment) mView).getContext().getSharedPreferences("config", Context.MODE_PRIVATE);
-
     }
+
 
     @Override
     public void getUserInfo() {

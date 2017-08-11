@@ -14,9 +14,9 @@ import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
 import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
 import cn.ml.saddhu.bihudaily.engine.adapter.NavigationAdapter;
-import cn.ml.saddhu.bihudaily.mvp.presenter.NavigationDrawerPresenter;
+import cn.ml.saddhu.bihudaily.mvp.presenter.INavigationDrawerPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.NavigationDrawerPresenterImpl;
-import cn.ml.saddhu.bihudaily.mvp.view.NavigationDrawerView;
+import cn.ml.saddhu.bihudaily.mvp.view.INavigationDrawerView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.MainActivity;
 
 /**
@@ -25,12 +25,12 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.MainActivity;
  * Describe: 左侧导航页
  */
 @EFragment(R.layout.frag_navigation_drawer)
-public class NavigationDrawerFragment extends Fragment implements NavigationDrawerView, NavigationAdapter.OnNavigationItemClickListener {
+public class NavigationDrawerFragment extends Fragment implements INavigationDrawerView, NavigationAdapter.OnNavigationItemClickListener {
     @ViewById
     RecyclerView navigation_list;
 
     private NavigationAdapter mAdapter;
-    private NavigationDrawerPresenter mPresenter;
+    private INavigationDrawerPresenter mPresenter;
 
 
     @AfterViews

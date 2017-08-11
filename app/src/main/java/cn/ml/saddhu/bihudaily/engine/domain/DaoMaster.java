@@ -22,25 +22,25 @@ public class DaoMaster extends AbstractDaoMaster {
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
         CreativeDao.createTable(db, ifNotExists);
+        ReadHistoryDao.createTable(db, ifNotExists);
+        SectionDao.createTable(db, ifNotExists);
         StoryDao.createTable(db, ifNotExists);
+        StoryDetailDao.createTable(db, ifNotExists);
         ThemeDao.createTable(db, ifNotExists);
         TopStoryDao.createTable(db, ifNotExists);
         UserInfoDao.createTable(db, ifNotExists);
-        SectionDao.createTable(db, ifNotExists);
-        StoryDetailDao.createTable(db, ifNotExists);
-        ReadHistoryDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         CreativeDao.dropTable(db, ifExists);
+        ReadHistoryDao.dropTable(db, ifExists);
+        SectionDao.dropTable(db, ifExists);
         StoryDao.dropTable(db, ifExists);
+        StoryDetailDao.dropTable(db, ifExists);
         ThemeDao.dropTable(db, ifExists);
         TopStoryDao.dropTable(db, ifExists);
         UserInfoDao.dropTable(db, ifExists);
-        SectionDao.dropTable(db, ifExists);
-        StoryDetailDao.dropTable(db, ifExists);
-        ReadHistoryDao.dropTable(db, ifExists);
     }
 
     /**
@@ -60,13 +60,13 @@ public class DaoMaster extends AbstractDaoMaster {
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(CreativeDao.class);
+        registerDaoClass(ReadHistoryDao.class);
+        registerDaoClass(SectionDao.class);
         registerDaoClass(StoryDao.class);
+        registerDaoClass(StoryDetailDao.class);
         registerDaoClass(ThemeDao.class);
         registerDaoClass(TopStoryDao.class);
         registerDaoClass(UserInfoDao.class);
-        registerDaoClass(SectionDao.class);
-        registerDaoClass(StoryDetailDao.class);
-        registerDaoClass(ReadHistoryDao.class);
     }
 
     public DaoSession newSession() {

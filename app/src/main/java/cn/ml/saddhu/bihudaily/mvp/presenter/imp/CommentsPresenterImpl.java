@@ -11,27 +11,28 @@ import cn.ml.saddhu.bihudaily.engine.domain.CommentBean;
 import cn.ml.saddhu.bihudaily.engine.domain.ErrorMsgBean;
 import cn.ml.saddhu.bihudaily.mvp.model.CommentsModel;
 import cn.ml.saddhu.bihudaily.mvp.model.impl.CommentsModelImpl;
-import cn.ml.saddhu.bihudaily.mvp.presenter.CommentsPresenter;
-import cn.ml.saddhu.bihudaily.mvp.view.CommentsListView;
+import cn.ml.saddhu.bihudaily.mvp.presenter.ICommentsPresenter;
+import cn.ml.saddhu.bihudaily.mvp.view.ICommentsListView;
 
 /**
  * Created by sadhu on 2017/4/9.
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public class CommentsPresenterImpl implements CommentsPresenter {
-    private CommentsListView mView;
+public class CommentsPresenterImpl extends BasePresenter<ICommentsListView> implements ICommentsPresenter {
+
     private CommentsModel mModel;
     private CommentAdapter mAdapter;
     private List<CommentBean> mList;
     private String mStoryId;
 
-    public CommentsPresenterImpl(CommentsListView view) {
-        this.mView = view;
+    public CommentsPresenterImpl(ICommentsListView commentsListView) {
+        super(commentsListView);
         mModel = new CommentsModelImpl();
         mList = new ArrayList<>();
         mAdapter = new CommentAdapter(mList);
     }
+
 
     @Override
     public RecyclerView.Adapter getAdapter() {
@@ -93,11 +94,12 @@ public class CommentsPresenterImpl implements CommentsPresenter {
             @Override
             public void onSuccess(List<CommentBean> comments) {
                 mAdapter.addShortComments(comments);
+                mView.scroll2ShortBar();
             }
 
             @Override
             public void onError(ErrorMsgBean bean) {
-
+                mAdapter.resetShorBarStatus();
             }
         });
     }

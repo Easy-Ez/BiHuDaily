@@ -1,6 +1,8 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -26,6 +27,9 @@ import org.androidannotations.annotations.ViewById;
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
+import cn.ml.saddhu.bihudaily.mvp.presenter.IMainPresenter;
+import cn.ml.saddhu.bihudaily.mvp.presenter.imp.MainPresenterImpl;
+import cn.ml.saddhu.bihudaily.mvp.view.IMainView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.NavigationDrawerFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryListFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryListFragment_;
@@ -33,7 +37,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.ThemeListFragment;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.ThemeListFragment_;
 
 @EActivity(R.layout.act_main)
-public class MainActivity extends AppCompatActivity implements StoryListFragment.OnToolBarTitleChangeListener {
+public class MainActivity extends BaseActivity implements IMainView, StoryListFragment.OnToolBarTitleChangeListener {
 
     private static final String STATE_KEY_FRAGMENT = "keyStoryFragment";
 
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
     StoryListFragment mStoryListFragment;
     ThemeListFragment mThemeListFragment;
 
+    IMainPresenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         } else {
             mStoryListFragment = StoryListFragment_.builder().build();
         }
+        mPresenter = new MainPresenterImpl(this);
+        mPresenter.registerPush();
     }
 
 
@@ -120,7 +127,14 @@ public class MainActivity extends AppCompatActivity implements StoryListFragment
         } else if (id == R.id.action_message) {
             // 消息 暂时用来做测试
             //TestActivity_.intent(this).start();
-            GuideTestActivity_.intent(this).start();
+            //GuideTestActivity_.intent(this).start();
+            Intent i = new Intent();
+            i.setAction(Intent.ACTION_VIEW);
+            Uri parse = Uri.parse("bihu://sadhu.cf/article?id=111");
+            i.setData(parse);
+            if (i.resolveActivity(getPackageManager()) != null) {
+                startActivity(i);
+            }
             return true;
         } else if (id == R.id.action_theme) {
             // 切换主题

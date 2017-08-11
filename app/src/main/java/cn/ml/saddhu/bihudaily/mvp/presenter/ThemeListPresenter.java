@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Email static.sadhu@gmail.com
  * Describe: 主题presenter
  */
-public interface ThemeListPresenter extends BasePresenter {
+public interface ThemeListPresenter extends IBasePresenter {
     /**
      * 获取第一页
      */

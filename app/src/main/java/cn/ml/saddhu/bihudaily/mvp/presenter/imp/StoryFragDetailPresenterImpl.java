@@ -1,32 +1,25 @@
 package cn.ml.saddhu.bihudaily.mvp.presenter.imp;
 
-import android.text.TextUtils;
-
-import com.orhanobut.logger.Logger;
-
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDetail;
-import cn.ml.saddhu.bihudaily.engine.domain.StoryType;
-import cn.ml.saddhu.bihudaily.engine.util.HTMLUtils;
-import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
 import cn.ml.saddhu.bihudaily.mvp.model.StoryFragModel;
 import cn.ml.saddhu.bihudaily.mvp.model.impl.StoryFragModelImpl;
-import cn.ml.saddhu.bihudaily.mvp.presenter.StoryFragDetailPresenter;
-import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailFragView;
+import cn.ml.saddhu.bihudaily.mvp.presenter.IStoryFragDetailPresenter;
+import cn.ml.saddhu.bihudaily.mvp.view.IStoryDetailFragView;
 
 /**
  * Created by sadhu on 2017/2/25.
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public class StoryFragDetailPresenterImpl implements StoryFragDetailPresenter, OnNetRefreshListener<StoryDetail> {
-    private StoryDetailFragView mView;
+public class StoryFragDetailPresenterImpl extends BasePresenter<IStoryDetailFragView> implements IStoryFragDetailPresenter, OnNetRefreshListener<StoryDetail> {
     private StoryFragModel mModel;
 
-    public StoryFragDetailPresenterImpl(StoryDetailFragView view) {
-        this.mView = view;
+    public StoryFragDetailPresenterImpl(IStoryDetailFragView storyDetailFragView) {
+        super(storyDetailFragView);
         mModel = new StoryFragModelImpl(this);
     }
+
 
     @Override
     public void getStoryDetail(String storyId) {

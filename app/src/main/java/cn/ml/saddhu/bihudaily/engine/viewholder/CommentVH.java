@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import cn.ml.saddhu.bihudaily.R;
+import cn.ml.saddhu.bihudaily.engine.adapter.CommentAdapter;
 import cn.ml.saddhu.bihudaily.engine.domain.CommentBean;
 import cn.ml.saddhu.bihudaily.engine.util.StringUtils;
 import cn.ml.saddhu.bihudaily.widget.LayoutTextView;
@@ -26,7 +27,7 @@ public class CommentVH extends RecyclerView.ViewHolder implements LayoutTextView
     private TextView commentItemAuthor;
     private TextView commentItemLikeCount;
     private TextView commentItemContent;
-    private LayoutTextView commentRepliedContent;
+    private LayoutTextView commentRepliedContent = (LayoutTextView) itemView.findViewById(R.id.comment_replied_content);
     private TextView commentRepliedErrorMessage;
     private RelativeLayout commentRepliedLayout;
     private TextView commentItemTime;
@@ -34,17 +35,18 @@ public class CommentVH extends RecyclerView.ViewHolder implements LayoutTextView
 
     private java.text.SimpleDateFormat mSdf;
 
+
     public CommentVH(View itemView) {
         super(itemView);
-        commentItemAvatar = (SimpleDraweeView) itemView.findViewById(R.id.comment_item_avatar);
-        commentItemAuthor = (TextView) itemView.findViewById(R.id.comment_item_author);
-        commentItemLikeCount = (TextView) itemView.findViewById(R.id.comment_item_like_count);
-        commentItemContent = (TextView) itemView.findViewById(R.id.comment_item_content);
-        commentRepliedContent = (LayoutTextView) itemView.findViewById(R.id.comment_replied_content);
-        commentRepliedErrorMessage = (TextView) itemView.findViewById(R.id.comment_replied_error_message);
-        commentRepliedLayout = (RelativeLayout) itemView.findViewById(R.id.comment_replied_layout);
-        commentItemTime = (TextView) itemView.findViewById(R.id.comment_item_time);
-        commentExpandButton = (TextView) itemView.findViewById(R.id.comment_expand_button);
+
+        commentItemAvatar = itemView.findViewById(R.id.comment_item_avatar);
+        commentItemAuthor = itemView.findViewById(R.id.comment_item_author);
+        commentItemLikeCount = itemView.findViewById(R.id.comment_item_like_count);
+        commentItemContent = itemView.findViewById(R.id.comment_item_content);
+        commentRepliedErrorMessage = itemView.findViewById(R.id.comment_replied_error_message);
+        commentRepliedLayout = itemView.findViewById(R.id.comment_replied_layout);
+        commentItemTime = itemView.findViewById(R.id.comment_item_time);
+        commentExpandButton = itemView.findViewById(R.id.comment_expand_button);
         mSdf = new java.text.SimpleDateFormat("MM-dd HH:mm", Locale.CHINA);
     }
 

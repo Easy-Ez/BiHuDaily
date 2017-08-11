@@ -36,7 +36,6 @@ public class CommentsModelImpl implements CommentsModel {
     }
 
 
-
     @Override
     public void getLongCommentsList(String storyId, final NetCallback<List<CommentBean>> callback) {
         Call<ResponseBody> call = apiService.getLongComments(storyId);
@@ -73,8 +72,31 @@ public class CommentsModelImpl implements CommentsModel {
     }
 
     @Override
-    public void getShortCommentsList(String storyId, NetCallback<List<CommentBean>> callback) {
+    public void getShortCommentsList(String storyId, final NetCallback<List<CommentBean>> callback) {
+        Call<ResponseBody> call = apiService.getShortComments(storyId);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                JSONArray comments = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(body.string());
+                    comments = jsonObject.getJSONArray("comments");
+                    Gson gson = new Gson();
+                    List<CommentBean> lists = gson.fromJson(comments.toString(), new TypeToken<List<CommentBean>>() {
+                    }.getType());
+                    callback.onSuccess(lists);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onError(ErrorMsgBean.getNetError());
+            }
+        });
     }
 
     @Override

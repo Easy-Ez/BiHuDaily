@@ -4,23 +4,23 @@ import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
 import cn.ml.saddhu.bihudaily.mvp.model.StoryActDetailModel;
 import cn.ml.saddhu.bihudaily.mvp.model.impl.StoryActDetailModelImpl;
-import cn.ml.saddhu.bihudaily.mvp.presenter.StoryActDetailPresetner;
-import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailActView;
+import cn.ml.saddhu.bihudaily.mvp.presenter.IStoryActDetailPresetner;
+import cn.ml.saddhu.bihudaily.mvp.view.IStoryDetailActView;
 
 /**
  * Created by sadhu on 2017/2/23.
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public class StoryActDetailPresenterImpl implements StoryActDetailPresetner, OnNetRefreshListener<StoryDetailExtra> {
-    private StoryDetailActView mView;
+public class StoryActDetailPresenterImpl  extends BasePresenter<IStoryDetailActView> implements IStoryActDetailPresetner, OnNetRefreshListener<StoryDetailExtra> {
     private StoryActDetailModel mModel;
     private String mStoryId;
 
-    public StoryActDetailPresenterImpl(StoryDetailActView view) {
-        this.mView = view;
+    public StoryActDetailPresenterImpl(IStoryDetailActView storyDetailActView) {
+        super(storyDetailActView);
         this.mModel = new StoryActDetailModelImpl(this);
     }
+
 
     @Override
     public void getStoryDetailExtra(String storyId) {

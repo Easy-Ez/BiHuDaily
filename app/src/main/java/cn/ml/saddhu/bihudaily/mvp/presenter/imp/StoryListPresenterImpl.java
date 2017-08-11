@@ -11,22 +11,22 @@ import cn.ml.saddhu.bihudaily.engine.domain.TopStory;
 import cn.ml.saddhu.bihudaily.mvp.model.StoryListModel;
 import cn.ml.saddhu.bihudaily.mvp.model.impl.StoryListModelImpl;
 import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
-import cn.ml.saddhu.bihudaily.mvp.view.StoryListView;
+import cn.ml.saddhu.bihudaily.mvp.view.IStoryListView;
 
 /**
  * Created by sadhu on 2016/11/15.
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public class StoryListPresenterImpl implements StoryListPresenter, OnNetRefreshListener<StoryInfo>, OnNetLoadMoreListener<List<Story>> {
-    private StoryListView mView;
+public class StoryListPresenterImpl extends BasePresenter<IStoryListView> implements StoryListPresenter, OnNetRefreshListener<StoryInfo>, OnNetLoadMoreListener<List<Story>> {
     private StoryListModel mModel;
     private StoryInfo mStoryInfo;
 
-    public StoryListPresenterImpl(StoryListView view) {
-        this.mView = view;
+    public StoryListPresenterImpl(IStoryListView storyListView) {
+        super(storyListView);
         mModel = new StoryListModelImpl(this, this);
     }
+
 
     @Override
     public void setData(StoryInfo storyInfo) {

@@ -200,7 +200,7 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
     public void setItemRead(String id) {
         ReadHistory readHistory = new ReadHistory();
         readHistory.setStoryId(id);
-        mReadHistoryDao.insert(readHistory);
+        mReadHistoryDao.insertOrReplace(readHistory);
     }
 
     @Override

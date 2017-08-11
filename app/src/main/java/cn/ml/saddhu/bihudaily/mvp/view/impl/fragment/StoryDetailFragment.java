@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -26,9 +25,9 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryDetail;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryType;
 import cn.ml.saddhu.bihudaily.engine.util.HTMLUtils;
 import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
-import cn.ml.saddhu.bihudaily.mvp.presenter.StoryFragDetailPresenter;
+import cn.ml.saddhu.bihudaily.mvp.presenter.IStoryFragDetailPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryFragDetailPresenterImpl;
-import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailFragView;
+import cn.ml.saddhu.bihudaily.mvp.view.IStoryDetailFragView;
 import cn.ml.saddhu.bihudaily.widget.StoryWebView;
 
 /**
@@ -37,7 +36,7 @@ import cn.ml.saddhu.bihudaily.widget.StoryWebView;
  * 文章详情Fragment
  */
 @EFragment(R.layout.frag_story_detail)
-public class StoryDetailFragment extends LazyLoadForViewPageFragment implements StoryDetailFragView {
+public class StoryDetailFragment extends LazyLoadForViewPageFragment implements IStoryDetailFragView {
     @ViewById(R.id.coordinator_layout)
     CoordinatorLayout coordinator_layout;
     @ViewById(R.id.appBarLayout)
@@ -61,7 +60,7 @@ public class StoryDetailFragment extends LazyLoadForViewPageFragment implements 
 
     OnToolBarNeedChangeListener mListener;
     private float mHeaderHeight;
-    private StoryFragDetailPresenter mPresenter;
+    private IStoryFragDetailPresenter mPresenter;
 
     @Override
     public void onAttach(Context context) {

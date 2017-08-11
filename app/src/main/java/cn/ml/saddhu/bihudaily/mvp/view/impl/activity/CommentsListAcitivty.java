@@ -16,13 +16,15 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
+import java.util.TimerTask;
 
 import cn.ml.saddhu.bihudaily.R;
+import cn.ml.saddhu.bihudaily.engine.adapter.CommentAdapter;
 import cn.ml.saddhu.bihudaily.engine.domain.CommentBean;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
-import cn.ml.saddhu.bihudaily.mvp.presenter.CommentsPresenter;
+import cn.ml.saddhu.bihudaily.mvp.presenter.ICommentsPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.CommentsPresenterImpl;
-import cn.ml.saddhu.bihudaily.mvp.view.CommentsListView;
+import cn.ml.saddhu.bihudaily.mvp.view.ICommentsListView;
 
 /**
  * Created by sadhu on 2017/3/27.
@@ -30,7 +32,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.CommentsListView;
  * Describe: 评论列表
  */
 @EActivity(R.layout.act_comments_list)
-public class CommentsListAcitivty extends BaseActivity implements CommentsListView {
+public class CommentsListAcitivty extends BaseActivity implements ICommentsListView, CommentAdapter.OnCommentItemClickListener {
     @Extra
     StoryDetailExtra mExtra;
     @Extra
@@ -41,8 +43,10 @@ public class CommentsListAcitivty extends BaseActivity implements CommentsListVi
     @ViewById
     RecyclerView rv_comments_list;
     private LinearLayoutManager mLinearLayoutManager;
-    private CommentsPresenter mPresenter;
+    private ICommentsPresenter mPresenter;
     private RecyclerView.Adapter mCommentAdapter;
+    private boolean hasMore;
+    private boolean isLoadMore;
 
     @AfterViews
     void afterViews() {
@@ -53,12 +57,26 @@ public class CommentsListAcitivty extends BaseActivity implements CommentsListVi
         }
         mPresenter = new CommentsPresenterImpl(this);
         mPresenter.setCommentsNum(mExtra.short_comments, mExtra.long_comments);
+        hasMore = mExtra.long_comments > 20;
         mPresenter.setStoryId(mStoryId);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mCommentAdapter = mPresenter.getAdapter();
+        ((CommentAdapter) mCommentAdapter).setItemClickListener(this);
         rv_comments_list.setLayoutManager(mLinearLayoutManager);
         rv_comments_list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rv_comments_list.setAdapter(mCommentAdapter);
+        rv_comments_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (hasMore && !isLoadMore && mLinearLayoutManager.findLastVisibleItemPosition() == mCommentAdapter.getItemCount() - 1) {
+                        // 加载更多
+                        loadMoreComments();
+                    }
+                }
+            }
+        });
         mPresenter.getLongCommentsList();
     }
 
@@ -99,5 +117,28 @@ public class CommentsListAcitivty extends BaseActivity implements CommentsListVi
     @Override
     public void onLoadMoreError(int code) {
 
+    }
+
+    @Override
+    public void onShortBarClick(boolean isExpand) {
+        if (isExpand) {
+            // 获取短评
+            mPresenter.getShortCommentsList();
+        } else {
+            // 滑动到顶部
+            rv_comments_list.smoothScrollToPosition(0);
+            // 删除单短评
+            rv_comments_list.postDelayed(new TimerTask() {
+                @Override
+                public void run() {
+                    ((CommentAdapter) mCommentAdapter).removeShortComent();
+                }
+            }, 200);
+        }
+    }
+
+    @Override
+    public void scroll2ShortBar() {
+        mLinearLayoutManager.scrollToPositionWithOffset(((CommentAdapter) mCommentAdapter).getShorBarPosition(), 0);
     }
 }

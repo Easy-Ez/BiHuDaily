@@ -5,7 +5,7 @@ package cn.ml.saddhu.bihudaily.mvp.presenter;
  * Email static.sadhu@gmail.com
  * Describe: 文章详情相关接口
  */
-public interface StoryActDetailPresetner extends BasePresenter {
+public interface IStoryActDetailPresetner extends IBasePresenter {
     void getStoryDetailExtra(String storyId);
 
     String getCurrentStoryId();

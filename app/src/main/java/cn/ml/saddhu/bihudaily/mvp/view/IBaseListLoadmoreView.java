@@ -5,9 +5,8 @@ package cn.ml.saddhu.bihudaily.mvp.view;
  * Email static.sadhu@gmail.com
  * Describe: 所有能加载更得的view 都应该实现该接口
  */
-public interface BaseListRefreshView<R> extends BaseView {
-    void onRefreshSucces(R data);
+public interface IBaseListLoadmoreView<L> extends IBaseView {
+    void onLoadMoreSuccuess(L data);
 
-
-    void onRefreshError(int code);
+    void onLoadMoreError(int code);
 }

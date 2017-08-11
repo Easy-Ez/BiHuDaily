@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingBottom="15dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="15dp">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingBottom="15dp"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:paddingTop="15dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/comment_item_avatar"
         android:layout_width="35dp"
         android:layout_height="35dp"
         app:placeholderImage="@drawable/comment_avatar"
-        app:roundAsCircle="true" />
+        app:roundAsCircle="true"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -38,7 +38,7 @@
                 android:textIsSelectable="false"
                 android:textSize="@dimen/text_size_16"
                 android:textStyle="bold"
-                tools:text="一块路灯" />
+                tools:text="一块路灯"/>
 
             <TextView
                 android:id="@+id/comment_item_like_count"
@@ -50,7 +50,7 @@
                 android:drawableStart="@drawable/comment_vote"
                 android:textColor="@color/colorb6"
                 android:textSize="@dimen/text_size_14"
-                tools:text="1111" />
+                tools:text="1111"/>
         </RelativeLayout>
 
         <TextView
@@ -61,17 +61,17 @@
             android:lineSpacingExtra="3dp"
             android:textColor="@color/comment_item_content"
             android:textSize="@dimen/text_size_16"
-            tools:text="回复内容回复内容回复内容回复内容回复内容回复内容回复内容" />
+            tools:text="回复内容回复内容回复内容回复内容回复内容回复内容回复内容"/>
 
         <cn.ml.saddhu.bihudaily.widget.LayoutTextView
             android:id="@+id/comment_replied_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="none"
+            android:ellipsize="end"
             android:lineSpacingExtra="3dp"
             android:maxLines="2"
             android:textColor="@color/comment_item_reply_comment_content"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
 
         <TextView
             android:id="@+id/comment_replied_error_message"
@@ -82,7 +82,7 @@
             android:paddingStart="6dp"
             android:textColor="@color/comment_item_reply_prompt_message"
             android:textSize="@dimen/text_size_16"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:id="@+id/comment_replied_layout"
@@ -98,7 +98,7 @@
                 android:textColor="@color/colorb6"
                 android:textIsSelectable="false"
                 android:textSize="@dimen/text_size_12"
-                tools:text="2017年4月10日01:00:28" />
+                tools:text="2017年4月10日01:00:28"/>
 
             <TextView
                 android:id="@+id/comment_expand_button"
@@ -111,7 +111,7 @@
                 android:text="@string/comment_expand"
                 android:textColor="@color/comment_item_reply_comment_content"
                 android:textSize="@dimen/text_size_14"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

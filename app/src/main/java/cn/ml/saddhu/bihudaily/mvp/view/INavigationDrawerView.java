@@ -7,6 +7,6 @@ import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
  * Email static.sadhu@gmail.com
  * Describe: 导航页view
  */
-public interface NavigationDrawerView extends BaseView {
+public interface INavigationDrawerView extends IBaseView {
     void showList(UserInfo userInfo);
 }

@@ -48,7 +48,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh = new CommentVH(inflater.inflate(R.layout.item_coments, parent, false));
                 break;
             case TYPE_SHORT_BAR:
-                vh = new CommentBarVH(inflater.inflate(R.layout.item_coments_bar, parent, false), shortCommentNumber, true);
+                vh = new CommentBarVH(inflater.inflate(R.layout.item_coments_bar, parent, false), shortCommentNumber, true, mListener);
                 break;
             case TYPE_EMPTY:
                 vh = new CommentEmptyVH(inflater.inflate(R.layout.item_comments_empty, parent, false));
@@ -64,11 +64,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             switch (getItemViewType(position)) {
                 case TYPE_LONG_COMMENT:
                     // 减去long_bar
-                    ((CommentVH) holder).setData(mList.get(position - 1));
+                    ((CommentVH) holder).setData(mList.get(getLongCommentRealPosition(position)));
                     break;
                 case TYPE_SHORT_COMMENT:
                     // 减去 longsize long_bar short_bar
-                    ((CommentVH) holder).setData(mList.get(position - mLongListSize - 2));
+                    ((CommentVH) holder).setData(mList.get(getShortCommentRealPosition(position)));
                     break;
             }
         }
@@ -77,20 +77,42 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return mIsEmpty ? 1 + 2 : mList.size() + 2;
+        if (mIsEmpty) {
+            if ((mList == null || mList.size() == 0)) {
+                // empty + bar
+                return 1 + 2;
+            } else {
+                // empty + bar + comments size
+                return 1 + 2 + mList.size();
+            }
+        } else {
+            return mList.size() + 2;
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
-
         if (mIsEmpty) {
-            if (position == 0) {
-                return TYPE_LONG_BAR;
-            } else if (position == 1) {
-                return TYPE_EMPTY;
+            if ((mList == null || mList.size() == 0)) {
+                if (position == 0) {
+                    return TYPE_LONG_BAR;
+                } else if (position == 1) {
+                    return TYPE_EMPTY;
+                } else {
+                    return TYPE_SHORT_BAR;
+                }
             } else {
-                return TYPE_SHORT_BAR;
+                if (position == 0) {
+                    return TYPE_LONG_BAR;
+                } else if (position == 1) {
+                    return TYPE_EMPTY;
+                } else if (position == 2) {
+                    return TYPE_SHORT_BAR;
+                } else {
+                    return TYPE_SHORT_COMMENT;
+                }
             }
+
         } else {
             if (position == 0) {
                 return TYPE_LONG_BAR;
@@ -102,24 +124,63 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return TYPE_SHORT_COMMENT;
             }
         }
-
     }
 
+
+    /**
+     * 根据长评实际的index
+     *
+     * @param position
+     * @return
+     */
+    private int getLongCommentRealPosition(int position) {
+        return position - 1;
+    }
+
+    /**
+     * 获取短评实际的index
+     *
+     * @param position
+     * @return
+     */
+    private int getShortCommentRealPosition(int position) {
+        if (mIsEmpty) {
+            return position - 3;
+        } else {
+            return position - 2;
+        }
+    }
+
+    /**
+     * 设置短评bar上面的数字
+     *
+     * @param shortCommentNumber
+     */
     public void setShortCommentNumber(int shortCommentNumber) {
         this.shortCommentNumber = shortCommentNumber;
     }
 
+    /**
+     * 设置长评bar上面的数字
+     *
+     * @param longCommentNumber
+     */
     public void setLongCommentNumber(int longCommentNumber) {
         this.longCommentNumber = longCommentNumber;
     }
 
+    /**
+     * 长评是否为空
+     *
+     * @param mIsEmpty
+     */
     public void setIsEmpty(boolean mIsEmpty) {
         this.mIsEmpty = mIsEmpty;
         notifyDataSetChanged();
     }
 
     /**
-     * 第一次
+     * 设置长评
      *
      * @param comments
      */
@@ -130,6 +191,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
+    /**
+     * 添加长评
+     *
+     * @param comments
+     */
     public void addLongComments(List<CommentBean> comments) {
         // 加上 long bar  的位置
         int position = mLongListSize + 1;
@@ -149,5 +215,46 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int position = mLongListSize + 1 + 1;
             notifyItemInserted(position);
         }
+    }
+
+    public void removeShortComent() {
+        int totalSize = mList.size();
+        mList.subList(mLongListSize, totalSize).clear();
+        notifyItemRangeRemoved(getShorBarPosition(), totalSize - mLongListSize);
+
+    }
+
+    public int getShorBarPosition() {
+        if (mIsEmpty) {
+            // 前3个 分别是 long_bar empty short_bar
+            return 2;
+        } else {
+            // 加上 long_bar以及short_bar 的位置
+            return mLongListSize + 1 + 1 - 1;
+        }
+    }
+
+    public void resetShorBarStatus() {
+        if (mIsEmpty) {
+            // 前3个 分别是 long_bar empty short_bar
+            notifyItemChanged(3);
+        } else {
+            // 加上 long_bar以及short_bar 的位置
+            int position = mLongListSize + 1 + 1;
+            notifyItemChanged(position);
+        }
+    }
+
+
+    private OnCommentItemClickListener mListener;
+
+    public void setItemClickListener(OnCommentItemClickListener listener) {
+        this.mListener = listener;
+
+    }
+
+
+    public static interface OnCommentItemClickListener {
+        void onShortBarClick(boolean isExpand);
     }
 }

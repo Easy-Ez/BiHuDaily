@@ -5,6 +5,6 @@ package cn.ml.saddhu.bihudaily.mvp.presenter;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public interface StoryFragDetailPresenter extends BasePresenter {
+public interface IStoryFragDetailPresenter extends IBasePresenter {
     void getStoryDetail(String storyId);
 }

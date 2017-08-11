@@ -7,7 +7,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryDetail;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public interface StoryDetailFragView extends BaseView {
+public interface IStoryDetailFragView extends IBaseView {
     /**
      * 设置头部相关信息
      *

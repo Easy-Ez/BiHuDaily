@@ -9,7 +9,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
  * Email static.sadhu@gmail.com
  * Describe: 文章列表
  */
-public interface StoryListPresenter extends BasePresenter {
+public interface StoryListPresenter extends IBasePresenter {
     /**
      * 获取第一页
      */

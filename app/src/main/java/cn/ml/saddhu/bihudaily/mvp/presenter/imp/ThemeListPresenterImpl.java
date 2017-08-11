@@ -10,23 +10,23 @@ import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
 import cn.ml.saddhu.bihudaily.mvp.model.ThemeListModel;
 import cn.ml.saddhu.bihudaily.mvp.model.impl.ThemeListModelImpl;
 import cn.ml.saddhu.bihudaily.mvp.presenter.ThemeListPresenter;
-import cn.ml.saddhu.bihudaily.mvp.view.ThemeListView;
+import cn.ml.saddhu.bihudaily.mvp.view.IThemeListView;
 
 /**
  * Created by sadhu on 2017/2/11.
  * Email static.sadhu@gmail.com
  * Describe: 主题presenter实现
  */
-public class ThemeListPresenterImpl implements ThemeListPresenter, OnNetRefreshListener<ThemeInfo>, OnNetLoadMoreListener<List<BaseStory>> {
+public class ThemeListPresenterImpl extends BasePresenter<IThemeListView>  implements ThemeListPresenter, OnNetRefreshListener<ThemeInfo>, OnNetLoadMoreListener<List<BaseStory>> {
 
-    private ThemeListView mView;
     private ThemeListModel mModel;
     private ThemeInfo mThemeInfo;
 
-    public ThemeListPresenterImpl(ThemeListView view) {
-        this.mView = view;
+    public ThemeListPresenterImpl(IThemeListView themeListView) {
+        super(themeListView);
         this.mModel = new ThemeListModelImpl(this, this);
     }
+
 
     @Override
     public void getThemePageList(String themeId) {

@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public interface CommentsPresenter extends BasePresenter {
+public interface ICommentsPresenter extends IBasePresenter {
     /**
      * 设置评论数量
      *

@@ -5,7 +5,7 @@ package cn.ml.saddhu.bihudaily.mvp.presenter;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public interface NavigationDrawerPresenter extends BasePresenter {
+public interface INavigationDrawerPresenter extends IBasePresenter {
 
     /**
      * 获取专栏信息

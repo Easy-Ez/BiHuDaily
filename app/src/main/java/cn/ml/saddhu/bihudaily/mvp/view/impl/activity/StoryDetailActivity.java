@@ -26,15 +26,15 @@ import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnToolBarNeedChangeListener;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
 import cn.ml.saddhu.bihudaily.engine.util.StringUtils;
-import cn.ml.saddhu.bihudaily.mvp.presenter.StoryActDetailPresetner;
+import cn.ml.saddhu.bihudaily.mvp.presenter.IStoryActDetailPresetner;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryActDetailPresenterImpl;
-import cn.ml.saddhu.bihudaily.mvp.view.StoryDetailActView;
+import cn.ml.saddhu.bihudaily.mvp.view.IStoryDetailActView;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.fragment.StoryDetailFragment_;
-import cn.sadhu.share_library.domain.ErrorInfo;
+import cn.sadhu.share_library.ShareManager;
 import cn.sadhu.share_library.callback.IShareCallback;
+import cn.sadhu.share_library.domain.ErrorInfo;
 import cn.sadhu.share_library.domain.PlatformType;
 import cn.sadhu.share_library.domain.ShareInfoBean;
-import cn.sadhu.share_library.ShareManager;
 
 /**
  * Created by sadhu on 2016/12/5.
@@ -42,7 +42,7 @@ import cn.sadhu.share_library.ShareManager;
  * Describe: 详情页
  */
 @EActivity(R.layout.act_story_detail)
-public class StoryDetailActivity extends BaseActivity implements StoryDetailActView, OnToolBarNeedChangeListener, View.OnClickListener {
+public class StoryDetailActivity extends BaseActivity implements IStoryDetailActView, OnToolBarNeedChangeListener, View.OnClickListener {
     @ViewById
     Toolbar toolbar;
     @ViewById
@@ -53,7 +53,7 @@ public class StoryDetailActivity extends BaseActivity implements StoryDetailActV
     int mPosition;
 
     private StoryDetailExtra mExtra;
-    private StoryActDetailPresetner mPresetner;
+    private IStoryActDetailPresetner mPresetner;
     private ShareManager mShareManager;
 
     @AfterViews
@@ -144,7 +144,9 @@ public class StoryDetailActivity extends BaseActivity implements StoryDetailActV
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mShareManager.onActivityResultData(0, 0, intent);
+        if (mShareManager != null) {
+            mShareManager.onActivityResultData(0, 0, intent);
+        }
     }
 
     @Override
