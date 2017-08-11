@@ -80,6 +80,13 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
         mPresenter.getLongCommentsList();
     }
 
+    /**
+     * 加载更多,长评或者短评
+     */
+    private void loadMoreComments() {
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.comments, menu);
