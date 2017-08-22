@@ -1,14 +1,17 @@
 package cn.ml.saddhu.bihudaily.engine.util;
 
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.StyleSpan;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
 
 import cn.ml.saddhu.bihudaily.R;
+import cn.ml.saddhu.bihudaily.widget.LayoutTextView;
 
 /**
  * Created by sadhu on 2017/2/23.

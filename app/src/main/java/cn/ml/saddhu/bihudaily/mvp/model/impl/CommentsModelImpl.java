@@ -67,8 +67,31 @@ public class CommentsModelImpl implements CommentsModel {
     }
 
     @Override
-    public void getMoreLongCommentsList(String storyId, String commentId, NetCallback<List<CommentBean>> callback) {
+    public void getMoreLongCommentsList(String storyId, String commentId, final NetCallback<List<CommentBean>> callback) {
+        Call<ResponseBody> call = apiService.getMoreLongComments(storyId, commentId);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                JSONArray comments = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(body.string());
+                    comments = jsonObject.getJSONArray("comments");
+                    Gson gson = new Gson();
+                    List<CommentBean> lists = gson.fromJson(comments.toString(), new TypeToken<List<CommentBean>>() {
+                    }.getType());
+                    callback.onSuccess(lists);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onError(ErrorMsgBean.getNetError());
+            }
+        });
     }
 
     @Override
@@ -100,8 +123,31 @@ public class CommentsModelImpl implements CommentsModel {
     }
 
     @Override
-    public void getMoreShortCommentsList(String storyId, String commentId, NetCallback<List<CommentBean>> callback) {
+    public void getMoreShortCommentsList(String storyId, String commentId, final NetCallback<List<CommentBean>> callback) {
+        Call<ResponseBody> call = apiService.getMoreShortComments(storyId, commentId);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                JSONArray comments = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(body.string());
+                    comments = jsonObject.getJSONArray("comments");
+                    Gson gson = new Gson();
+                    List<CommentBean> lists = gson.fromJson(comments.toString(), new TypeToken<List<CommentBean>>() {
+                    }.getType());
+                    callback.onSuccess(lists);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onError(ErrorMsgBean.getNetError());
+            }
+        });
     }
 
     @Override

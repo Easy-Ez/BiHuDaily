@@ -1,5 +1,6 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 
+import android.animation.ObjectAnimator;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.orhanobut.logger.Logger;
 
@@ -45,8 +48,6 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
     private LinearLayoutManager mLinearLayoutManager;
     private ICommentsPresenter mPresenter;
     private RecyclerView.Adapter mCommentAdapter;
-    private boolean hasMore;
-    private boolean isLoadMore;
 
     @AfterViews
     void afterViews() {
@@ -57,7 +58,6 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
         }
         mPresenter = new CommentsPresenterImpl(this);
         mPresenter.setCommentsNum(mExtra.short_comments, mExtra.long_comments);
-        hasMore = mExtra.long_comments > 20;
         mPresenter.setStoryId(mStoryId);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mCommentAdapter = mPresenter.getAdapter();
@@ -70,7 +70,7 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (hasMore && !isLoadMore && mLinearLayoutManager.findLastVisibleItemPosition() == mCommentAdapter.getItemCount() - 1) {
+                    if (mLinearLayoutManager.findLastVisibleItemPosition() == mCommentAdapter.getItemCount() - 1) {
                         // 加载更多
                         loadMoreComments();
                     }
@@ -84,7 +84,7 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
      * 加载更多,长评或者短评
      */
     private void loadMoreComments() {
-
+        mPresenter.loadMoreComments();
     }
 
     @Override
@@ -127,6 +127,15 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
     }
 
     @Override
+    public void resetShorBarStatus(int postion) {
+        View itemView = rv_comments_list.getLayoutManager().findViewByPosition(postion);
+        if (itemView instanceof ViewGroup) {
+            View view = ((ViewGroup) itemView).getChildAt(1);
+            ObjectAnimator.ofFloat(view, "rotation", 180, 0).setDuration(200).start();
+        }
+    }
+
+    @Override
     public void onShortBarClick(boolean isExpand) {
         if (isExpand) {
             // 获取短评
@@ -142,6 +151,8 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
                 }
             }, 200);
         }
+
+
     }
 
     @Override

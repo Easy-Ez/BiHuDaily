@@ -42,5 +42,6 @@ public class CommentBean {
         public int status;
         public int id;
         public String author;
+        public String error_msg;
     }
 }

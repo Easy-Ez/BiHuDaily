@@ -39,4 +39,5 @@ public interface ICommentsPresenter extends IBasePresenter {
     void getMoreShortCommentsList();
 
 
+    void loadMoreComments();
 }

@@ -137,7 +137,7 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
     public void setItemRead(String id) {
         ReadHistory readHistory = new ReadHistory();
         readHistory.setStoryId(id);
-        mReadHistoryDao.insert(readHistory);
+        mReadHistoryDao.insertOrReplace(readHistory);
     }
 
     @Override

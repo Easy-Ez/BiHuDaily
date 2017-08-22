@@ -160,6 +160,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.shortCommentNumber = shortCommentNumber;
     }
 
+    public int getShortCommentNumber() {
+        return shortCommentNumber;
+    }
+
+    public int getShortCommentListSize() {
+        return mShortListSize;
+    }
+
     /**
      * 设置长评bar上面的数字
      *
@@ -167,6 +175,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     public void setLongCommentNumber(int longCommentNumber) {
         this.longCommentNumber = longCommentNumber;
+    }
+
+    public int getLongCommentNumber() {
+        return longCommentNumber;
+    }
+
+    public int getLongCommentListSize() {
+        return mLongListSize;
     }
 
     /**
@@ -233,18 +249,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return mLongListSize + 1 + 1 - 1;
         }
     }
-
-    public void resetShorBarStatus() {
-        if (mIsEmpty) {
-            // 前3个 分别是 long_bar empty short_bar
-            notifyItemChanged(3);
-        } else {
-            // 加上 long_bar以及short_bar 的位置
-            int position = mLongListSize + 1 + 1;
-            notifyItemChanged(position);
-        }
-    }
-
 
     private OnCommentItemClickListener mListener;
 

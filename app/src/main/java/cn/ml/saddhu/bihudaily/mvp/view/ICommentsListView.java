@@ -11,4 +11,6 @@ import cn.ml.saddhu.bihudaily.engine.domain.CommentBean;
  */
 public interface ICommentsListView extends IBaseListView<List<CommentBean>, List<CommentBean>> {
     void scroll2ShortBar();
+
+    void resetShorBarStatus(int postion);
 }

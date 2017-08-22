@@ -2,6 +2,8 @@ package cn.ml.saddhu.bihudaily.mvp.presenter.imp;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class CommentsPresenterImpl extends BasePresenter<ICommentsListView> impl
 
     @Override
     public void setCommentsNum(int shortNum, int longNum) {
+        hasMore = longNum > 20;
         mAdapter.setShortCommentNumber(shortNum);
         mAdapter.setLongCommentNumber(longNum);
     }
@@ -74,21 +77,25 @@ public class CommentsPresenterImpl extends BasePresenter<ICommentsListView> impl
 
     @Override
     public void getMoreLongCommentsList() {
+        isLoadingMore = true;
         mModel.getMoreLongCommentsList(mStoryId, String.valueOf(mList.get(mList.size() - 1).id), new NetCallback<List<CommentBean>>() {
             @Override
             public void onSuccess(List<CommentBean> comments) {
+                isLoadingMore = false;
                 mAdapter.addLongComments(comments);
+                hasMore = mAdapter.getLongCommentNumber() > mAdapter.getLongCommentListSize();
             }
 
             @Override
             public void onError(ErrorMsgBean bean) {
-
+                isLoadingMore = false;
             }
         });
     }
 
     @Override
     public void getShortCommentsList() {
+        hasMore = mAdapter.getShortCommentNumber() > 20;
         mModel.getShortCommentsList(mStoryId, new NetCallback<List<CommentBean>>() {
 
             @Override
@@ -99,24 +106,46 @@ public class CommentsPresenterImpl extends BasePresenter<ICommentsListView> impl
 
             @Override
             public void onError(ErrorMsgBean bean) {
-                mAdapter.resetShorBarStatus();
+                mView.resetShorBarStatus(mAdapter.getShorBarPosition());
             }
         });
     }
 
     @Override
     public void getMoreShortCommentsList() {
+        isLoadingMore = true;
         mModel.getMoreShortCommentsList(mStoryId, String.valueOf(mList.get(mList.size() - 1).id), new NetCallback<List<CommentBean>>() {
             @Override
             public void onSuccess(List<CommentBean> comments) {
+                isLoadingMore = false;
                 mAdapter.addShortComments(comments);
+                hasMore = mAdapter.getShortCommentNumber() > mAdapter.getShortCommentListSize();
             }
 
             @Override
             public void onError(ErrorMsgBean bean) {
-
+                isLoadingMore = false;
             }
         });
+    }
+
+    private boolean hasMore;
+    private boolean isLoadingMore;
+
+    @Override
+    public void loadMoreComments() {
+        Logger.d("loadMoreComments");
+        if (hasMore && !isLoadingMore) {
+            if (mAdapter.getLongCommentNumber() > mAdapter.getLongCommentListSize()) {
+                // 加载更多长评
+                getMoreLongCommentsList();
+                Logger.d("loadMoreLongComments");
+            } else {
+                getMoreShortCommentsList();
+                Logger.d("loadMoreShortComments");
+            }
+        }
+
     }
 
     @Override
