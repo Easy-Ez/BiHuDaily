@@ -259,7 +259,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onClick(CommentBean bean, int position) {
-        bean.viewHasExpand = !bean.viewHasExpand;
+        bean.isExpand = !bean.isExpand;
         notifyItemChanged(position);
     }
 

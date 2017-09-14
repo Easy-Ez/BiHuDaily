@@ -28,13 +28,4 @@ public class StringUtils {
         }
         return result;
     }
-
-    public static void setAuthFixBoldSpan(TextView tv, String content, String authName) {
-        String fix = tv.getContext().getResources().getString(R.string.reply_content_fix, authName);
-        content = fix + content;
-        SpannableStringBuilder builder = new SpannableStringBuilder(content);
-        StyleSpan span = new StyleSpan(Typeface.BOLD);
-        builder.setSpan(span, 0, fix.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv.setText(builder);
-    }
 }
