@@ -155,7 +155,6 @@ public class StoryListFragment extends Fragment implements IStoryListView, Swipe
 
     @Override
     public void onNormalItemClick(int position) {
-        Logger.d("onNormalItemClick position %d", position);
         //设置已读
         mPresenter.setItemRead(position);
         // 进入详情

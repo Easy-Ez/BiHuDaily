@@ -197,10 +197,16 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
     }
 
     @Override
-    public void setItemRead(String id) {
-        ReadHistory readHistory = new ReadHistory();
-        readHistory.setStoryId(id);
-        mReadHistoryDao.insertOrReplace(readHistory);
+    public void setItemRead(final String id) {
+        DBHelper.getInstance().getDaoSession().startAsyncSession().runInTx(new Runnable() {
+            @Override
+            public void run() {
+                ReadHistory readHistory = new ReadHistory();
+                readHistory.setStoryId(id);
+                mReadHistoryDao.insertOrReplace(readHistory);
+            }
+        });
+
     }
 
     @Override

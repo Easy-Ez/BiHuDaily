@@ -1,5 +1,7 @@
 package cn.ml.saddhu.bihudaily.mvp.presenter.imp;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.IStoryListView;
 public class StoryListPresenterImpl extends BasePresenter<IStoryListView> implements StoryListPresenter, OnNetRefreshListener<StoryInfo>, OnNetLoadMoreListener<List<Story>> {
     private StoryListModel mModel;
     private StoryInfo mStoryInfo;
+    private ArrayList<String> mNormalIds = new ArrayList<>();
 
     public StoryListPresenterImpl(IStoryListView storyListView) {
         super(storyListView);
@@ -44,16 +47,13 @@ public class StoryListPresenterImpl extends BasePresenter<IStoryListView> implem
 
     @Override
     public ArrayList<String> getNormalIdList() {
-        ArrayList<String> normalIds = new ArrayList<>();
-        for (Story story : mStoryInfo.stories) {
-            normalIds.add(story.id);
-        }
-        return normalIds;
+        return mNormalIds;
     }
 
     @Override
     public void setItemRead(int position) {
         if (!mStoryInfo.stories.get(position).isRead) {
+            Logger.d("setItemRead position %d", position);
             mStoryInfo.stories.get(position).setIsRead(true);
             mModel.setItemRead(mStoryInfo.stories.get(position).getId());
             mView.notifyItemChange(position);
@@ -86,6 +86,10 @@ public class StoryListPresenterImpl extends BasePresenter<IStoryListView> implem
     @Override
     public void onRefreshSuccess(StoryInfo t) {
         mStoryInfo = t;
+        mNormalIds.clear();
+        for (Story story : mStoryInfo.stories) {
+            mNormalIds.add(story.id);
+        }
         mView.setFirstPageData(t);
     }
 
@@ -96,6 +100,9 @@ public class StoryListPresenterImpl extends BasePresenter<IStoryListView> implem
 
     @Override
     public void onLoadMoreSuccess(List<Story> stories) {
+        for (Story story : stories) {
+            mNormalIds.add(story.id);
+        }
         mView.onLoadMoreSuccess(stories);
     }
 
