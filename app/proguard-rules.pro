@@ -25,3 +25,13 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by A Proxy instance.
 -keepattributes Exceptions
+
+# BRVAH
+-keep class com.chad.library.adapter.** {
+*;
+}
+-keep public class * extends com.chad.library.adapter.base.BaseQuickAdapter
+-keep public class * extends com.chad.library.adapter.base.BaseViewHolder
+-keepclassmembers public class * extends com.chad.library.adapter.base.BaseViewHolder {
+     <init>(android.view.View);
+}

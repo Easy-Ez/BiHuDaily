@@ -17,7 +17,7 @@ import cn.ml.saddhu.bihudaily.engine.viewholder.CommentVH;
  * Email static.sadhu@gmail.com
  * Describe: 评论adapter
  */
-public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements CommentVH.OnExpandViewClickedListener {
     private static final int TYPE_LONG_BAR = 1;
     private static final int TYPE_LONG_COMMENT = 2;
     private static final int TYPE_SHORT_BAR = 3;
@@ -45,7 +45,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case TYPE_LONG_COMMENT:
             case TYPE_SHORT_COMMENT:
-                vh = new CommentVH(inflater.inflate(R.layout.item_coments, parent, false));
+                vh = new CommentVH(inflater.inflate(R.layout.item_coments, parent, false), this);
                 break;
             case TYPE_SHORT_BAR:
                 vh = new CommentBarVH(inflater.inflate(R.layout.item_coments_bar, parent, false), shortCommentNumber, true, mListener);
@@ -255,6 +255,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void setItemClickListener(OnCommentItemClickListener listener) {
         this.mListener = listener;
 
+    }
+
+    @Override
+    public void onClick(CommentBean bean, int position) {
+        bean.viewHasExpand = !bean.viewHasExpand;
+        notifyItemChanged(position);
     }
 
 

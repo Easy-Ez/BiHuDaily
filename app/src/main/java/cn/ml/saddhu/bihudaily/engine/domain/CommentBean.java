@@ -29,6 +29,8 @@ public class CommentBean {
     public boolean voted;
     public int id;
     public int likes;
+    public  boolean viewHasExpand =true;
+
 
     public static class ReplyToBean {
         /**

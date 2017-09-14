@@ -154,7 +154,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private class HomePageLooperVH extends RecyclerView.ViewHolder {
+    public class HomePageLooperVH extends RecyclerView.ViewHolder {
         private final HomePageLooperAdapter adapter;
         private Handler mHandler;
         ViewPager looper;
@@ -203,7 +203,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         }
 
-        void release() {
+       public void release() {
             mHandler.removeCallbacksAndMessages(null);
         }
 

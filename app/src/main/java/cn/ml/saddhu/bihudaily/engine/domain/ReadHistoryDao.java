@@ -40,7 +40,7 @@ public class ReadHistoryDao extends AbstractDao<ReadHistory, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"READ_HISTORY\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"STORY_ID\" TEXT);"); // 1: StoryId
+                "\"STORY_ID\" TEXT UNIQUE );"); // 1: StoryId
     }
 
     /** Drops the underlying database table. */

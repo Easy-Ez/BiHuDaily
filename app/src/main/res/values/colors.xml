@@ -69,5 +69,6 @@
     <color name="comment_item_reply_prompt_message">@color/color76</color>
     <color name="comment_item_reply_comment_content">@color/color76</color>
     <color name="comment_item_reply_expand_button_bg">#ffd8e4f4</color>
+    <color name="comment_item_author_reply">@color/colorb6</color>
     <color name="comment_header">@color/color33</color>
 </resources>

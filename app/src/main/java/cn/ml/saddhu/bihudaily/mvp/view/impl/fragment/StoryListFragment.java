@@ -144,6 +144,12 @@ public class StoryListFragment extends Fragment implements IStoryListView, Swipe
     @Override
     public void onDestroy() {
         mPresenter.onDestroy();
+        if (mAdapter != null && mLayoutManger.findFirstVisibleItemPosition() == 0) {
+            RecyclerView.ViewHolder holder = rv_story_list.findViewHolderForAdapterPosition(0);
+            if (holder != null && holder instanceof HomePageAdapter.HomePageLooperVH) {
+                ((HomePageAdapter.HomePageLooperVH) holder).release();
+            }
+        }
         super.onDestroy();
     }
 
