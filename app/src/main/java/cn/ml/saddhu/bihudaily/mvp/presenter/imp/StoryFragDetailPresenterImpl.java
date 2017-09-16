@@ -6,7 +6,7 @@ import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDetail;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryType;
 import cn.ml.saddhu.bihudaily.engine.util.HTMLUtils;
-import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
+import cn.ml.saddhu.bihudaily.engine.util.ConfigurationManager;
 import cn.ml.saddhu.bihudaily.mvp.model.StoryFragModel;
 import cn.ml.saddhu.bihudaily.mvp.model.impl.StoryFragModelImpl;
 import cn.ml.saddhu.bihudaily.mvp.presenter.IStoryFragDetailPresenter;
@@ -64,21 +64,21 @@ public class StoryFragDetailPresenterImpl extends BasePresenter<IStoryDetailFrag
         String body = storyDetail.body;
         String v2 = "";
         // 大字体
-        if (SharePreferenceUtil.isLargeText(mView.getContext())) {
+        if (ConfigurationManager.isLargeText(mView.getContext())) {
             v2 = v2 + "large ";
         }
         // 是否夜间模式
-        if (SharePreferenceUtil.isDark(mView.getContext())) {
+        if (ConfigurationManager.isDark(mView.getContext())) {
             v2 = v2 + "night ";
         }
 
         v2 = String.format("<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,user-scalable=no\"><link href=\"news_qa.min.css\" rel=\"stylesheet\"><script src=\"zepto.min.js\"></script><script src=\"img_replace.js\"></script><script src=\"video.js\"></script></head><body className=\"%s\" onload=\"onLoaded()\">", v2);
         // 大字体
-        if (SharePreferenceUtil.isLargeText(mView.getContext())) {
+        if (ConfigurationManager.isLargeText(mView.getContext())) {
             v2 = v2 + "<script src=\"large-font.js\"></script>";
         }
         // 是否夜间模式
-        if (SharePreferenceUtil.isDark(mView.getContext())) {
+        if (ConfigurationManager.isDark(mView.getContext())) {
             v2 = v2 + "<script src=\"night.js\"></script>";
         }
 

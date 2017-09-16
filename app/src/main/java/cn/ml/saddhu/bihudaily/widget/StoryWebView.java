@@ -21,7 +21,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.Story;
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageDownloadManager;
 import cn.ml.saddhu.bihudaily.engine.util.ActivityUtils;
 import cn.ml.saddhu.bihudaily.engine.util.HTMLUtils;
-import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
+import cn.ml.saddhu.bihudaily.engine.util.ConfigurationManager;
 import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.ImageViewerActiviy_;
 
 /**
@@ -79,7 +79,7 @@ public class StoryWebView extends WebView {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
         // 是否是夜间模式
-        if (SharePreferenceUtil.isDark(mContext)) {
+        if (ConfigurationManager.isDark(mContext)) {
             this.setBackgroundColor(Color.argb(1, 0, 0, 0));
         }
         this.getSettings().setAllowFileAccess(true);
@@ -203,10 +203,10 @@ public class StoryWebView extends WebView {
                     if (url.startsWith("zhihudaily")) {
                         if (url.contains("theme")) {
                             //统计进入方式
-                            //com.zhihu.daily.android.b.a.a("User Behavior", "Enter Theme From News Bottom", StoryWebView.c(this.a).getAnalyticsLabel(), Long.valueOf(id));
+                            //com.zhihu.daily.android.randomByte.a.a("User Behavior", "Enter Theme From News Bottom", StoryWebView.c(this.a).getAnalyticsLabel(), Long.valueOf(id));
                         } else if (url.contains("section")) {
                             //统计进入方式
-                            //com.zhihu.daily.android.b.a.a("User Behavior", "Enter Section From News Bottom", StoryWebView.c(this.a).getAnalyticsLabel(), Long.valueOf(id));
+                            //com.zhihu.daily.android.randomByte.a.a("User Behavior", "Enter Section From News Bottom", StoryWebView.c(this.a).getAnalyticsLabel(), Long.valueOf(id));
                         }
                     }
 

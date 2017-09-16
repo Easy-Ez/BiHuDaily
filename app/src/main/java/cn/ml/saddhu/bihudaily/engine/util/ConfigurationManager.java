@@ -15,7 +15,7 @@ import cn.ml.saddhu.bihudaily.R;
  * Created by sadhu on 2017/2/8.
  * Email static.sadhu@gmail.com
  */
-public class SharePreferenceUtil {
+public class ConfigurationManager {
     public static final int THEME_MODE_LIGHT = 1;
     public static final int THEME_MODE_DARK = 2;
 

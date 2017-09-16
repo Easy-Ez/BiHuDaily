@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.ml.saddhu.bihudaily.R;
-import cn.ml.saddhu.bihudaily.engine.adapter.CommentAdapter;
 
 /**
  * Created by sadhu on 2017/4/2.
@@ -17,14 +16,16 @@ import cn.ml.saddhu.bihudaily.engine.adapter.CommentAdapter;
 public class CommentBarVH extends RecyclerView.ViewHolder implements View.OnClickListener {
     private boolean isShortBar;
     private ImageView img_comment_expand;
-    private CommentAdapter.OnCommentItemClickListener listener;
+    private OnArrowViewClickListener listener;
+    private int commentNum;
 
     public CommentBarVH(View itemView, int commentNum) {
         this(itemView, commentNum, false, null);
     }
 
-    public CommentBarVH(View itemView, int commentNum, boolean isShortBar, CommentAdapter.OnCommentItemClickListener listener) {
+    public CommentBarVH(View itemView, int commentNum, boolean isShortBar, OnArrowViewClickListener listener) {
         super(itemView);
+        this.commentNum = commentNum;
         this.isShortBar = isShortBar;
         this.listener = listener;
         TextView tv_comment_num = itemView.findViewById(R.id.tv_comment_num);
@@ -40,7 +41,7 @@ public class CommentBarVH extends RecyclerView.ViewHolder implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        if (isShortBar && listener != null) {
+        if (commentNum > 0 && isShortBar && listener != null) {
             listener.onShortBarClick(img_comment_expand.getRotation() == 0);
             if (img_comment_expand.getRotation() == 0) {
                 // 展开
@@ -52,11 +53,15 @@ public class CommentBarVH extends RecyclerView.ViewHolder implements View.OnClic
         }
     }
 
-    public void expandArrow() {
+    private void expandArrow() {
         ObjectAnimator.ofFloat(img_comment_expand, "rotation", 0, 180).setDuration(200).start();
     }
 
-    public void collaspeArrow() {
+    private void collaspeArrow() {
         ObjectAnimator.ofFloat(img_comment_expand, "rotation", 180, 0).setDuration(200).start();
+    }
+
+    public static interface OnArrowViewClickListener {
+        void onShortBarClick(boolean isExpand);
     }
 }

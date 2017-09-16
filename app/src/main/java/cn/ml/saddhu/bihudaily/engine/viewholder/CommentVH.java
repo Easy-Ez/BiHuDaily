@@ -37,9 +37,9 @@ public class CommentVH extends RecyclerView.ViewHolder implements LayoutTextView
 
     private java.text.SimpleDateFormat mSdf;
     private CommentBean mBean;
-    private OnExpandViewClickedListener mListener;
+    private OnCommentViewClickedListener mListener;
 
-    public CommentVH(View itemView, OnExpandViewClickedListener listener) {
+    public CommentVH(View itemView, OnCommentViewClickedListener listener) {
         super(itemView);
         mListener = listener;
         commentItemAvatar = itemView.findViewById(R.id.comment_item_avatar);
@@ -53,6 +53,7 @@ public class CommentVH extends RecyclerView.ViewHolder implements LayoutTextView
         commentRepliedContent = itemView.findViewById(R.id.comment_replied_content);
         mSdf = new java.text.SimpleDateFormat("MM-dd HH:mm", Locale.CHINA);
         commentExpandButton.setOnClickListener(this);
+        itemView.setOnClickListener(this);
     }
 
     public void setData(CommentBean bean) {
@@ -130,11 +131,17 @@ public class CommentVH extends RecyclerView.ViewHolder implements LayoutTextView
     @Override
     public void onClick(View view) {
         if (mListener != null) {
-            mListener.onClick(mBean, getAdapterPosition());
+            if (view.getId() == R.id.comment_expand_button) {
+                mListener.onExpandViewClick(mBean, getAdapterPosition());
+            } else {
+                mListener.onCommentItemClick(mBean, getAdapterPosition());
+            }
         }
     }
 
-    public static interface OnExpandViewClickedListener {
-        void onClick(CommentBean bean, int position);
+    public static interface OnCommentViewClickedListener {
+        void onExpandViewClick(CommentBean bean, int position);
+
+        void onCommentItemClick(CommentBean bean, int position);
     }
 }

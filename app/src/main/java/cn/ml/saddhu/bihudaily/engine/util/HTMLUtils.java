@@ -16,7 +16,7 @@ public class HTMLUtils {
     public static String DEFAULT_IMAGE_URI = "file:///android_asset/default_pic_content_image_loading_light.png";
     public static String DEFAULT_DOWNLOAD_IMAGE_URI = "file:///android_asset/default_pic_content_image_download_light.png";
     public static String parseBody(Context context, String body) {
-        boolean isNoPicMode = SharePreferenceUtil.isNoPicMode(context);
+        boolean isNoPicMode = ConfigurationManager.isNoPicMode(context);
         Document document = Jsoup.parse(body);
         for (Element next : document.getElementsByTag("img")) {
             String src = next.attr("src");

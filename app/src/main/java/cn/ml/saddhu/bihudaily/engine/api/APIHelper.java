@@ -17,10 +17,12 @@ public class APIHelper {
     private final Retrofit retrofit;
 
     private APIHelper() {
+
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)
+                .addInterceptor(new HeaderInterceptor())
                 .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(HttpConstants.BASE_URL)

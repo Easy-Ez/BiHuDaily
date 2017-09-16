@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="comment_dialog_list">
+        <item>赞同</item>
+        <item>举报</item>
+        <item>复制</item>
+        <item>回复</item>
+    </string-array>
+</resources>

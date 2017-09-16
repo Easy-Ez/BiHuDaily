@@ -59,6 +59,9 @@ android {
             url 'https://maven.google.com'
         }
         maven { url "https://jitpack.io" }
+        maven {
+            url "http://mvn.leancloud.cn/nexus/content/repositories/public"
+        }
     }
 }
 
@@ -100,8 +103,8 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
-
 }
+
 greendao {
     schemaVersion 5
 }

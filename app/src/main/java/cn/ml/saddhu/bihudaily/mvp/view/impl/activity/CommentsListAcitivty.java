@@ -1,7 +1,9 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +27,8 @@ import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.adapter.CommentAdapter;
 import cn.ml.saddhu.bihudaily.engine.domain.CommentBean;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
+import cn.ml.saddhu.bihudaily.engine.viewholder.CommentBarVH;
+import cn.ml.saddhu.bihudaily.engine.viewholder.CommentVH;
 import cn.ml.saddhu.bihudaily.mvp.presenter.ICommentsPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.CommentsPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.ICommentsListView;
@@ -35,7 +39,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.ICommentsListView;
  * Describe: 评论列表
  */
 @EActivity(R.layout.act_comments_list)
-public class CommentsListAcitivty extends BaseActivity implements ICommentsListView, CommentAdapter.OnCommentItemClickListener {
+public class CommentsListAcitivty extends BaseActivity implements ICommentsListView, CommentBarVH.OnArrowViewClickListener, CommentVH.OnCommentViewClickedListener {
     @Extra
     StoryDetailExtra mExtra;
     @Extra
@@ -61,7 +65,8 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
         mPresenter.setStoryId(mStoryId);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mCommentAdapter = mPresenter.getAdapter();
-        ((CommentAdapter) mCommentAdapter).setItemClickListener(this);
+        ((CommentAdapter) mCommentAdapter).setOnArrowClickListener(this);
+        ((CommentAdapter) mCommentAdapter).setOnCommentClickListener(this);
         rv_comments_list.setLayoutManager(mLinearLayoutManager);
         rv_comments_list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rv_comments_list.setAdapter(mCommentAdapter);
@@ -158,5 +163,22 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
     @Override
     public void scroll2ShortBar() {
         mLinearLayoutManager.scrollToPositionWithOffset(((CommentAdapter) mCommentAdapter).getShorBarPosition(), 0);
+    }
+
+    @Override
+    public void onExpandViewClick(CommentBean bean, int position) {
+        bean.isExpand = !bean.isExpand;
+        mCommentAdapter.notifyItemChanged(position);
+    }
+
+    // TODO: 2017/9/14 操作评论
+    @Override
+    public void onCommentItemClick(CommentBean bean, int position) {
+        new AlertDialog.Builder(this).setItems(R.array.comment_dialog_list, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        }).show();
     }
 }

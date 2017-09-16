@@ -1,5 +1,7 @@
 package cn.ml.saddhu.bihudaily.engine.api;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import cn.ml.saddhu.bihudaily.engine.domain.CommentBean;
@@ -9,6 +11,7 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryDetailExtra;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeInfo;
 import cn.ml.saddhu.bihudaily.engine.domain.Themes;
+import cn.ml.saddhu.bihudaily.engine.domain.TokenBean;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -65,5 +68,5 @@ public interface APIService {
     Call<ResponseBody> getMoreShortComments(@Path("storyId") String storyId, @Path("commentId") String commentId);
 
     @POST("/api/4/anonymous-login")
-    Call<ResponseBody> anonymousLogin(@Body RequestBody body);
+    Call<TokenBean> anonymousLogin(@Body RequestBody body);
 }

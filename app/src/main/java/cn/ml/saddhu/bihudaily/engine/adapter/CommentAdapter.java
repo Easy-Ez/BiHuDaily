@@ -17,7 +17,7 @@ import cn.ml.saddhu.bihudaily.engine.viewholder.CommentVH;
  * Email static.sadhu@gmail.com
  * Describe: 评论adapter
  */
-public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements CommentVH.OnExpandViewClickedListener {
+public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_LONG_BAR = 1;
     private static final int TYPE_LONG_COMMENT = 2;
     private static final int TYPE_SHORT_BAR = 3;
@@ -45,7 +45,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case TYPE_LONG_COMMENT:
             case TYPE_SHORT_COMMENT:
-                vh = new CommentVH(inflater.inflate(R.layout.item_coments, parent, false), this);
+                vh = new CommentVH(inflater.inflate(R.layout.item_coments, parent, false), mCommentViewClickListener);
                 break;
             case TYPE_SHORT_BAR:
                 vh = new CommentBarVH(inflater.inflate(R.layout.item_coments_bar, parent, false), shortCommentNumber, true, mListener);
@@ -250,21 +250,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private OnCommentItemClickListener mListener;
+    private CommentBarVH.OnArrowViewClickListener mListener;
+    private CommentVH.OnCommentViewClickedListener mCommentViewClickListener;
 
-    public void setItemClickListener(OnCommentItemClickListener listener) {
+    public void setOnArrowClickListener(CommentBarVH.OnArrowViewClickListener listener) {
         this.mListener = listener;
-
     }
 
-    @Override
-    public void onClick(CommentBean bean, int position) {
-        bean.isExpand = !bean.isExpand;
-        notifyItemChanged(position);
+    public void setOnCommentClickListener(CommentVH.OnCommentViewClickedListener listener) {
+        this.mCommentViewClickListener = listener;
     }
 
 
-    public static interface OnCommentItemClickListener {
-        void onShortBarClick(boolean isExpand);
-    }
 }

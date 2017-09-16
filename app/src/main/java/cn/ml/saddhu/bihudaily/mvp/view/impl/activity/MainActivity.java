@@ -26,7 +26,7 @@ import org.androidannotations.annotations.ViewById;
 
 import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
-import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
+import cn.ml.saddhu.bihudaily.engine.util.ConfigurationManager;
 import cn.ml.saddhu.bihudaily.mvp.presenter.IMainPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.MainPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.IMainView;
@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity implements IMainView, StoryListFr
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem item = menu.findItem(R.id.action_theme);
-        boolean isDark = SharePreferenceUtil.isDark(this);
+        boolean isDark = ConfigurationManager.isDark(this);
         item.setTitle(isDark ? getString(R.string.light_mode) : getString(R.string.dark_mode));
         return true;
     }
@@ -165,12 +165,12 @@ public class MainActivity extends BaseActivity implements IMainView, StoryListFr
         switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
             case Configuration.UI_MODE_NIGHT_YES:
                 isDark = false;
-                SharePreferenceUtil.setThemeMode(this, SharePreferenceUtil.THEME_MODE_LIGHT);
+                ConfigurationManager.setThemeMode(this, ConfigurationManager.THEME_MODE_LIGHT);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case Configuration.UI_MODE_NIGHT_NO:
                 isDark = true;
-                SharePreferenceUtil.setThemeMode(this, SharePreferenceUtil.THEME_MODE_DARK);
+                ConfigurationManager.setThemeMode(this, ConfigurationManager.THEME_MODE_DARK);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
         }

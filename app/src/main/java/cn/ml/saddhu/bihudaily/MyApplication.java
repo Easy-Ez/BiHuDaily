@@ -21,7 +21,7 @@ import java.io.File;
 import cn.ml.saddhu.bihudaily.engine.db.DBHelper;
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoader;
 import cn.ml.saddhu.bihudaily.engine.imageloader.ImageLoaderConfiguration;
-import cn.ml.saddhu.bihudaily.engine.util.SharePreferenceUtil;
+import cn.ml.saddhu.bihudaily.engine.util.ConfigurationManager;
 import cn.sadhu.share_library.constant.Constants;
 
 /**
@@ -45,7 +45,7 @@ public class MyApplication extends Application {
         mContext = this;
         LeakCanary.install(this);
         WbSdk.install(this, new AuthInfo(this, getString(R.string.weibo_app_id), Constants.REDIRECT_URL, Constants.SCOPE));
-        if (SharePreferenceUtil.isLight(this)) {
+        if (ConfigurationManager.isLight(this)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
