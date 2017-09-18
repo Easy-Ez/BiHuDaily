@@ -6,9 +6,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import cn.ml.saddhu.bihudaily.engine.db.DBHelper;
 import cn.ml.saddhu.bihudaily.engine.api.APIHelper;
 import cn.ml.saddhu.bihudaily.engine.api.APIService;
+import cn.ml.saddhu.bihudaily.engine.db.DBHelper;
 import cn.ml.saddhu.bihudaily.engine.domain.Creative;
 import cn.ml.saddhu.bihudaily.engine.domain.CreativeDao;
 import cn.ml.saddhu.bihudaily.engine.domain.Creatives;
@@ -22,13 +22,13 @@ import retrofit2.Response;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public class SplashModelImpl implements SplashModel {
+public class SplashModelImpl extends BaseModelImpl implements SplashModel {
 
 
     public static final String TAG = "SplashModelImpl";
     private final CreativeDao mCreativeDao;
     private Creative creative;
-    private Call<Creatives> call;
+
 
     public SplashModelImpl() {
         mCreativeDao = DBHelper.getInstance().getDaoSession().getCreativeDao();
@@ -47,8 +47,8 @@ public class SplashModelImpl implements SplashModel {
             creative = list.get(0);
         } else {
             APIService apiService = APIHelper.getInstance().create(APIService.class);
-            call = apiService.getSplashImage(String.format(Locale.CHINA, "%d*%d", width, height));
-
+            Call<Creatives> call = apiService.getSplashImage(String.format(Locale.CHINA, "%d*%d", width, height));
+            mCalls.add(call);
             call.enqueue(new Callback<Creatives>() {
                 @Override
                 public void onResponse(Call<Creatives> call, Response<Creatives> response) {
@@ -81,8 +81,4 @@ public class SplashModelImpl implements SplashModel {
         return creative;
     }
 
-    @Override
-    public void onDestroy() {
-        if (call != null) call.cancel();
-    }
 }

@@ -39,8 +39,6 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
     private final APIService apiService;
     private final SimpleDateFormat mParse;
     private final SimpleDateFormat mFormat;
-    private Call<StoryInfo> homePageListCall;
-    private Call<StoryInfo> storyInfoCall;
     private final ReadHistoryDao mReadHistoryDao;
 
     public StoryListModelImpl(OnNetRefreshListener<StoryInfo> refreshListener, OnNetLoadMoreListener<List<Story>> loadMoreListener) {
@@ -56,7 +54,8 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
 
     @Override
     public void getHomePageList() {
-        homePageListCall = apiService.getHomePageList();
+        Call<StoryInfo> homePageListCall = apiService.getHomePageList();
+        mCalls.add(homePageListCall);
         homePageListCall.enqueue(new Callback<StoryInfo>() {
             @Override
             public void onResponse(Call<StoryInfo> call, Response<StoryInfo> response) {
@@ -125,7 +124,8 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
 
     @Override
     public void loadMoreHomePageList(final String date) {
-        storyInfoCall = apiService.loadMoreHomePageList(date);
+        Call<StoryInfo> storyInfoCall = apiService.loadMoreHomePageList(date);
+        mCalls.add(storyInfoCall);
         storyInfoCall.enqueue(new Callback<StoryInfo>() {
             @Override
             public void onResponse(Call<StoryInfo> call, Response<StoryInfo> response) {
@@ -207,11 +207,5 @@ public class StoryListModelImpl extends BaseModelImpl<StoryInfo, List<Story>> im
             }
         });
 
-    }
-
-    @Override
-    public void onDestroy() {
-        if (homePageListCall != null) homePageListCall.cancel();
-        if (storyInfoCall != null) storyInfoCall.cancel();
     }
 }

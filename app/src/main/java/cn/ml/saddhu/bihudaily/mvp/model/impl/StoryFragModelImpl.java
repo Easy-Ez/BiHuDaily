@@ -26,7 +26,7 @@ public class StoryFragModelImpl extends BaseModelImpl<StoryDetail, Void> impleme
 
 
     private final APIService apiService;
-    private Call<StoryDetail> mStoryDetailCall;
+
     private final StoryDetailDao mStoryDetailDao;
 
     public StoryFragModelImpl(OnNetRefreshListener<StoryDetail> mRefreshListener) {
@@ -35,12 +35,6 @@ public class StoryFragModelImpl extends BaseModelImpl<StoryDetail, Void> impleme
         mStoryDetailDao = DBHelper.getInstance().getDaoSession().getStoryDetailDao();
     }
 
-    @Override
-    public void onDestroy() {
-        if (mStoryDetailCall != null) {
-            mStoryDetailCall.cancel();
-        }
-    }
 
     @Override
     public void getStoryDetail(final String storyId) {
@@ -52,8 +46,9 @@ public class StoryFragModelImpl extends BaseModelImpl<StoryDetail, Void> impleme
                     StoryDetail unique = (StoryDetail) asyncOperation.getResult();
                     mRefreshListener.onRefreshSuccess(unique);
                 } else {
-                    mStoryDetailCall = apiService.getStoryDetail(storyId);
-                    mStoryDetailCall.enqueue(new Callback<StoryDetail>() {
+                    Call<StoryDetail> storyDetailCall = apiService.getStoryDetail(storyId);
+                    mCalls.add(storyDetailCall);
+                    storyDetailCall.enqueue(new Callback<StoryDetail>() {
                         @Override
                         public void onResponse(Call<StoryDetail> call, Response<StoryDetail> response) {
                             Logger.e("onResponse and isCanceled" + call.isCanceled());

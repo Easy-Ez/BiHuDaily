@@ -60,6 +60,7 @@ public class CommentVH extends RecyclerView.ViewHolder implements LayoutTextView
         mBean = bean;
         commentItemAvatar.setImageURI(bean.avatar);
         commentItemAuthor.setText(bean.author);
+        commentItemLikeCount.setSelected(bean.voted);
         commentItemLikeCount.setText(String.valueOf(bean.likes));
         commentItemContent.setText(bean.content);
         if (bean.reply_to != null) {

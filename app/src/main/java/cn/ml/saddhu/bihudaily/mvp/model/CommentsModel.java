@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.ml.saddhu.bihudaily.engine.commondListener.NetCallback;
 import cn.ml.saddhu.bihudaily.engine.domain.CommentBean;
+import cn.ml.saddhu.bihudaily.engine.domain.VoteResultBean;
 
 /**
  * Created by sadhu on 2017/4/9.
@@ -45,4 +46,12 @@ public interface CommentsModel extends BaseModel {
      * @param callback  回调
      */
     void getMoreShortCommentsList(String storyId, String commentId, NetCallback<List<CommentBean>> callback);
+
+    /**
+     * 点赞
+     *
+     * @param bean     具体的评论
+     * @param callback 回调
+     */
+    void voteComment(CommentBean bean, NetCallback<VoteResultBean> callback);
 }

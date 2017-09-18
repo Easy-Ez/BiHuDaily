@@ -7,10 +7,12 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.adapter.CommentAdapter;
 import cn.ml.saddhu.bihudaily.engine.commondListener.NetCallback;
 import cn.ml.saddhu.bihudaily.engine.domain.CommentBean;
 import cn.ml.saddhu.bihudaily.engine.domain.ErrorMsgBean;
+import cn.ml.saddhu.bihudaily.engine.domain.VoteResultBean;
 import cn.ml.saddhu.bihudaily.mvp.model.CommentsModel;
 import cn.ml.saddhu.bihudaily.mvp.model.impl.CommentsModelImpl;
 import cn.ml.saddhu.bihudaily.mvp.presenter.ICommentsPresenter;
@@ -27,6 +29,9 @@ public class CommentsPresenterImpl extends BasePresenter<ICommentsListView> impl
     private CommentAdapter mAdapter;
     private List<CommentBean> mList;
     private String mStoryId;
+
+    private boolean hasMore;
+    private boolean isLoadingMore;
 
     public CommentsPresenterImpl(ICommentsListView commentsListView) {
         super(commentsListView);
@@ -129,9 +134,6 @@ public class CommentsPresenterImpl extends BasePresenter<ICommentsListView> impl
         });
     }
 
-    private boolean hasMore;
-    private boolean isLoadingMore;
-
     @Override
     public void loadMoreComments() {
         Logger.d("loadMoreComments");
@@ -149,8 +151,27 @@ public class CommentsPresenterImpl extends BasePresenter<ICommentsListView> impl
     }
 
     @Override
-    public void onDestroy() {
+    public void voteComment(final CommentBean bean, final int position) {
+        mModel.voteComment(bean, new NetCallback<VoteResultBean>() {
+            @Override
+            public void onSuccess(VoteResultBean voteResultBean) {
+                bean.voted = true;
+                bean.likes = voteResultBean.count;
+                mAdapter.notifyItemChanged(position);
+            }
 
+            @Override
+            public void onError(ErrorMsgBean bean) {
+                mView.showToast(R.string.vote_error);
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        mView = null;
+        mModel.onDestroy();
+        mModel = null;
     }
 
 

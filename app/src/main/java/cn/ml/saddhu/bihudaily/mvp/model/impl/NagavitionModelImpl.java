@@ -2,16 +2,16 @@ package cn.ml.saddhu.bihudaily.mvp.model.impl;
 
 import java.util.Collections;
 
-import cn.ml.saddhu.bihudaily.engine.db.DBHelper;
+import cn.ml.saddhu.bihudaily.engine.api.APIHelper;
+import cn.ml.saddhu.bihudaily.engine.api.APIService;
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.constant.SharedPreferenceConstants;
+import cn.ml.saddhu.bihudaily.engine.db.DBHelper;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
 import cn.ml.saddhu.bihudaily.engine.domain.ThemeDao;
 import cn.ml.saddhu.bihudaily.engine.domain.Themes;
 import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
 import cn.ml.saddhu.bihudaily.engine.domain.UserInfoDao;
-import cn.ml.saddhu.bihudaily.engine.api.APIHelper;
-import cn.ml.saddhu.bihudaily.engine.api.APIService;
 import cn.ml.saddhu.bihudaily.mvp.model.NagavitionModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,16 +24,14 @@ import retrofit2.Response;
  */
 public class NagavitionModelImpl extends BaseModelImpl<UserInfo, Void> implements NagavitionModel {
 
-    private final Call<Themes> call;
     private final ThemeDao mThemeDao;
     private final UserInfoDao mUserInfoDao;
 
     public NagavitionModelImpl(OnNetRefreshListener<UserInfo> mRefreshListener) {
         super(mRefreshListener);
-        APIService apiService = APIHelper.getInstance().create(APIService.class);
         mUserInfoDao = DBHelper.getInstance().getDaoSession().getUserInfoDao();
         mThemeDao = DBHelper.getInstance().getDaoSession().getThemeDao();
-        call = apiService.getThemes();
+
     }
 
     @Override
@@ -53,6 +51,9 @@ public class NagavitionModelImpl extends BaseModelImpl<UserInfo, Void> implement
 
 
     private void getThemesFromNet() {
+        APIService apiService = APIHelper.getInstance().create(APIService.class);
+        Call<Themes> call = apiService.getThemes();
+        mCalls.add(call);
         call.enqueue(new Callback<Themes>() {
             @Override
             public void onResponse(Call<Themes> call, Response<Themes> response) {
@@ -85,10 +86,5 @@ public class NagavitionModelImpl extends BaseModelImpl<UserInfo, Void> implement
     @Override
     public void updateTheme(Theme theme) {
         mThemeDao.update(theme);
-    }
-
-    @Override
-    public void onDestroy() {
-        if (call != null) call.cancel();
     }
 }

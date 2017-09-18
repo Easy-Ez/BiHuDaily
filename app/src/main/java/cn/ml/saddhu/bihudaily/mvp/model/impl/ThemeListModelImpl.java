@@ -35,8 +35,6 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
     private APIService mApiService;
     private final Gson mGson;
     private final Type mType;
-    private Call<ResponseBody> baseStoryCall;
-    private Call<ThemeInfo> themePageListCall;
     private final ReadHistoryDao mReadHistoryDao;
 
     public ThemeListModelImpl(OnNetRefreshListener<ThemeInfo> refreshListener, OnNetLoadMoreListener<List<BaseStory>> loadMoreListener) {
@@ -51,7 +49,8 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
 
     @Override
     public void getThemePageList(String themeId) {
-        themePageListCall = mApiService.getThemePageList(themeId);
+        Call<ThemeInfo> themePageListCall = mApiService.getThemePageList(themeId);
+        mCalls.add(themePageListCall);
         themePageListCall.enqueue(new Callback<ThemeInfo>() {
             @Override
             public void onResponse(Call<ThemeInfo> call, Response<ThemeInfo> response) {
@@ -86,7 +85,8 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
 
     @Override
     public void loadMoreThemePageList(String themeId, String id) {
-        baseStoryCall = mApiService.loadMoreThemePageList(themeId, id);
+        Call<ResponseBody> baseStoryCall = mApiService.loadMoreThemePageList(themeId, id);
+        mCalls.add(baseStoryCall);
         baseStoryCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -140,9 +140,4 @@ public class ThemeListModelImpl extends BaseModelImpl<ThemeInfo, List<BaseStory>
         mReadHistoryDao.insertOrReplace(readHistory);
     }
 
-    @Override
-    public void onDestroy() {
-        if (baseStoryCall != null) baseStoryCall.cancel();
-        if (themePageListCall != null) themePageListCall.cancel();
-    }
 }

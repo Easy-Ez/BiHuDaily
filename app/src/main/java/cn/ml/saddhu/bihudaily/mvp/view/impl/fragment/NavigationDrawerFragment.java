@@ -25,7 +25,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.MainActivity;
  * Describe: 左侧导航页
  */
 @EFragment(R.layout.frag_navigation_drawer)
-public class NavigationDrawerFragment extends Fragment implements INavigationDrawerView, NavigationAdapter.OnNavigationItemClickListener {
+public class NavigationDrawerFragment extends BaseFragment implements INavigationDrawerView, NavigationAdapter.OnNavigationItemClickListener {
     @ViewById
     RecyclerView navigation_list;
 

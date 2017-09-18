@@ -15,6 +15,7 @@ import cn.ml.saddhu.bihudaily.engine.api.APIService;
 import cn.ml.saddhu.bihudaily.engine.commondListener.NetCallback;
 import cn.ml.saddhu.bihudaily.engine.domain.CommentBean;
 import cn.ml.saddhu.bihudaily.engine.domain.ErrorMsgBean;
+import cn.ml.saddhu.bihudaily.engine.domain.VoteResultBean;
 import cn.ml.saddhu.bihudaily.mvp.model.CommentsModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -26,7 +27,7 @@ import retrofit2.Response;
  * Email static.sadhu@gmail.com
  * Describe:
  */
-public class CommentsModelImpl implements CommentsModel {
+public class CommentsModelImpl extends BaseModelImpl implements CommentsModel {
 
 
     private final APIService apiService;
@@ -39,6 +40,7 @@ public class CommentsModelImpl implements CommentsModel {
     @Override
     public void getLongCommentsList(String storyId, final NetCallback<List<CommentBean>> callback) {
         Call<ResponseBody> call = apiService.getLongComments(storyId);
+        mCalls.add(call);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -69,6 +71,7 @@ public class CommentsModelImpl implements CommentsModel {
     @Override
     public void getMoreLongCommentsList(String storyId, String commentId, final NetCallback<List<CommentBean>> callback) {
         Call<ResponseBody> call = apiService.getMoreLongComments(storyId, commentId);
+        mCalls.add(call);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -97,6 +100,7 @@ public class CommentsModelImpl implements CommentsModel {
     @Override
     public void getShortCommentsList(String storyId, final NetCallback<List<CommentBean>> callback) {
         Call<ResponseBody> call = apiService.getShortComments(storyId);
+        mCalls.add(call);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -125,6 +129,7 @@ public class CommentsModelImpl implements CommentsModel {
     @Override
     public void getMoreShortCommentsList(String storyId, String commentId, final NetCallback<List<CommentBean>> callback) {
         Call<ResponseBody> call = apiService.getMoreShortComments(storyId, commentId);
+        mCalls.add(call);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -150,9 +155,27 @@ public class CommentsModelImpl implements CommentsModel {
         });
     }
 
-    @Override
-    public void onDestroy() {
 
+    @Override
+    public void voteComment(CommentBean bean, final NetCallback<VoteResultBean> callback) {
+        Call<VoteResultBean> call = apiService.voteComment(bean.id);
+        mCalls.add(call);
+        call.enqueue(new Callback<VoteResultBean>() {
+            @Override
+            public void onResponse(Call<VoteResultBean> call, Response<VoteResultBean> response) {
+                VoteResultBean resultBean = response.body();
+                if (resultBean != null)
+                    callback.onSuccess(resultBean);
+                else
+                    callback.onError(ErrorMsgBean.getNetError());
+            }
+
+            @Override
+            public void onFailure(Call<VoteResultBean> call, Throwable throwable) {
+                callback.onError(ErrorMsgBean.getNetError());
+            }
+        });
     }
+
 
 }

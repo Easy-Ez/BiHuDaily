@@ -33,7 +33,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
  * Describe: 订阅页
  */
 @EFragment(R.layout.frag_story_list)
-public class ThemeListFragment extends Fragment implements IThemeListView, SwipeRefreshLayout.OnRefreshListener, ThemePageAdapter.OnItemClickListener {
+public class ThemeListFragment extends BaseFragment implements IThemeListView, SwipeRefreshLayout.OnRefreshListener, ThemePageAdapter.OnItemClickListener {
     @ViewById
     SwipeRefreshLayout refresh;
     @ViewById

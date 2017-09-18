@@ -19,7 +19,7 @@ import com.orhanobut.logger.Logger;
  *║ StoryDetailFragment_{fec691f}prepareFetchData
  *║ StoryDetailFragment_{fec691f}lazyLoadData
  */
-public abstract class LazyLoadForViewPageFragment extends Fragment {
+public abstract class LazyLoadForViewPageFragment extends BaseFragment {
     private final String TAG = LazyLoadForViewPageFragment.this.toString();
     private boolean isViewInitiated;
     private boolean isUserVisible;

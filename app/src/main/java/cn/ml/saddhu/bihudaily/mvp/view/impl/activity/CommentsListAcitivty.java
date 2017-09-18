@@ -173,11 +173,25 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
 
     // TODO: 2017/9/14 操作评论
     @Override
-    public void onCommentItemClick(CommentBean bean, int position) {
+    public void onCommentItemClick(final CommentBean bean, final int position) {
         new AlertDialog.Builder(this).setItems(R.array.comment_dialog_list, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
+            public void onClick(DialogInterface dialogInterface, int what) {
+                switch (what) {
+                    case 0:
+                        // 点赞
+                        mPresenter.voteComment(bean, position);
+                        break;
+                    case 1:
+                        // 举报
+                        break;
+                    case 2:
+                        // 复制
+                        break;
+                    case 3:
+                        // 回复
+                        break;
+                }
             }
         }).show();
     }

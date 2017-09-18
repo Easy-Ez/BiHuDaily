@@ -31,7 +31,7 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
  * Describe: 新闻列表fragment
  */
 @EFragment(R.layout.frag_story_list)
-public class StoryListFragment extends Fragment implements IStoryListView, SwipeRefreshLayout.OnRefreshListener, HomePageAdapter.OnItemClickListener {
+public class StoryListFragment extends BaseFragment implements IStoryListView, SwipeRefreshLayout.OnRefreshListener, HomePageAdapter.OnItemClickListener {
     @ViewById
     SwipeRefreshLayout refresh;
     @ViewById
