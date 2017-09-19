@@ -46,8 +46,15 @@ public interface ICommentsPresenter extends IBasePresenter {
     /**
      * 点赞评论
      *
-     * @param bean 评论bean
+     * @param bean     评论bean
      * @param position list 中的position
      */
     void voteComment(CommentBean bean, int position);
+
+    /**
+     * 复制评论
+     *
+     * @param bean 评论bean
+     */
+    void copyComment(CommentBean bean);
 }

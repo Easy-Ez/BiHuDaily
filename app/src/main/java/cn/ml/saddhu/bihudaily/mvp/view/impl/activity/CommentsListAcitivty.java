@@ -187,6 +187,7 @@ public class CommentsListAcitivty extends BaseActivity implements ICommentsListV
                         break;
                     case 2:
                         // 复制
+                        mPresenter.copyComment(bean);
                         break;
                     case 3:
                         // 回复

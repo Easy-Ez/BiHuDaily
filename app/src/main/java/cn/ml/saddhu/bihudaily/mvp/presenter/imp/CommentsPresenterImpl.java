@@ -1,5 +1,8 @@
 package cn.ml.saddhu.bihudaily.mvp.presenter.imp;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import com.orhanobut.logger.Logger;
@@ -165,6 +168,14 @@ public class CommentsPresenterImpl extends BasePresenter<ICommentsListView> impl
                 mView.showToast(R.string.vote_error);
             }
         });
+    }
+
+    @Override
+    public void copyComment(CommentBean bean) {
+        ClipboardManager clipboardManager = (ClipboardManager) mView.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText("text", bean.content);
+        clipboardManager.setPrimaryClip(clipData);
+        mView.showToast(R.string.copy_success);
     }
 
     @Override
