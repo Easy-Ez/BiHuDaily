@@ -9,4 +9,6 @@ import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
  */
 public interface INavigationDrawerView extends IBaseView {
     void showList(UserInfo userInfo);
+
+    void setOfflineText(String text);
 }

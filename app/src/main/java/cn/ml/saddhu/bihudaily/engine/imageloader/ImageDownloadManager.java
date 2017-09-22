@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,11 +81,16 @@ public class ImageDownloadManager {
         mDownloadingUrl = new CopyOnWriteArrayList<>();
     }
 
+    public void addTask(final String url) {
+        addTask(url, null);
+    }
+
     public void addTask(final String url, final DownloadListener listener) {
         mPostExecutors.execute(new Runnable() {
             @Override
             public void run() {
                 if (checkInTask(url)) {
+                    Logger.i(TAG, "task has added " + url);
                     return;
                 }
                 mDownloadingUrl.add(url);
@@ -101,9 +105,10 @@ public class ImageDownloadManager {
         });
     }
 
-    public  boolean checkInTask(String url) {
+    public boolean checkInTask(String url) {
         for (String downloadingUrl : mDownloadingUrl) {
             if (url.equals(downloadingUrl)) {
+                Logger.i(TAG, "task has added");
                 return true;
             }
         }
@@ -154,13 +159,15 @@ public class ImageDownloadManager {
             File saveFile = download(url);
             mDownloadingUrl.remove(url);
             if (saveFile != null) {
-                listener.onSuccuss(url, saveFile.getAbsolutePath());
+                if (listener != null)
+                    listener.onSuccuss(url, saveFile.getAbsolutePath());
                 Message message = Message.obtain();
                 message.what = CODE_DOWNLOAD_SUCCESS;
                 message.obj = new DonwloadSuccessInfo(saveFile.getAbsolutePath(), url);
                 handler.sendMessage(message);
             } else {
-                listener.onError(url);
+                if (listener != null)
+                    listener.onError(url);
                 Message message = Message.obtain();
                 message.what = CODE_DOWNLOAD_ERROR;
                 message.obj = url;

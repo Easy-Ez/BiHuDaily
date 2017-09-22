@@ -2,6 +2,7 @@ package cn.ml.saddhu.bihudaily.mvp.model;
 
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
 import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
+import cn.ml.saddhu.bihudaily.mvp.presenter.imp.NavigationDrawerPresenterImpl;
 
 /**
  * Created by sadhu on 2016/11/13.
@@ -30,4 +31,10 @@ public interface NagavitionModel extends BaseModel {
      * @param theme
      */
     void updateTheme(Theme theme);
+
+    /**
+     * 下载离线数据
+     */
+    void downloadOfflineData(NavigationDrawerPresenterImpl.DownloadProgressListener listener);
+
 }

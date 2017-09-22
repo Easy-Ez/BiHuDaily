@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 
+import com.orhanobut.logger.Logger;
+
+import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.commondListener.OnNetRefreshListener;
 import cn.ml.saddhu.bihudaily.engine.constant.SharedPreferenceConstants;
 import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
@@ -50,6 +53,50 @@ public class NavigationDrawerPresenterImpl extends BasePresenter<INavigationDraw
         mModel.updateTheme(mUerInfo.themes.get(position));
     }
 
+    @Override
+    public void downloadOfflineData() {
+        final float fetchProgressRatio = 0.2f;
+        mModel.downloadOfflineData(new DownloadProgressListener() {
+            @Override
+            public void onPrepared() {
+                mView.setOfflineText("0%");
+            }
+
+            @Override
+            public void onFetchDataProgressChange(int progress, int total) {
+                float v = progress * 100f * fetchProgressRatio / total;
+                Logger.i("progress onFetchDataProgressChange %f", v);
+                mView.setOfflineText((int) v + "%");
+            }
+
+            @Override
+            public void onDownloadProgressChange(int progress, int total) {
+                float v = progress * 100f * (1 - fetchProgressRatio) / total + fetchProgressRatio * 100;
+                Logger.i("progress onDownloadProgressChange %f", v);
+                mView.setOfflineText((int) v + "%");
+            }
+
+            @Override
+            public void onComplete() {
+                Logger.i("progress onComplete");
+                mView.setOfflineText(mView.getContext().getString(R.string.drawer_complete));
+            }
+
+            @Override
+            public void onCancel() {
+                Logger.i("progress onCancel");
+                mView.setOfflineText(mView.getContext().getString(R.string.drawer_offline));
+            }
+
+            @Override
+            public void onError() {
+                Logger.i("progress onError");
+                mView.setOfflineText(mView.getContext().getString(R.string.drawer_error));
+            }
+        });
+
+    }
+
 
     @Override
     public void onRefreshSuccess(UserInfo info) {
@@ -69,4 +116,17 @@ public class NavigationDrawerPresenterImpl extends BasePresenter<INavigationDraw
         mModel = null;
     }
 
+    public interface DownloadProgressListener {
+        void onCancel();
+
+        void onPrepared();
+
+        void onFetchDataProgressChange(int progress, int total);
+
+        void onDownloadProgressChange(int progress, int total);
+
+        void onComplete();
+
+        void onError();
+    }
 }

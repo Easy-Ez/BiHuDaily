@@ -191,20 +191,22 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    private class NavigationUserVH extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class NavigationUserVH extends RecyclerView.ViewHolder implements View.OnClickListener {
         SimpleDraweeView drawer_avatar;
         TextView drawer_nick_name;
         LinearLayout drawer_favorite;
         LinearLayout drawer_offline;
         RelativeLayout drawer_user;
+        public TextView drawer_offline_progress;
 
         NavigationUserVH(View itemView) {
             super(itemView);
-            drawer_avatar = (SimpleDraweeView) itemView.findViewById(R.id.drawer_avatar);
-            drawer_nick_name = (TextView) itemView.findViewById(R.id.drawer_nick_name);
-            drawer_favorite = (LinearLayout) itemView.findViewById(R.id.drawer_favorite);
-            drawer_offline = (LinearLayout) itemView.findViewById(R.id.drawer_offline);
-            drawer_user = (RelativeLayout) itemView.findViewById(R.id.drawer_user);
+            drawer_avatar = itemView.findViewById(R.id.drawer_avatar);
+            drawer_nick_name = itemView.findViewById(R.id.drawer_nick_name);
+            drawer_favorite = itemView.findViewById(R.id.drawer_favorite);
+            drawer_offline = itemView.findViewById(R.id.drawer_offline);
+            drawer_user = itemView.findViewById(R.id.drawer_user);
+            drawer_offline_progress = itemView.findViewById(R.id.drawer_offline_progress);
             drawer_user.setOnClickListener(this);
             drawer_favorite.setOnClickListener(this);
             drawer_offline.setOnClickListener(this);

@@ -1,6 +1,8 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.fragment;
 
-import android.support.v4.app.Fragment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -11,9 +13,9 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import cn.ml.saddhu.bihudaily.R;
+import cn.ml.saddhu.bihudaily.engine.adapter.NavigationAdapter;
 import cn.ml.saddhu.bihudaily.engine.domain.Theme;
 import cn.ml.saddhu.bihudaily.engine.domain.UserInfo;
-import cn.ml.saddhu.bihudaily.engine.adapter.NavigationAdapter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.INavigationDrawerPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.NavigationDrawerPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.INavigationDrawerView;
@@ -31,7 +33,22 @@ public class NavigationDrawerFragment extends BaseFragment implements INavigatio
 
     private NavigationAdapter mAdapter;
     private INavigationDrawerPresenter mPresenter;
+    public static final int WHAT_UPDATE_PROGRESS = 1;
+    private android.os.Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == WHAT_UPDATE_PROGRESS) {
+                updatePorgress((String) msg.obj);
+            }
+        }
+    };
 
+    private void updatePorgress(String text) {
+        RecyclerView.ViewHolder viewHolder = navigation_list.findViewHolderForAdapterPosition(0);
+        if (viewHolder instanceof NavigationAdapter.NavigationUserVH) {
+            ((NavigationAdapter.NavigationUserVH) viewHolder).drawer_offline_progress.setText(text);
+        }
+    }
 
     @AfterViews
     void afterViews() {
@@ -54,6 +71,18 @@ public class NavigationDrawerFragment extends BaseFragment implements INavigatio
             mAdapter.notifyDataSetChanged();
         }
         Logger.d("navigationFragment method");
+    }
+
+    @Override
+    public void setOfflineText(String text) {
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            updatePorgress(text);
+        } else {
+            Message obtain = Message.obtain(mHandler, WHAT_UPDATE_PROGRESS);
+            obtain.obj = text;
+            obtain.sendToTarget();
+        }
+
     }
 
     @Override
@@ -84,11 +113,12 @@ public class NavigationDrawerFragment extends BaseFragment implements INavigatio
 
     @Override
     public void onOfflineClick() {
-
+        mPresenter.downloadOfflineData();
     }
 
     @Override
     public void onDestroy() {
+        mHandler.removeCallbacksAndMessages(null);
         mPresenter.onDestroy();
         super.onDestroy();
     }

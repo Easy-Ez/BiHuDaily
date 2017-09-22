@@ -18,4 +18,9 @@ public interface INavigationDrawerPresenter extends IBasePresenter {
      * @param position index
      */
     void RemindTheme(int position);
+
+    /**
+     * 离线下载
+     */
+    void downloadOfflineData();
 }

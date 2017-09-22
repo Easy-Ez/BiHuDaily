@@ -7,6 +7,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by sadhu on 2017/2/24.
@@ -15,6 +19,7 @@ import java.io.File;
 public class HTMLUtils {
     public static String DEFAULT_IMAGE_URI = "file:///android_asset/default_pic_content_image_loading_light.png";
     public static String DEFAULT_DOWNLOAD_IMAGE_URI = "file:///android_asset/default_pic_content_image_download_light.png";
+
     public static String parseBody(Context context, String body) {
         boolean isNoPicMode = ConfigurationManager.isNoPicMode(context);
         Document document = Jsoup.parse(body);
@@ -37,4 +42,20 @@ public class HTMLUtils {
 
         return document.html();
     }
+
+    public static HashSet<String> parseAttribute(String htmlContent, String attribute) {
+        HashSet<String> arrayList = new HashSet<>();
+        if (htmlContent == null || htmlContent.length() == 0) {
+            return arrayList;
+        }
+        Iterator it = Jsoup.parse(htmlContent).getElementsByTag("img").iterator();
+        while (it.hasNext()) {
+            String attr = ((Element) it.next()).attr(attribute);
+            if (attr != null && attr.length() > 0) {
+                arrayList.add(attr);
+            }
+        }
+        return arrayList;
+    }
+
 }
