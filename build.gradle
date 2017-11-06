@@ -4,12 +4,12 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha9'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
         classpath 'com.mcxiaoke.gradle:packer-ng:1.0.9'// 打包
-        classpath 'com.antfortune.freeline:gradle:0.8.7'//freeline
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -19,9 +19,23 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+        google()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    // Sdk and tools
+    minSdkVersion = 17
+    targetSdkVersion = 22
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.0'
+
+    // App dependencies
+    supportVersion = '27.0.0'
+    AAVersion = '4.3.1'
+}
+
