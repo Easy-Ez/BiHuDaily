@@ -20,7 +20,6 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
@@ -71,40 +70,41 @@ greendao {
     targetGenDir 'src/main/java'
 }
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:appcompat-v7:$rootProject.supportVersion"
-    compile "com.android.support:design:$rootProject.supportVersion"
-    compile "com.android.support:cardview-v7:$rootProject.supportVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.supportVersion"
-    compile 'com.android.support:multidex:1.0.2'
-//    compile "com.android.support:preference-v7:$rootProject.supportVersion"
-//    compile "com.android.support:preference-v14:$rootProject.supportVersion"
-    compile 'com.takisoft.fix:preference-v7:27.0.0.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.json:json:20160810'
+    implementation "com.android.support:appcompat-v7:$rootProject.supportVersion"
+    implementation "com.android.support:design:$rootProject.supportVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.supportVersion"
+    implementation "com.android.support:preference-v7:$rootProject.supportVersion"
+    implementation "com.android.support:preference-v14:$rootProject.supportVersion"
+    //implementation "com.takisoft.fix:preference-v7:$rootProject.supportVersion"
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.json:json:20160810'
     annotationProcessor "org.androidannotations:androidannotations:$rootProject.AAVersion"
-    compile "org.androidannotations:androidannotations-api:$rootProject.AAVersion"
+    implementation "org.androidannotations:androidannotations-api:$rootProject.AAVersion"
     // 其他依赖
-    compile 'com.facebook.fresco:fresco:1.3.0'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'org.greenrobot:greendao:3.2.2'
-    compile 'com.orhanobut:logger:2.1.1'
-    compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'org.jsoup:jsoup:1.10.2'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.facebook.fresco:fresco:1.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.orhanobut:logger:2.1.1'
+    implementation 'com.jakewharton:disklrucache:2.0.2'
+    implementation 'org.jsoup:jsoup:1.10.2'
+    implementation 'org.greenrobot:eventbus:3.0.0'
     annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.1'
-    compile 'me.relex:photodraweeview:1.1.2'
-    compile project(':guidelibrary')
-    compile project(':share_library')
+    implementation 'me.relex:photodraweeview:1.1.2'
+    implementation project(':guidelibrary')
+    implementation project(':share_library')
     // 内存泄露检测
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    //compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'//没有使用特殊Header，可以不加这行
 }
 
 greendao {

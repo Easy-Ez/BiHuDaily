@@ -62,8 +62,8 @@
         <activity
             android:name=".mvp.view.impl.activity.SettingsActivity_"
             android:parentActivityName=".mvp.view.impl.activity.MainActivity_"
-            android:theme="@style/SettingsTheme"/>
-
+           />
+      <!--  android:theme="@style/SettingsTheme"-->
 
         <!--QQsdk-->
         <activity

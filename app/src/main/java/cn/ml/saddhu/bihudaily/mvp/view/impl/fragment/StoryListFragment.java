@@ -1,12 +1,14 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.fragment;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.orhanobut.logger.Logger;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -19,7 +21,6 @@ import cn.ml.saddhu.bihudaily.R;
 import cn.ml.saddhu.bihudaily.engine.adapter.HomePageAdapter;
 import cn.ml.saddhu.bihudaily.engine.domain.Story;
 import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
-import cn.ml.saddhu.bihudaily.engine.util.ConfigurationManager;
 import cn.ml.saddhu.bihudaily.mvp.presenter.StoryListPresenter;
 import cn.ml.saddhu.bihudaily.mvp.presenter.imp.StoryListPresenterImpl;
 import cn.ml.saddhu.bihudaily.mvp.view.IStoryListView;
@@ -31,9 +32,9 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
  * Describe: 新闻列表fragment
  */
 @EFragment(R.layout.frag_story_list)
-public class StoryListFragment extends BaseFragment implements IStoryListView, SwipeRefreshLayout.OnRefreshListener, HomePageAdapter.OnItemClickListener {
+public class StoryListFragment extends BaseFragment implements IStoryListView, HomePageAdapter.OnItemClickListener, OnRefreshListener, OnLoadmoreListener {
     @ViewById
-    SwipeRefreshLayout refresh;
+    SmartRefreshLayout refresh;
     @ViewById
     RecyclerView rv_story_list;
 
@@ -41,8 +42,6 @@ public class StoryListFragment extends BaseFragment implements IStoryListView, S
     private StoryListPresenter mPresenter = new StoryListPresenterImpl(this);
     private LinearLayoutManager mLayoutManger;
     private HomePageAdapter mAdapter = new HomePageAdapter();
-    private boolean isRefresh;
-    private boolean isLoadMore;
     @InstanceState
     StoryInfo mStoryInfo;
 
@@ -58,26 +57,13 @@ public class StoryListFragment extends BaseFragment implements IStoryListView, S
 
     @AfterViews
     void afterViews() {
-        Logger.d("StoryListFragment method");
-        boolean isDark = ConfigurationManager.isDark(getContext());
         refresh.setOnRefreshListener(this);
-        refresh.setColorSchemeResources(isDark ? R.color.color22 : R.color.colorPrimary);
+        refresh.setOnLoadmoreListener(this);
         mLayoutManger = new LinearLayoutManager(getContext());
         mAdapter.setOnItemClickListener(this);
         rv_story_list.setLayoutManager(mLayoutManger);
         rv_story_list.setAdapter(mAdapter);
         rv_story_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (mAdapter.getData() != null && !isRefresh && !isLoadMore && mLayoutManger.findLastVisibleItemPosition() == mAdapter.getItemCount() - 1) {
-                        // 加载更多
-                        loadMoreHomePageList();
-                    }
-                }
-            }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -104,29 +90,42 @@ public class StoryListFragment extends BaseFragment implements IStoryListView, S
     }
 
     private void loadMoreHomePageList() {
-        isLoadMore = true;
         mPresenter.loadMoreHomePageList();
     }
 
     @Override
-    public void setFirstPageData(StoryInfo info) {
-        mStoryInfo = info;
-        mAdapter.setData(info);
-        isRefresh = false;
-        refresh.setRefreshing(false);
+    public void onRefreshSucces(StoryInfo data) {
+        mStoryInfo = data;
+        mAdapter.setData(data);
+        refresh.finishRefresh();
     }
 
     @Override
-    public void onLoadMoreSuccess(List<Story> info) {
-        isLoadMore = false;
-        mAdapter.addData(info);
+    public void onRefreshError(int code) {
+        refresh.finishRefresh(false);
+    }
+
+    @Override
+    public void onLoadMoreSuccuess(List<Story> data) {
+        refresh.finishLoadmore();
+        mAdapter.addData(data);
+    }
+
+    @Override
+    public void onLoadMoreError(int code) {
+        refresh.finishLoadmore(false);
     }
 
 
     @Override
-    public void onRefresh() {
-        isRefresh = true;
+    public void onRefresh(RefreshLayout refreshlayout) {
         mPresenter.getHomePageList();
+    }
+
+    @Override
+    public void onLoadmore(RefreshLayout refreshlayout) {
+        // 加载更多
+        loadMoreHomePageList();
     }
 
     @Override
@@ -142,7 +141,7 @@ public class StoryListFragment extends BaseFragment implements IStoryListView, S
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         mPresenter.onDestroy();
         if (mAdapter != null && mLayoutManger.findFirstVisibleItemPosition() == 0) {
             RecyclerView.ViewHolder holder = rv_story_list.findViewHolderForAdapterPosition(0);
@@ -150,7 +149,7 @@ public class StoryListFragment extends BaseFragment implements IStoryListView, S
                 ((HomePageAdapter.HomePageLooperVH) holder).release();
             }
         }
-        super.onDestroy();
+        super.onDestroyView();
     }
 
     @Override

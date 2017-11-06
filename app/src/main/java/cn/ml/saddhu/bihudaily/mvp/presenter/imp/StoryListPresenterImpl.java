@@ -90,12 +90,12 @@ public class StoryListPresenterImpl extends BasePresenter<IStoryListView> implem
         for (Story story : mStoryInfo.stories) {
             mNormalIds.add(story.id);
         }
-        mView.setFirstPageData(t);
+        mView.onRefreshSucces(t);
     }
 
     @Override
     public void onRefreshError(int code) {
-
+        mView.onRefreshError(code);
     }
 
     @Override
@@ -103,11 +103,11 @@ public class StoryListPresenterImpl extends BasePresenter<IStoryListView> implem
         for (Story story : stories) {
             mNormalIds.add(story.id);
         }
-        mView.onLoadMoreSuccess(stories);
+        mView.onLoadMoreSuccuess(stories);
     }
 
     @Override
     public void onLoadMoreError(int code) {
-
+        mView.onLoadMoreError(code);
     }
 }

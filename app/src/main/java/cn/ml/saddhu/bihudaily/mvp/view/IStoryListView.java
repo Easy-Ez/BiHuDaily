@@ -10,10 +10,6 @@ import cn.ml.saddhu.bihudaily.engine.domain.StoryInfo;
  * Email static.sadhu@gmail.com
  * Describe: 文章列表
  */
-public interface IStoryListView extends IBaseView{
-    void setFirstPageData(StoryInfo info);
-
-    void onLoadMoreSuccess(List<Story> info);
-
+public interface IStoryListView extends IBaseListRefreshView<StoryInfo>, IBaseListLoadmoreView<List<Story>> {
     void notifyItemChange(int position);
 }
