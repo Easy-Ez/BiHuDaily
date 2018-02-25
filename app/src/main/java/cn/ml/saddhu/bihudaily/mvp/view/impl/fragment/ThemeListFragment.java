@@ -1,12 +1,14 @@
 package cn.ml.saddhu.bihudaily.mvp.view.impl.fragment;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -33,41 +35,24 @@ import cn.ml.saddhu.bihudaily.mvp.view.impl.activity.StoryDetailActivity_;
  * Describe: 订阅页
  */
 @EFragment(R.layout.frag_story_list)
-public class ThemeListFragment extends BaseFragment implements IThemeListView, SwipeRefreshLayout.OnRefreshListener, ThemePageAdapter.OnItemClickListener {
+public class ThemeListFragment extends BaseFragment implements IThemeListView, ThemePageAdapter.OnItemClickListener, OnRefreshListener, OnLoadmoreListener {
     @ViewById
-    SwipeRefreshLayout refresh;
+    SmartRefreshLayout refresh;
     @ViewById
     RecyclerView rv_story_list;
     @FragmentArg
     String mThemeId;
     private ThemeListPresenter mPresenter = new ThemeListPresenterImpl(this);
-    private LinearLayoutManager mLayoutManger;
     private ThemePageAdapter mAdapter = new ThemePageAdapter();
-    private boolean isRefresh;
-    private boolean isLoadMore;
+
 
     @AfterViews
     void afterViews() {
-        Logger.d("StoryListFragment method");
-        boolean isDark = ConfigurationManager.isDark(getContext());
         refresh.setOnRefreshListener(this);
-        refresh.setColorSchemeResources(isDark ? R.color.color22 : R.color.colorPrimary);
-        mLayoutManger = new LinearLayoutManager(getContext());
+        refresh.setOnLoadmoreListener(this);
         mAdapter.setOnItemClickListener(this);
-        rv_story_list.setLayoutManager(mLayoutManger);
+        rv_story_list.setLayoutManager( new LinearLayoutManager(getContext()));
         rv_story_list.setAdapter(mAdapter);
-        rv_story_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (mAdapter.getData() != null && !isRefresh && !isLoadMore && mLayoutManger.findLastVisibleItemPosition() == mAdapter.getItemCount() - 1) {
-                        // 加载更多
-                        loadMoreThemePageList();
-                    }
-                }
-            }
-        });
         mPresenter.getThemePageList(mThemeId);
     }
 
@@ -75,45 +60,46 @@ public class ThemeListFragment extends BaseFragment implements IThemeListView, S
         if (!mThemeId.equals(themeId)) {
             // 切换到了其他主题,需要重新获取
             this.mThemeId = themeId;
-            refresh.setRefreshing(true);
             mPresenter.getThemePageList(mThemeId);
         }
     }
 
     @Override
-    public void onRefresh() {
-        isRefresh = true;
+    public void onLoadmore(RefreshLayout refreshlayout) {
+        loadMoreThemePageList();
+    }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshlayout) {
         mPresenter.getThemePageList(mThemeId);
     }
 
     private void loadMoreThemePageList() {
-        isLoadMore = true;
         mPresenter.loadMoreThemePageList(mThemeId);
     }
 
 
     @Override
     public void onRefreshSucces(ThemeInfo data) {
-        isRefresh = false;
-        refresh.setRefreshing(false);
+        refresh.finishRefresh();
         mAdapter.setData(data);
+    }
+
+
+    @Override
+    public void onRefreshError(int code) {
+        refresh.finishRefresh(false);
     }
 
     @Override
     public void onLoadMoreSuccuess(List<BaseStory> data) {
-        isLoadMore = false;
+        refresh.finishLoadmore();
         mAdapter.addData(data);
     }
 
     @Override
-    public void onRefreshError(int code) {
-        refresh.setRefreshing(false);
-        isRefresh = false;
-    }
-
-    @Override
     public void onLoadMoreError(int code) {
-        isLoadMore = false;
+        refresh.finishLoadmore(false);
     }
 
 
@@ -149,4 +135,6 @@ public class ThemeListFragment extends BaseFragment implements IThemeListView, S
         mPresenter.onDestroy();
         super.onDestroy();
     }
+
+
 }

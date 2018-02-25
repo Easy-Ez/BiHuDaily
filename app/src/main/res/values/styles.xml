@@ -18,10 +18,10 @@
 
     </style>
 
-    <!--<style name="SettingsTheme" parent="@style/PreferenceFixTheme.Light.NoActionBar">-->
-        <!--<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>-->
-        <!--<item name="colorAccent">@color/settings_accent_color</item>-->
-    <!--</style>-->
+    <style name="SettingsTheme" parent="@style/PreferenceFixTheme.Light.NoActionBar">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="colorAccent">@color/settings_accent_color</item>
+    </style>
 
     <style name="AppTheme.NoActionBar.FullScreen">
         <item name="android:windowNoTitle">true</item>

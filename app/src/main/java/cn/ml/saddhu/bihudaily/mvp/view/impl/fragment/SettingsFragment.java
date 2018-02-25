@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -16,7 +15,7 @@ import cn.ml.saddhu.bihudaily.R;
  * Email static.sadhu@gmail.com
  * Describe: 设置fragment
  */
-public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
+public class SettingsFragment extends com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
     SharedPreferences.OnSharedPreferenceChangeListener listener =
             new SharedPreferences.OnSharedPreferenceChangeListener() {
                 public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
@@ -30,8 +29,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 }
             };
 
+
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferencesFix(@Nullable Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);
         Preference checkUpdatePref = findPreference(getString(R.string.preference_key_check_update));
         Preference clearCachePref = findPreference(getString(R.string.preference_key_clear_cache));
@@ -39,7 +39,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         clearCachePref.setOnPreferenceClickListener(this);
         checkUpdatePref.setOnPreferenceClickListener(this);
     }
-
 
 
     @Override

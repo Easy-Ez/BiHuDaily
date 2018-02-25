@@ -48,6 +48,7 @@
 
     <color name="statusBarColor">@color/colorPrimaryDark</color>
     <color name="toolBarColor">@color/colorPrimary</color>
+    <color name="refreshHeaderColor">@color/colorPrimary</color>
     <color name="titleTextColor">@color/black</color>
     <color name="titleTextReadColor">@color/colora9</color>
     <color name="card_item_color">#FAFAFA</color>

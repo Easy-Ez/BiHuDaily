@@ -3,6 +3,7 @@
 
     <color name="statusBarColor">@color/black</color>
     <color name="toolBarColor">@color/color22</color>
+    <color name="refreshHeaderColor">@color/color22</color>
     <color name="titleTextColor">@color/white</color>
     <color name="titleTextReadColor">@color/color76</color>
     <color name="card_item_color">#404040</color>

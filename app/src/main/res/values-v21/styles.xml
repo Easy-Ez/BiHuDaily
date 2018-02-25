@@ -11,11 +11,11 @@
         <item name="android:statusBarColor">@color/black</item>
     </style>
 
-    <!--<style name="SettingsTheme" parent="@style/PreferenceFixTheme.Light.NoActionBar">-->
-        <!--<item name="colorAccent">@color/settings_accent_color</item>-->
-        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
-        <!--<item name="android:statusBarColor">@color/statusBarColor</item>-->
-    <!--</style>-->
+    <style name="SettingsTheme" parent="@style/PreferenceFixTheme.Light.NoActionBar">
+        <item name="colorAccent">@color/settings_accent_color</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+    </style>
     <!--过渡动画theme-->
     <style name="EdgeEffectOverlay">
         <item name="android:colorEdgeEffect">@color/edgeEffectColor</item>

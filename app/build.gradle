@@ -39,7 +39,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro',
                     'proguard-fresco.pro',
-                    "proguard-grenndao.pro",
+                    "proguard-greendao.pro",
                     "proguard-huawei.pro"
             debuggable true
         }
@@ -49,7 +49,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro',
                     'proguard-fresco.pro',
-                    "proguard-grenndao.pro",
+                    "proguard-greendao.pro",
                     "proguard-huawei.pro"
             debuggable true
         }
@@ -78,9 +78,9 @@ dependencies {
     implementation "com.android.support:design:$rootProject.supportVersion"
     implementation "com.android.support:cardview-v7:$rootProject.supportVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.supportVersion"
-    implementation "com.android.support:preference-v7:$rootProject.supportVersion"
-    implementation "com.android.support:preference-v14:$rootProject.supportVersion"
-    //implementation "com.takisoft.fix:preference-v7:$rootProject.supportVersion"
+//    implementation "com.android.support:preference-v7:$rootProject.supportVersion"
+//    implementation "com.android.support:preference-v14:$rootProject.supportVersion"
+    implementation "com.takisoft.fix:preference-v7:27.0.0.0"
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.json:json:20160810'
     annotationProcessor "org.androidannotations:androidannotations:$rootProject.AAVersion"
