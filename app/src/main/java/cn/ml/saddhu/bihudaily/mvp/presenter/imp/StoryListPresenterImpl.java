@@ -34,6 +34,10 @@ public class StoryListPresenterImpl extends BasePresenter<IStoryListView> implem
     @Override
     public void setData(StoryInfo storyInfo) {
         this.mStoryInfo = storyInfo;
+        mNormalIds.clear();
+        for (Story story : mStoryInfo.stories) {
+            mNormalIds.add(story.id);
+        }
     }
 
     @Override
